@@ -4,7 +4,7 @@ import Dither from "@/components/dither";
 
 export function DitherBackground() {
   return (
-    <div className="absolute inset-0 z-0">
+    <div className="absolute inset-0 z-0 overflow-hidden">
       <Dither
         waveColor={[0.4588235294117647, 0.4588235294117647, 0.4588235294117647]}
         disableAnimation={false}

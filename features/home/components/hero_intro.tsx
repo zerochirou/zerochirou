@@ -1,8 +1,6 @@
 "use client";
 
 import TechText from "@/components/tech_text";
-import { Button } from "@/components/ui/button";
-import { Rocket } from "lucide-react";
 
 interface HeroIntroProps {
   heading?: string;
@@ -16,10 +14,6 @@ interface HeroIntroProps {
 export function HeroIntro({
   heading = "Introduction",
   nameText = "Zerochirou",
-  getStartedText = "Get Started",
-  docsText = "Documentation",
-  onGetStarted,
-  onDocs,
 }: HeroIntroProps) {
   return (
     <div className="flex items-center flex-col justify-center min-h-screen">
@@ -48,7 +42,7 @@ export function HeroIntro({
           sweep
         />
       </div>
-      <div className="flex items-center gap-2 mt-10 pointer-events-auto">
+      {/*<div className="flex items-center gap-2 mt-10 pointer-events-auto">
         <Button
           variant="default"
           className="h-12 text-lg px-4"
@@ -63,7 +57,7 @@ export function HeroIntro({
         >
           {docsText}
         </Button>
-      </div>
+      </div>*/}
     </div>
   );
 }
