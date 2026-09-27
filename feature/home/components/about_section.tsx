@@ -1,6 +1,6 @@
 "use client";
 
-import ScrollFloat from "@/components/scroll-float";
+import ScrollFloat from "@/components/scroll_float";
 import {
   AnimatedSpan,
   Terminal,

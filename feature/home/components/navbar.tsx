@@ -11,7 +11,6 @@ interface NavbarProps {
 }
 
 export function Navbar({
-  title = "Zerochirou",
   subtitle = "Portofolio",
   menuItems,
 }: NavbarProps) {

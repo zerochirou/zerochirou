@@ -1,9 +1,7 @@
 "use client";
 
-import BlurText from "@/components/BlurText";
-import DecryptedText from "@/components/DecryptedText";
-import Galaxy from "@/components/Galaxy";
-import TextLoop from "@/components/TextLoop";
+import BlurText from "@/components/blur_text";
+import Galaxy from "@/components/galaxy";
 import { Button } from "@/components/ui/button";
 import { Languages } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -13,16 +11,18 @@ export function StackSection() {
   const [showGalaxy, setShowGalaxy] = useState(false);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    if (isEnglish) {
-      timeoutId = setTimeout(() => {
-        setShowGalaxy(true);
-      }, 4000); // Pastikan delay ini sesuai dengan durasi animasi BlurText Anda
-    } else {
-      setShowGalaxy(false);
+    if (!isEnglish) {
+      return;
     }
 
-    return () => clearTimeout(timeoutId);
+    const timeoutId = setTimeout(() => {
+      setShowGalaxy(true);
+    }, 4000); // Pastikan delay ini sesuai dengan durasi animasi BlurText Anda
+
+    return () => {
+      clearTimeout(timeoutId);
+      setShowGalaxy(false);
+    };
   }, [isEnglish]);
 
   const textZh =

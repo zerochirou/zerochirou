@@ -1,16 +1,11 @@
 "use client";
 
-import ScrollVelocity from "@/components/ScrollVelocity";
-import TextLoop from "@/components/text_loop";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { DiaTextReveal } from "@/components/ui/dia-text-reveal";
-import { TextAnimate } from "@/components/ui/text-animate";
-import { WordRotate } from "@/components/ui/word-rotate";
+import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
+import { TextAnimate } from "@/components/ui/text_animate";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Micro_5 } from "next/font/google";
-import { label } from "motion/react-client";
 import Link from "next/link";
 
 const data = [
@@ -77,7 +72,7 @@ export function ProjectsSection() {
   return (
     <div className="bg-background h-screen py-40">
       <div className="flex items-center justify-center flex-col">
-        <div className="text-7xl flex flex-row items-center gap-2">
+        <div className="text-7xl flex flex-row items-center gap-3">
           <span>Open</span>
           <span>Source</span>
           <DiaTextReveal

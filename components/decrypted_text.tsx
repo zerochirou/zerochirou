@@ -49,7 +49,22 @@ export default function DecryptedText({
   clickMode = 'once',
   ...props
 }: DecryptedTextProps) {
-  const [displayText, setDisplayText] = useState<string>(text);
+  const [displayText, setDisplayText] = useState<string>(() => {
+    if (animateOn === 'click') {
+      const chars = useOriginalCharsOnly
+        ? Array.from(new Set(text.split(''))).filter(char => char !== ' ')
+        : characters.split('');
+      return text
+        .split('')
+        .map(char => {
+          if (char === ' ') return ' ';
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join('');
+    }
+    return text;
+  });
+  const [prevConfig, setPrevConfig] = useState({ text, animateOn });
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [revealedIndices, setRevealedIndices] = useState<Set<number>>(new Set());
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
@@ -126,12 +141,6 @@ export default function DecryptedText({
     return new Set(arr);
   }, []);
 
-  const encryptInstantly = useCallback(() => {
-    const emptySet = new Set<number>();
-    setRevealedIndices(emptySet);
-    setDisplayText(shuffleText(text, emptySet));
-    setIsDecrypted(false);
-  }, [text, shuffleText]);
 
   const triggerDecrypt = useCallback(() => {
     if (sequential) {
@@ -353,16 +362,19 @@ export default function DecryptedText({
     };
   }, [animateOn, hasAnimated, triggerDecrypt]);
 
-  useEffect(() => {
+  if (prevConfig.text !== text || prevConfig.animateOn !== animateOn) {
+    setPrevConfig({ text, animateOn });
+    setRevealedIndices(new Set());
+    setDirection('forward');
     if (animateOn === 'click') {
-      encryptInstantly();
+      const emptySet = new Set<number>();
+      setDisplayText(shuffleText(text, emptySet));
+      setIsDecrypted(false);
     } else {
       setDisplayText(text);
       setIsDecrypted(true);
     }
-    setRevealedIndices(new Set());
-    setDirection('forward');
-  }, [animateOn, text, encryptInstantly]);
+  }
 
   const animateProps =
     animateOn === 'hover' || animateOn === 'inViewHover'
