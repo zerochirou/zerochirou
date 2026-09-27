@@ -256,7 +256,18 @@ export function StackSection() {
     "A good developer is one who solves problems, rather than being fixated on a specific tech stack.";
 
   return (
-    <div id="stack" className="relative w-full min-h-[200vh] h-auto">
+    <section id="stack" aria-label="Tech Stack and Skills" className="relative w-full min-h-[200vh] h-auto">
+      <h2 className="sr-only">Tech Stack &amp; Core Engineering Skills - Zerochirou</h2>
+      <div className="sr-only">
+        <h3>Zerochirou Technology Stack &amp; Systems Capabilities</h3>
+        <ul>
+          {items.map((item) => (
+            <li key={`seo-${item.title}`}>
+              <strong>{item.title}</strong>: {item.description}
+            </li>
+          ))}
+        </ul>
+      </div>
       {/* Layar 1 */}
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center w-full bg-background z-10 px-4 text-center overflow-hidden">
         <BlurText
@@ -393,6 +404,6 @@ export function StackSection() {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

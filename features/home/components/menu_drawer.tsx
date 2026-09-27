@@ -12,7 +12,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Ellipsis, PanelLeft, X } from "lucide-react";
+import { PanelLeft, X } from "lucide-react";
 import Image from "next/image";
 
 export interface MenuItem {

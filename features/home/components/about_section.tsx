@@ -9,7 +9,8 @@ import {
 
 export function AboutSection() {
   return (
-    <div id="about" className="relative w-full min-h-[300vh] sm:min-h-[350vh]">
+    <section id="about" aria-label="About Zerochirou" className="relative w-full min-h-[300vh] sm:min-h-[350vh]">
+      <h2 className="sr-only">About Zerochirou - Programmer, Researcher, and Founder</h2>
       {/* Layar 1: Tertahan di posisi atas berkat 'sticky top-0' */}
       <div className="sticky top-0 h-screen flex items-center justify-center flex-col w-full bg-background z-10 px-4 text-center overflow-hidden">
         <div className="w-full max-w-2xl px-2">
@@ -70,6 +71,6 @@ export function AboutSection() {
           </TypingAnimation>
         </Terminal>
       </div>
-    </div>
+    </section>
   );
 }
