@@ -1,4 +1,3 @@
-import { Grid2X2Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -49,15 +48,15 @@ export function MinimalFooter() {
         <div className="bg-border absolute inset-x-0 h-px w-full" />
         <div className="grid max-w-4xl grid-cols-6 gap-6 p-4">
           <div className="col-span-6 flex flex-col gap-5 md:col-span-4">
-            <a href="https://zerochirou.com" className="w-max opacity-25">
+            <Link href="/" aria-label="Zerochirou Homepage" className="w-max opacity-25 hover:opacity-100 transition-opacity">
               <Image
                 src="/favicon.ico"
-                alt="Logo"
+                alt="Zerochirou Logo"
                 width={28}
                 height={28}
                 className="rounded"
               />
-            </a>
+            </Link>
             <p className="text-muted-foreground max-w-sm font-mono text-sm text-balance">
               A developer who works differently.
             </p>

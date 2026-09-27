@@ -70,12 +70,13 @@ const data = [
 
 export function ProjectsSection() {
   return (
-    <div
+    <section
       id="projects"
+      aria-label="Projects and Software"
       className="bg-background min-h-screen h-auto py-20 sm:py-28 md:py-40"
     >
       <div className="flex items-center justify-center flex-col px-4 text-center">
-        <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-4 gap-y-2 tracking-tight">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-4 gap-y-2 tracking-tight font-normal">
           <div className="flex items-center gap-2 sm:gap-3">
             <span>Open</span>
             <span>Source</span>
@@ -85,7 +86,7 @@ export function ProjectsSection() {
             repeatDelay={2}
             text={["Projects", "Software"]}
           />
-        </div>
+        </h2>
         <TextAnimate
           animation="blurInUp"
           by="character"
@@ -107,7 +108,7 @@ export function ProjectsSection() {
                 <div className="relative flex items-center justify-center">
                   <Image
                     src={project.logoUrl}
-                    alt={project.title}
+                    alt={`${project.title} - ${project.description}`}
                     width={project.width}
                     height={project.height}
                     className="max-h-full max-w-full object-contain grayscale-100 opacity-50 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
@@ -118,11 +119,13 @@ export function ProjectsSection() {
               <CardContent className="flex flex-col flex-1 p-4 sm:p-6 pt-0">
                 <div className="flex flex-col gap-2">
                   <span className="flex gap-2 items-center flex-wrap">
-                    <DiaTextReveal
-                      once
-                      className="text-lg sm:text-xl"
-                      text={project.title}
-                    />
+                    <h3 className="text-lg sm:text-xl font-normal inline-flex items-center">
+                      <DiaTextReveal
+                        once
+                        className="text-lg sm:text-xl"
+                        text={project.title}
+                      />
+                    </h3>
                     <div className="flex flex-wrap items-center gap-1.5">
                       {project.badge && (
                         <motion.span
@@ -189,6 +192,6 @@ export function ProjectsSection() {
           ))}
         </ul>
       </div>
-    </div>
+    </section>
   );
 }
