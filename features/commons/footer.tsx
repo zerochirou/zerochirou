@@ -1,4 +1,6 @@
 import { Grid2X2Plus } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export function MinimalFooter() {
   const year = new Date().getFullYear();
@@ -40,14 +42,21 @@ export function MinimalFooter() {
       href: "https://www.threads.net/zerochirou",
     },
   ];
+
   return (
     <footer className="relative h-100 flex items-end">
       <div className="bg-[radial-gradient(35%_80%_at_30%_0%,--theme(--color-foreground/.1),transparent)] mx-auto max-w-4xl md:border-x w-full">
         <div className="bg-border absolute inset-x-0 h-px w-full" />
         <div className="grid max-w-4xl grid-cols-6 gap-6 p-4">
           <div className="col-span-6 flex flex-col gap-5 md:col-span-4">
-            <a href="#" className="w-max opacity-25">
-              <Grid2X2Plus className="size-8" />
+            <a href="https://zerochirou.com" className="w-max opacity-25">
+              <Image
+                src="/favicon.ico"
+                alt="Logo"
+                width={28}
+                height={28}
+                className="rounded"
+              />
             </a>
             <p className="text-muted-foreground max-w-sm font-mono text-sm text-balance">
               A developer who works differently.
@@ -80,7 +89,9 @@ export function MinimalFooter() {
                   className={`w-max py-1 text-sm duration-200 hover:underline`}
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  rel={
+                    href.startsWith("http") ? "noopener noreferrer" : undefined
+                  }
                 >
                   {title}
                 </a>
@@ -91,8 +102,15 @@ export function MinimalFooter() {
         <div className="bg-border absolute inset-x-0 h-px w-full" />
         <div className="flex max-w-4xl flex-col justify-between gap-2 pt-2 pb-5">
           <p className="text-muted-foreground text-center font-thin">
-            © <a href="https://github.com/zerochirou" target="_blank" rel="noopener noreferrer">zerochirou</a>. All rights
-            reserved {year}
+            ©{" "}
+            <a
+              href="https://github.com/zerochirou"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              zerochirou
+            </a>
+            . All rights reserved {year}
           </p>
         </div>
       </div>

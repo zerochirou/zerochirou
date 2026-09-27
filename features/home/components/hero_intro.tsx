@@ -16,9 +16,11 @@ export function HeroIntro({
   nameText = "Zerochirou",
 }: HeroIntroProps) {
   return (
-    <div className="flex items-center flex-col justify-center min-h-screen">
-      <h2 className="text-4xl font-bold">{heading}</h2>
-      <div className="w-full h-40 pointer-events-auto">
+    <div className="flex items-center flex-col justify-center w-full px-2 text-center py-4">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl tracking-tight mb-0">
+        {heading}
+      </h2>
+      <div className="w-full max-w-4xl h-24 sm:h-32 md:h-40 pointer-events-auto px-2 overflow-hidden">
         <TechText
           text={nameText}
           fontWeight={700}
@@ -31,7 +33,7 @@ export function HeroIntro({
           color="#fff"
           accentColor="#ffffff"
           letterSpacing={-0.05}
-          reach={200}
+          reach={140}
           softness={0.7}
           strokeWidth={1.5}
           speed={1}
@@ -42,22 +44,6 @@ export function HeroIntro({
           sweep
         />
       </div>
-      {/*<div className="flex items-center gap-2 mt-10 pointer-events-auto">
-        <Button
-          variant="default"
-          className="h-12 text-lg px-4"
-          onClick={onGetStarted}
-        >
-          {getStartedText} <Rocket />
-        </Button>
-        <Button
-          variant="outline"
-          className="h-12 text-lg px-4"
-          onClick={onDocs}
-        >
-          {docsText}
-        </Button>
-      </div>*/}
     </div>
   );
 }

@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
-        <HeroSection />
+      <main className="overflow-x-clip">
+        <HeroSection nameText="ZEROCHIROU"/>
         <AboutSection />
         <StackSection />
         <ProjectsSection />

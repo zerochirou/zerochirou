@@ -231,7 +231,7 @@ export function StackSection() {
 
     const timeoutId = setTimeout(() => {
       setShowGalaxy(true);
-    }, 4000);
+    }, 2000);
 
     return () => {
       clearTimeout(timeoutId);
@@ -256,36 +256,38 @@ export function StackSection() {
     "A good developer is one who solves problems, rather than being fixated on a specific tech stack.";
 
   return (
-    <div id="stack" className="relative w-full h-[200vh]">
+    <div id="stack" className="relative w-full min-h-[200vh] h-auto">
       {/* Layar 1 */}
-      <div className="sticky top-0 h-screen flex flex-col items-center justify-center w-full bg-background z-10 px-4 text-center">
+      <div className="sticky top-0 h-screen flex flex-col items-center justify-center w-full bg-background z-10 px-4 text-center overflow-hidden">
         <BlurText
           text="Then where the tech stack?!"
           delay={100}
           animateBy="words"
           direction="top"
-          className="text-4xl md:text-5xl mb-2 font-bold"
+          className="text-2xl sm:text-4xl md:text-5xl mb-2 justify-center"
         />
         <BlurText
-          text="Scroll first!"
+          text="Where is Next.js? Where are Rust and Go?"
           delay={400}
           animateBy="words"
           direction="top"
-          className="text-sm md:text-lg mb-8 text-muted-foreground"
+          className="text-xs sm:text-base md:text-lg mb-8 text-muted-foreground justify-center"
         />
       </div>
 
       {/* Layar 2 */}
       <div
-        className={`relative min-h-screen flex flex-col items-center justify-center w-full z-20 px-4 py-20 gap-8 transition-colors duration-1000 ${
-          isEnglish ? "bg-background text-white" : "bg-background text-foreground"
+        className={`relative min-h-screen flex flex-col items-center justify-center w-full z-20 px-3 sm:px-6 md:px-8 py-16 sm:py-20 gap-6 sm:gap-8 transition-colors duration-1000 ${
+          isEnglish
+            ? "bg-background text-white"
+            : "bg-background text-foreground"
         }`}
       >
-        <div className="pointer-events-none absolute -top-64 left-0 right-0 h-80 z-5 bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute -top-40 sm:-top-64 left-0 right-0 h-40 sm:h-80 z-5 bg-gradient-to-t from-background to-transparent" />
 
         {/* Latar Belakang Galaxy */}
         <div
-          className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000 ease-in-out ${
+          className={`pointer-events-none absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000 ease-in-out ${
             showGalaxy ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -307,45 +309,50 @@ export function StackSection() {
         </div>
 
         {/* Konten Utama Teks */}
-        <div className="max-w-4xl text-center relative z-10">
+        <div className="max-w-4xl text-center relative z-10 w-full px-2">
           {!showStack && (
             <BlurText
               key={isEnglish ? "en" : "zh"}
               text={isEnglish ? textEn : textZh}
-              delay={50}
-              animateBy="letters"
-              direction="bottom"
-              className="text-2xl md:text-4xl font-medium leading-relaxed md:leading-normal"
+              delay={100}
+              animateBy={isEnglish ? "words" : "letters"}
+              direction="top"
+              className="text-2xl sm:text-2xl md:text-4xl md:leading-normal md:justify-center"
             />
           )}
         </div>
 
         {/* Grid Tech Stack */}
         {showStack && (
-          <div className="relative z-10 w-full max-w-5xl mx-auto mt-4 animate-in fade-in zoom-in duration-500">
-            <ul className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-0">
+          <div className="relative z-10 w-full max-w-5xl mx-auto mt-2 sm:mt-4">
+            <ul className="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-0 border border-border/40">
               {items.map((item) => (
-                <Card key={item.title} className="group bg-background rounded-none border">
-                  <CardHeader className="flex items-center justify-center">
-                    <div className="relative w-10 h-10">
+                <Card
+                  key={item.title}
+                  className="animate-in fade-in zoom-in duration-500 group bg-background rounded-none border-b border-r py-3 px-2 sm:py-4 sm:px-3 hover:bg-muted/40 transition-colors flex flex-col items-center justify-center gap-1 sm:gap-1.5"
+                >
+                  <CardHeader className="flex items-center justify-center p-0 mb-1.5 sm:mb-2">
+                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0">
                       <Image
                         src={item.image}
                         alt={item.title}
                         fill
-                        className=""
+                        className="object-contain"
                         unoptimized
                       />
                     </div>
                   </CardHeader>
-                  <CardContent className="flex items-center justify-center">
+                  <CardContent className="flex items-center justify-center p-0 w-full text-center">
                     <a
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       title={item.description}
-                      className=""
+                      className="text-center w-full min-w-0"
                     >
-                      <span className="">{item.title}</span>
+                      <span className="text-xs sm:text-sm font-medium block truncate max-w-full px-1">
+                        {item.title}
+                      </span>
                     </a>
                   </CardContent>
                 </Card>
@@ -355,20 +362,20 @@ export function StackSection() {
         )}
 
         {/* Grup Tombol Aksi */}
-        <div className="flex flex-wrap items-center justify-center gap-3 relative z-10 mt-6">
+        <div className="flex flex-wrap items-center justify-center gap-3 relative z-10 mt-4 sm:mt-6 max-w-md">
           <Button
             variant={isEnglish ? "secondary" : "default"}
-            className="transition-all duration-300 min-w-[140px]"
+            className="transition-all duration-300 flex-1 sm:flex-none h-10 sm:h-11 text-xs sm:text-sm px-4"
             onClick={handleLanguageToggle} // <- Logika reset dipindah ke handler ini
           >
-            <Languages className="w-4 h-4 mr-2" />
+            <Languages className="w-4 h-4 mr-2 shrink-0" />
             {isEnglish ? "Back to Chinese" : "Translate"}
           </Button>
 
           {isEnglish && (
             <Button
               variant="outline"
-              className={`transition-all duration-300 min-w-[180px] ${
+              className={`transition-all duration-300 flex-1 sm:flex-none h-10 sm:h-11 text-xs sm:text-sm px-4 ${
                 showStack
                   ? "bg-primary text-primary-foreground border-transparent hover:bg-primary/90"
                   : "bg-transparent text-white border-white/30 hover:bg-white/10"

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
-import { MenuDrawer, type MenuItem } from "./menu_drawer";
+import { MenuDrawer, type MenuItem } from "../home/components/menu_drawer";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -15,6 +15,7 @@ interface NavbarProps {
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "https://blog.zerochirou.com", label: "Blog" },
   { href: "#about", label: "About" },
   { href: "#stack", label: "Stack" },
   { href: "#projects", label: "Projects" },
@@ -38,24 +39,27 @@ export function Navbar({ subtitle = "Portofolio", menuItems }: NavbarProps) {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300 -mb-[73px]",
         scrolled
-          ? "backdrop-blur-md bg-background/60 border-b border-border/10 shadow-sm"
+          ? "backdrop-blur-md bg-background/60 border-b border-border/10 shadow-sm border-b"
           : "bg-transparent border-b border-transparent",
       )}
     >
-      <nav className="mx-auto flex w-full max-w-4xl items-center justify-between p-4 pointer-events-auto">
-        <div className="font-semibold flex items-center gap-2 justify-center">
-          {/*<span className="text-xl">{title}</span>*/}
-          <Image src="/favicon.ico" alt="Logo" width={30} height={30} />
+      <nav className="mx-auto flex w-full max-w-4xl items-center justify-between px-4 py-3 sm:p-4 pointer-events-auto">
+        <Link href="/" className="font-semibold flex items-center gap-2 justify-center group">
+          <Image src="/favicon.ico" alt="Logo" width={28} height={28} className="rounded" />
           <Separator
-            className="rotate-12 bg-foreground"
+            className="rotate-12 bg-white"
             orientation="vertical"
           />
-          <span className="text-xl">{subtitle}</span>
-        </div>
+          <span className="text-lg sm:text-xl font-bold tracking-tight">{subtitle}</span>
+        </Link>
         <div className="hidden md:flex">
           <ul className="flex items-center gap-6">
             {links.map((item, index) => (
-              <Link key={index} className="" href={item.href}>
+              <Link
+                key={index}
+                className="text-sm font-medium py-1"
+                href={item.href}
+              >
                 {item.label}
               </Link>
             ))}

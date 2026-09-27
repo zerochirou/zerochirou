@@ -46,6 +46,7 @@ function buildGradient(pos: number, colors: string[], textColor: string) {
 }
 
 function measureWidths(el: HTMLElement, texts: string[]) {
+  if (!el.parentElement) return texts.map(() => 0)
   const ghost = el.cloneNode() as HTMLElement
   Object.assign(ghost.style, {
     position: "absolute",
@@ -54,7 +55,7 @@ function measureWidths(el: HTMLElement, texts: string[]) {
     width: "auto",
     whiteSpace: "nowrap",
   })
-  el.parentElement!.appendChild(ghost)
+  el.parentElement.appendChild(ghost)
   const widths = texts.map((t) => {
     ghost.textContent = t
     return ghost.getBoundingClientRect().width
@@ -211,7 +212,10 @@ export function DiaTextReveal({
   useEffect(() => {
     const el = spanRef.current
     if (!el || !isMulti) return
-    setMeasuredWidths(measureWidths(el, texts))
+    const update = () => setMeasuredWidths(measureWidths(el, texts))
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
   }, [textKey, isMulti, texts])
 
   useEffect(() => {
@@ -255,7 +259,7 @@ export function DiaTextReveal({
           display: "inline-block",
           overflow: "hidden",
           whiteSpace: "nowrap",
-          verticalAlign: "text-center",
+          verticalAlign: "bottom",
           ...(fixedW != null && { width: fixedW }),
         }),
       }}

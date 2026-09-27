@@ -54,7 +54,7 @@ const data = [
     isOngoing: false,
     height: 80,
     width: 80,
-    badge: "Framework"
+    badge: "Framework",
   },
   {
     id: "rhea",
@@ -70,11 +70,16 @@ const data = [
 
 export function ProjectsSection() {
   return (
-    <div id="projects" className="bg-background h-screen py-40">
-      <div className="flex items-center justify-center flex-col">
-        <div className="text-7xl flex flex-row items-center gap-3">
-          <span>Open</span>
-          <span>Source</span>
+    <div
+      id="projects"
+      className="bg-background min-h-screen h-auto py-20 sm:py-28 md:py-40"
+    >
+      <div className="flex items-center justify-center flex-col px-4 text-center">
+        <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-4 gap-y-2 tracking-tight">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span>Open</span>
+            <span>Source</span>
+          </div>
           <DiaTextReveal
             repeat
             repeatDelay={2}
@@ -85,46 +90,52 @@ export function ProjectsSection() {
           animation="blurInUp"
           by="character"
           once
-          className="w-1/2 text-lg mt-4 text-primary/50 text-center"
+          className="w-full max-w-xl text-sm sm:text-base md:text-lg mt-4 text-primary/50 text-center px-4"
         >
-          Advanced projects and software to which I am currently dedicating myself
+          Advanced projects and software to which I am currently dedicating
+          myself
         </TextAnimate>
       </div>
-      <div className="mx-auto max-w-7xl w-full mt-20">
-        <ul className="grid grid-cols-3 gap-0">
+      <div className="mx-auto max-w-7xl w-full mt-10 sm:mt-16 md:mt-20 px-4 sm:px-6 lg:px-8">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {data.map((project) => (
             <Card
               key={project.id}
-              className="rounded-none bg-background h-full flex flex-col"
+              className="rounded-none bg-background h-full flex flex-col border border-border/40 hover:border-border transition-colors shadow-sm overflow-hidden"
             >
-              {/* Tambahkan shrink-0 agar header tidak ikut tergencet jika teks sangat panjang */}
-              <CardHeader className="flex justify-center h-50 items-center shrink-0">
-                <Image
-                  src={project.logoUrl}
-                  alt={project.title}
-                  width={project.width} // PERBAIKAN: Sebelumnya tertulis 'width' (typo)
-                  height={project.height}
-                  className="grayscale-100 opacity-50 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
-                />
+              <CardHeader className="flex justify-center h-32 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
+                <div className="relative flex items-center justify-center">
+                  <Image
+                    src={project.logoUrl}
+                    alt={project.title}
+                    width={project.width}
+                    height={project.height}
+                    className="max-h-full max-w-full object-contain grayscale-100 opacity-50 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
+                  />
+                </div>
               </CardHeader>
 
-              {/* Tambahkan flex-1 agar CardContent memanjang ke bawah menutupi ruang kosong */}
-              <CardContent className="flex flex-col flex-1">
+              <CardContent className="flex flex-col flex-1 p-4 sm:p-6 pt-0">
                 <div className="flex flex-col gap-2">
                   <span className="flex gap-2 items-center flex-wrap">
                     <DiaTextReveal
                       once
-                      className="text-xl font-normal"
+                      className="text-lg sm:text-xl"
                       text={project.title}
                     />
-                    <div className="flex flex-wrap items-center gap-1">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       {project.badge && (
                         <motion.span
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: 2 }}
                         >
-                          <Badge>{project.badge}</Badge>
+                          <Badge
+                            variant="default"
+                            className="text-xs px-2 py-0.5"
+                          >
+                            {project.badge}
+                          </Badge>
                         </motion.span>
                       )}
 
@@ -134,26 +145,36 @@ export function ProjectsSection() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.5, delay: 2.5 }}
                         >
-                          <Badge variant="secondary">Ongoing</Badge>
+                          <Badge
+                            variant="secondary"
+                            className="text-xs px-2 py-0.5"
+                          >
+                            Ongoing
+                          </Badge>
                         </motion.span>
                       )}
                     </div>
                   </span>
-                  <p className="opacity-50">{project.description}</p>
+                  <p className="opacity-70 text-xs sm:text-sm leading-relaxed">
+                    {project.description}
+                  </p>
                 </div>
 
-                {/* PERBAIKAN: Ubah mt-4 menjadi mt-auto, dan ubah items-end menjadi items-center */}
-                <div className="flex mt-auto pt-6 items-center">
+                <div className="flex mt-auto pt-4 sm:pt-6 items-center text-xs sm:text-sm">
                   <Image
                     src="/assets/icons/github.svg"
                     alt={"GitHub"}
-                    width={20}
-                    height={20}
-                    className="opacity-50"
+                    width={18}
+                    height={18}
+                    className="opacity-50 shrink-0"
                   />
                   {project.githubRepo ? (
-                    <span className="ml-2 font-normal">
-                      <Link href={`https://github.com/${project.githubRepo}`} target="_blank">
+                    <span className="ml-2 font-normal truncate">
+                      <Link
+                        href={`https://github.com/${project.githubRepo}`}
+                        target="_blank"
+                        className="hover:underline hover:text-foreground transition-colors truncate block"
+                      >
                         {project.githubRepo}
                       </Link>
                     </span>
