@@ -70,7 +70,7 @@ const data = [
 
 export function ProjectsSection() {
   return (
-    <div className="bg-background h-screen py-40">
+    <div id="projects" className="bg-background h-screen py-40">
       <div className="flex items-center justify-center flex-col">
         <div className="text-7xl flex flex-row items-center gap-3">
           <span>Open</span>

@@ -13,7 +13,7 @@ export function HeroSection({
   nameText = "Zerochirou",
 }: HeroSectionProps) {
   return (
-    <div className="relative w-full min-h-screen bg-black/5">
+    <div id="hero" className="relative w-full min-h-screen bg-black/5">
       {/* 1. LAYER DITHER */}
       <DitherBackground />
 

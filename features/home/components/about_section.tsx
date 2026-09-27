@@ -9,7 +9,7 @@ import {
 
 export function AboutSection() {
   return (
-    <div className="relative w-full h-[350vh]">
+    <div id="about" className="relative w-full h-[350vh]">
       {/* Layar 1: Tertahan di posisi atas berkat 'sticky top-0' */}
       <div className="sticky top-0 h-screen flex items-center justify-center flex-col w-full bg-background z-10">
         <div className="text-4xl">

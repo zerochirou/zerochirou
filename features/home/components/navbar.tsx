@@ -15,9 +15,9 @@ interface NavbarProps {
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/contact", label: "Contact" },
+  { href: "#about", label: "About" },
+  { href: "#stack", label: "Stack" },
+  { href: "#projects", label: "Projects" },
 ];
 
 export function Navbar({ subtitle = "Portofolio", menuItems }: NavbarProps) {

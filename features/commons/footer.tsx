@@ -3,54 +3,46 @@ import { Grid2X2Plus } from "lucide-react";
 export function MinimalFooter() {
   const year = new Date().getFullYear();
 
-  const company = [
+  const navigation = [
     {
-      title: "About Us",
-      href: "#",
+      title: "Home",
+      href: "/",
     },
     {
-      title: "Careers",
-      href: "#",
+      title: "About",
+      href: "#about",
     },
     {
-      title: "Brand assets",
-      href: "#",
+      title: "Stack",
+      href: "#stack",
     },
     {
-      title: "Privacy Policy",
-      href: "#",
-    },
-    {
-      title: "Terms of Service",
-      href: "#",
+      title: "Projects",
+      href: "#projects",
     },
   ];
 
-  const resources = [
+  const social = [
+    {
+      title: "GitHub",
+      href: "https://github.com/zerochirou",
+    },
     {
       title: "Blog",
-      href: "#",
+      href: "https://zeroposts.netlify.app/",
     },
     {
-      title: "Help Center",
-      href: "#",
+      title: "Reddit",
+      href: "https://www.reddit.com/user/zerochirou/",
     },
     {
-      title: "Contact Support",
-      href: "#",
-    },
-    {
-      title: "Community",
-      href: "#",
-    },
-    {
-      title: "Security",
-      href: "#",
+      title: "Threads",
+      href: "https://www.threads.net/zerochirou",
     },
   ];
   return (
     <footer className="relative h-100 flex items-end">
-      <div className="bg-[radial-gradient(35%_80%_at_30%_0%,--theme(--color-foreground/.1),transparent)] mx-auto max-w-4xl md:border-x">
+      <div className="bg-[radial-gradient(35%_80%_at_30%_0%,--theme(--color-foreground/.1),transparent)] mx-auto max-w-4xl md:border-x w-full">
         <div className="bg-border absolute inset-x-0 h-px w-full" />
         <div className="grid max-w-4xl grid-cols-6 gap-6 p-4">
           <div className="col-span-6 flex flex-col gap-5 md:col-span-4">
@@ -62,11 +54,11 @@ export function MinimalFooter() {
             </p>
           </div>
           <div className="col-span-3 w-full md:col-span-1">
-            <span className="text-muted-foreground mb-1 text-xs">
-              Resources
+            <span className="text-muted-foreground mb-1 text-xs font-semibold">
+              Navigation
             </span>
             <div className="flex flex-col gap-1">
-              {resources.map(({ href, title }, i) => (
+              {navigation.map(({ href, title }, i) => (
                 <a
                   key={i}
                   className={`w-max py-1 text-sm duration-200 hover:underline`}
@@ -78,13 +70,17 @@ export function MinimalFooter() {
             </div>
           </div>
           <div className="col-span-3 w-full md:col-span-1">
-            <span className="text-muted-foreground mb-1 text-xs">Company</span>
+            <span className="text-muted-foreground mb-1 text-xs font-semibold">
+              Social
+            </span>
             <div className="flex flex-col gap-1">
-              {company.map(({ href, title }, i) => (
+              {social.map(({ href, title }, i) => (
                 <a
                   key={i}
                   className={`w-max py-1 text-sm duration-200 hover:underline`}
                   href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                 >
                   {title}
                 </a>
@@ -95,7 +91,7 @@ export function MinimalFooter() {
         <div className="bg-border absolute inset-x-0 h-px w-full" />
         <div className="flex max-w-4xl flex-col justify-between gap-2 pt-2 pb-5">
           <p className="text-muted-foreground text-center font-thin">
-            © <a href="https://x.com/sshahaider">zerochirou</a>. All rights
+            © <a href="https://github.com/zerochirou" target="_blank" rel="noopener noreferrer">zerochirou</a>. All rights
             reserved {year}
           </p>
         </div>

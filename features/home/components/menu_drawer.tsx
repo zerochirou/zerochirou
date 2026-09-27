@@ -19,9 +19,9 @@ export interface MenuItem {
 
 const DEFAULT_MENU_ITEMS: MenuItem[] = [
   { label: "HOME", ariaLabel: "Go to home page", link: "/" },
-  { label: "ABOUT", ariaLabel: "Learn about us", link: "/about" },
-  { label: "PROJECTS", ariaLabel: "View our services", link: "/services" },
-  { label: "CONTACT", ariaLabel: "Get in touch", link: "/contact" },
+  { label: "ABOUT", ariaLabel: "Learn about me", link: "#about" },
+  { label: "STACK", ariaLabel: "View tech stack", link: "#stack" },
+  { label: "PROJECTS", ariaLabel: "View projects", link: "#projects" },
 ];
 
 interface MenuDrawerProps {

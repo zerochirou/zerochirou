@@ -256,7 +256,7 @@ export function StackSection() {
     "A good developer is one who solves problems, rather than being fixated on a specific tech stack.";
 
   return (
-    <div className="relative w-full h-[200vh]">
+    <div id="stack" className="relative w-full h-[200vh]">
       {/* Layar 1 */}
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center w-full bg-background z-10 px-4 text-center">
         <BlurText
