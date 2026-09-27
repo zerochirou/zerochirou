@@ -2,6 +2,7 @@
 
 import TechText from "@/components/tech_text";
 import { Button } from "@/components/ui/button";
+import { Rocket } from "lucide-react";
 
 interface HeroIntroProps {
   heading?: string;
@@ -53,7 +54,7 @@ export function HeroIntro({
           className="h-12 text-lg px-4"
           onClick={onGetStarted}
         >
-          {getStartedText}
+          {getStartedText} <Rocket />
         </Button>
         <Button
           variant="outline"

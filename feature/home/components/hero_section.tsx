@@ -21,7 +21,7 @@ export function HeroSection({
   nameText = "Zerochirou",
 }: HeroSectionProps) {
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-black/5">
+    <div className="relative w-full min-h-screen overflow-hidden bg-black/5 ">
       {/* 1. LAYER DITHER */}
       <DitherBackground />
 
@@ -30,6 +30,7 @@ export function HeroSection({
         <Navbar title={title} subtitle={subtitle} menuItems={menuItems} />
         <HeroIntro heading={heading} nameText={nameText} />
       </div>
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-64 z-[5] bg-gradient-to-t from-background to-transparent" />
     </div>
   );
 }
