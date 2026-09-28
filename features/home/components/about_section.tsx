@@ -29,7 +29,7 @@ export function AboutSection() {
       {/* Layar 2: Akan menutupi Layar 1 saat di-scroll ke bawah dan tertahan di top-0 */}
       <div className="sticky top-0 h-screen flex items-center justify-center w-full bg-background z-20 px-3 sm:px-6">
         {/* Shadow memancar ke atas di luar container */}
-        <div className="pointer-events-none absolute -top-40 sm:-top-64 left-0 right-0 h-40 sm:h-64 z-[5] bg-gradient-to-t from-background to-transparent" />
+        <div className="pointer-events-none absolute -top-40 sm:-top-64 left-0 right-0 h-65 sm:h-64 z-[5] bg-gradient-to-t from-background to-transparent" />
 
         <Terminal className="max-h-[82vh] sm:max-h-140">
           <TypingAnimation className="text-xs sm:text-sm md:text-base">
@@ -57,18 +57,12 @@ export function AboutSection() {
             ✔ CEO of clickfor.run
           </AnimatedSpan>
           <AnimatedSpan className="text-gray-500 text-xs sm:text-sm md:text-base">
-            <span className="text-xs sm:text-sm md:text-base font-semibold">ℹ Read 4 file:</span>
+            <span className="text-xs sm:text-sm md:text-base font-semibold">ℹ Read 4 skills:</span>
             <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/deep_learning.ipynb</span>
             <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/web.ts</span>
             <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/server.go</span>
             <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/engine.rs</span>
           </AnimatedSpan>
-          <TypingAnimation className="text-muted-foreground text-xs sm:text-sm md:text-base">
-            Success! Project initialization completed.
-          </TypingAnimation>
-          <TypingAnimation className="text-muted-foreground text-xs sm:text-sm md:text-base">
-            You may now add components.
-          </TypingAnimation>
         </Terminal>
       </div>
     </section>
