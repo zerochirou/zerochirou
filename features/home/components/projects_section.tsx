@@ -102,8 +102,12 @@ export function ProjectsSection() {
           {data.map((project) => (
             <Card
               key={project.id}
-              className="rounded-none bg-background h-full flex flex-col border border-border/40 hover:border-border transition-colors shadow-sm overflow-hidden"
+              className="relative group rounded-none bg-background h-full flex flex-col border border-border/40 hover:border-border transition-colors shadow-sm overflow-hidden"
             >
+              <Link href={`/projects/${project.id}`} className="absolute inset-0 z-10">
+                <span className="sr-only">View {project.title} details</span>
+              </Link>
+              
               <CardHeader className="flex justify-center h-32 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
                 <div className="relative flex items-center justify-center">
                   <Image
