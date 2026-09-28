@@ -1,46 +1,46 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const navigation = [
+  {
+    title: "Home",
+    href: "/",
+  },
+  {
+    title: "About",
+    href: "#about",
+  },
+  {
+    title: "Stack",
+    href: "#stack",
+  },
+  {
+    title: "Projects",
+    href: "#projects",
+  },
+];
+
+const social = [
+  {
+    title: "GitHub",
+    href: "https://github.com/zerochirou",
+  },
+  {
+    title: "Blog",
+    href: "https://zeroposts.netlify.app/",
+  },
+  {
+    title: "Reddit",
+    href: "https://www.reddit.com/user/zerochirou/",
+  },
+  {
+    title: "Threads",
+    href: "https://www.threads.net/zerochirou",
+  },
+];
+
 export function MinimalFooter() {
   const year = new Date().getFullYear();
-
-  const navigation = [
-    {
-      title: "Home",
-      href: "/",
-    },
-    {
-      title: "About",
-      href: "#about",
-    },
-    {
-      title: "Stack",
-      href: "#stack",
-    },
-    {
-      title: "Projects",
-      href: "#projects",
-    },
-  ];
-
-  const social = [
-    {
-      title: "GitHub",
-      href: "https://github.com/zerochirou",
-    },
-    {
-      title: "Blog",
-      href: "https://zeroposts.netlify.app/",
-    },
-    {
-      title: "Reddit",
-      href: "https://www.reddit.com/user/zerochirou/",
-    },
-    {
-      title: "Threads",
-      href: "https://www.threads.net/zerochirou",
-    },
-  ];
 
   return (
     <footer className="relative h-100 flex items-end">

@@ -7,6 +7,12 @@
       "skillPath": "skills/ai-seo/SKILL.md",
       "computedHash": "2b2dc6fe6156b9338e1b181670b1c3e2b215d980327f3bbd5aff9d069decd56d"
     },
+    "codebase-design": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/codebase-design/SKILL.md",
+      "computedHash": "5a17552cc1482f1a40124bf4e6c9dbd90ac0dbb47e71c07d47369f9e5f2ae3b5"
+    },
     "create-agentsmd": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
@@ -30,6 +36,24 @@
       "sourceType": "github",
       "skillPath": "skills/seo-audit/SKILL.md",
       "computedHash": "01f9f8a3feb3ea69c6c212d61189c610f96ef2cc363adc27fd314d78254bf6ae"
+    },
+    "shadcn": {
+      "source": "shadcn-ui/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "f615de216e085a84e31593ad0fa9062232adc40cd87b7c7ab2b8e49abf6500be"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "computedHash": "3cfe4ebb6fa7288f668d87880d279c8e48f7a92b63415e296857060f5ce22e05"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "3219a1944e404ffc14d1d9d6aef6dd2e3855b81387ee0a044ccbfe14d34c2357"
     }
   }
 }

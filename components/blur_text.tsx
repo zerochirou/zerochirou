@@ -86,12 +86,14 @@ const BlurText: React.FC<BlurTextProps> = ({
   const stepCount = toSnapshots.length + 1;
   const totalDuration = stepDuration * (stepCount - 1);
   const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
+  const animateKeyframes = useMemo(
+    () => buildKeyframes(fromSnapshot, toSnapshots),
+    [fromSnapshot, toSnapshots]
+  );
 
   return (
     <p ref={ref} className={`blur-text ${className} flex flex-wrap break-words max-w-full`}>
       {elements.map((segment, index) => {
-        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
-
         const spanTransition: Transition = {
           duration: totalDuration,
           times,
