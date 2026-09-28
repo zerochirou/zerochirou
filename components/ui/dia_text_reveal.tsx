@@ -45,23 +45,45 @@ function buildGradient(pos: number, colors: string[], textColor: string) {
   return `linear-gradient(90deg, ${parts.join(", ")})`
 }
 
+let canvasContext: CanvasRenderingContext2D | null = null;
+
 function measureWidths(el: HTMLElement, texts: string[]) {
-  if (!el.parentElement) return texts.map(() => 0)
-  const ghost = el.cloneNode() as HTMLElement
+  if (!el.parentElement) return texts.map(() => 0);
+  try {
+    if (!canvasContext && typeof document !== "undefined") {
+      const canvas = document.createElement("canvas");
+      canvasContext = canvas.getContext("2d");
+    }
+    if (canvasContext && typeof window !== "undefined") {
+      const style = window.getComputedStyle(el);
+      const font = [
+        style.fontStyle,
+        style.fontWeight,
+        style.fontSize,
+        style.fontFamily,
+      ].filter(Boolean).join(" ");
+      canvasContext.font = font;
+      return texts.map((t) => Math.ceil(canvasContext!.measureText(t).width));
+    }
+  } catch {
+    // Fallback to DOM clone if canvas measurement is unavailable
+  }
+
+  const ghost = el.cloneNode() as HTMLElement;
   Object.assign(ghost.style, {
     position: "absolute",
     visibility: "hidden",
     pointerEvents: "none",
     width: "auto",
     whiteSpace: "nowrap",
-  })
-  el.parentElement.appendChild(ghost)
+  });
+  el.parentElement.appendChild(ghost);
   const widths = texts.map((t) => {
-    ghost.textContent = t
-    return ghost.getBoundingClientRect().width
-  })
-  ghost.remove()
-  return widths
+    ghost.textContent = t;
+    return ghost.getBoundingClientRect().width;
+  });
+  ghost.remove();
+  return widths;
 }
 
 /**

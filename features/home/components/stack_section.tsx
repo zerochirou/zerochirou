@@ -1,12 +1,16 @@
 "use client";
 
 import BlurText from "@/components/blur_text";
-import Galaxy from "@/components/galaxy";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Languages } from "lucide-react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
+
+const Galaxy = dynamic(() => import("@/components/galaxy"), {
+  ssr: false,
+});
 
 const items = [
   // ... (Data array items tidak perlu diubah, tetap sama seperti sebelumnya)
@@ -41,6 +45,14 @@ const items = [
     title: "JavaScript",
     description:
       "Bahasa pemrograman tingkat tinggi dan inti dari pengembangan web.",
+  },
+  {
+    image:
+      "https://cdn.jsdelivr.net/gh/glincker/thesvg@main/public/icons/python/default.svg",
+    link: "https://www.python.org/",
+    title: "Python",
+    description:
+      "Bahasa pemrograman tingkat tinggi yang dikenal karena sederhananya dan kekuatannya.",
   },
   {
     image:
@@ -256,8 +268,14 @@ export function StackSection() {
     "A good developer is one who solves problems, rather than being fixated on a specific tech stack.";
 
   return (
-    <section id="stack" aria-label="Tech Stack and Skills" className="relative w-full min-h-[200vh] h-auto">
-      <h2 className="sr-only">Tech Stack &amp; Core Engineering Skills - Zerochirou</h2>
+    <section
+      id="stack"
+      aria-label="Tech Stack and Skills"
+      className="relative w-full min-h-[200vh] h-auto"
+    >
+      <h2 className="sr-only">
+        Tech Stack &amp; Core Engineering Skills - Zerochirou
+      </h2>
       <div className="sr-only">
         <h3>Zerochirou Technology Stack &amp; Systems Capabilities</h3>
         <ul>
@@ -336,11 +354,11 @@ export function StackSection() {
         {/* Grid Tech Stack */}
         {showStack && (
           <div className="relative z-10 w-full max-w-5xl mx-auto mt-2 sm:mt-4">
-            <ul className="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-0 border border-border/40">
+            <ul className="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0 border border-border/40">
               {items.map((item) => (
                 <Card
                   key={item.title}
-                  className="animate-in fade-in zoom-in duration-500 group bg-background rounded-none border-b border-r py-3 px-2 sm:py-4 sm:px-3 hover:bg-muted/40 transition-colors flex flex-col items-center justify-center gap-1 sm:gap-1.5"
+                  className="animate-in group fade-in zoom-in duration-500 group bg-background rounded-none border-none py-3 px-2 sm:py-4 sm:px-3 hover:bg-muted/40 transition-colors flex flex-col items-center justify-center gap-1 sm:gap-1.5"
                 >
                   <CardHeader className="flex items-center justify-center p-0 mb-1.5 sm:mb-2">
                     <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0">
@@ -348,7 +366,7 @@ export function StackSection() {
                         src={item.image}
                         alt={item.title}
                         fill
-                        className="object-contain"
+                        className="object-contain group-hover:scale-110 group-hover:spin  transition-transform duration-300"
                         unoptimized
                       />
                     </div>

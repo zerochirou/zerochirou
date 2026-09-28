@@ -195,9 +195,12 @@ interface GalaxyProps {
   lightMode?: boolean;
 }
 
+const DEFAULT_FOCAL: [number, number] = [0.5, 0.5];
+const DEFAULT_ROTATION: [number, number] = [1.0, 0.0];
+
 export default function Galaxy({
-  focal = [0.5, 0.5],
-  rotation = [1.0, 0.0],
+  focal = DEFAULT_FOCAL,
+  rotation = DEFAULT_ROTATION,
   starSpeed = 0.5,
   density = 1,
   hueShift = 140,
