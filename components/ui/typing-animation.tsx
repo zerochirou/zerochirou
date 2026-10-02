@@ -109,7 +109,7 @@ export function TypingAnimation({
   if (animationSourceKey !== prevAnimationSourceKey) {
     setPrevAnimationSourceKey(animationSourceKey)
     setDisplayedText("")
-    setCurrentWordIndex(0)
+    setCurrentWordIndex(0) 
     setCurrentCharIndex(0)
     setPhase("typing")
   }
