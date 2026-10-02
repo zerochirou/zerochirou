@@ -44,13 +44,22 @@ export function Navbar({ subtitle = "Portofolio", menuItems }: NavbarProps) {
       )}
     >
       <nav className="mx-auto flex w-full max-w-4xl items-center justify-between px-4 py-3 sm:p-4 pointer-events-auto">
-        <Link href="/" className="font-semibold flex items-center gap-2 justify-center group" aria-label="Zerochirou Homepage">
-          <Image src="/favicon.ico" alt="Zerochirou Logo" width={28} height={28} className="rounded" />
-          <Separator
-            className="rotate-12 bg-white"
-            orientation="vertical"
+        <Link
+          href="/"
+          className="font-semibold flex items-center gap-2 justify-center group"
+          aria-label="Zerochirou Homepage"
+        >
+          <Image
+            src="/favicon.ico"
+            alt="Zerochirou Logo"
+            width={28}
+            height={28}
+            className="rounded"
           />
-          <span className="text-lg sm:text-xl font-bold tracking-tight">{subtitle}</span>
+          <Separator className="rotate-12 bg-white" orientation="vertical" />
+          <span className="text-lg sm:text-xl font-bold tracking-tight">
+            {subtitle}
+          </span>
         </Link>
         <div className="hidden md:flex">
           <ul className="flex items-center gap-6">

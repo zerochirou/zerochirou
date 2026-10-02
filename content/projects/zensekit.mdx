@@ -1,0 +1,60 @@
+---
+title: "Zensekit"
+description: "A SaaS development kit optimized for rapid and scalable development. Using a monorepo architecture."
+date: "2023-08-15"
+logoUrl: "/assets/icons/zerochirou.png"
+height: 80
+width: 80
+techStack:
+  ["React", "Turborepo", "Node.js", "GraphQL", "Next.js", "Tailwind CSS"]
+---
+
+# Zensekit
+
+Zensekit provides a comprehensive foundation for building scalable SaaS applications. It abstracts away the boilerplate, allowing developers to focus on core business logic rather than spending weeks setting up the initial infrastructure.
+
+## Key Features
+
+- **Unified Monorepo:** Dikembangkan menggunakan arsitektur _monorepo_ untuk manajemen _workspace_ yang efisien, memungkinkan layanan _frontend_ dan _backend_ berada dalam satu repositori yang sama.
+- **Rapid UI Development:** Terintegrasi dengan **React** dan siap dipadukan dengan _framework_ CSS modern seperti Tailwind CSS untuk membangun antarmuka secara instan.
+- **Type-Safe API:** Memanfaatkan **GraphQL** untuk komunikasi data yang efisien, terstruktur, dan _type-safe_ antara klien dan server.
+- **Developer Experience (DX):** Menawarkan alur kerja yang mulus dengan _caching_ bawaan dan orkestrasi _script_ yang cepat.
+
+## Tech Stack Breakdown
+
+Berikut adalah teknologi utama yang menggerakkan inti dari Zensekit:
+
+| Kategori      | Teknologi       | Deskripsi                                                                                         |
+| :------------ | :-------------- | :------------------------------------------------------------------------------------------------ |
+| **Workspace** | Turborepo       | _Build system_ berkinerja tinggi yang dirancang khusus untuk ekosistem JavaScript/TypeScript.     |
+| **Frontend**  | React / Next.js | _Library_ antarmuka pengguna andalan untuk membangun aplikasi klien yang interaktif dan dinamis.  |
+| **Backend**   | Node.js         | _Runtime_ server-side asinkron yang sangat ringan dan efisien.                                    |
+| **API Layer** | GraphQL         | Spesifikasi query API modern yang mengambil data spesifik sesuai kebutuhan tanpa _over-fetching_. |
+
+## Monorepo Architecture
+
+Utilizing **Turborepo**, Zensekit organizes frontend and backend services into a unified monorepo. This approach enhances code sharing, simplifies dependency management, and accelerates the development lifecycle.
+
+Keuntungan utama menggunakan arsitektur ini meliputi:
+
+- _Caching_ otomatis untuk durasi _build_ yang jauh lebih cepat.
+- Berbagi konfigurasi global (seperti ESLint, TypeScript, dan setelan Prettier) di seluruh _packages_ atau _apps_.
+- Menjalankan _development server_ secara serentak untuk seluruh servis hanya dengan satu perintah terminal.
+
+## Getting Started
+
+Untuk memulai pengembangan menggunakan Zensekit, ikuti langkah-langkah dasar berikut:
+
+```bash
+# 1. Clone repositori
+git clone https://github.com/zerochirou/zense-kit.git
+
+# 2. Masuk ke direktori proyek
+cd zense-kit
+
+# 3. Instal dependensi (Direkomendasikan menggunakan pnpm)
+pnpm install
+
+# 4. Jalankan development server
+pnpm run dev
+```
