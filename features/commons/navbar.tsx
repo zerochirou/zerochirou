@@ -6,6 +6,16 @@ import { MenuDrawer, type MenuItem } from "../home/components/menu_drawer";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Home, PanelsTopLeft } from "lucide-react";
 
 interface NavbarProps {
   title?: string;
@@ -72,6 +82,48 @@ export function Navbar({ subtitle = "Portofolio", menuItems }: NavbarProps) {
                 {item.label}
               </Link>
             ))}
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={<Button variant="ghost" size={"icon-lg"} />}
+              >
+                <Image
+                  src={"/assets/icons/github.svg"}
+                  width={25}
+                  height={25}
+                  alt="Github Link"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>My Github</DropdownMenuLabel>
+                  <DropdownMenuItem className="flex items-center flex-col justify-center gap-2">
+                    {/* <Home /> */}
+                    {/* Github Profile */}
+                    <Image
+                      src="https://github.com/zerochirou.png"
+                      alt="Foto profil GitHub zerochirou"
+                      width={40}
+                      height={40}
+                      className="rounded-full object-cover border border-border"
+                      priority={false}
+                    />
+                    <h1 className="text-md font-semibold">zerochirou</h1>
+                  </DropdownMenuItem>
+                  <Link href={"https://github.com/zerochirou"}>
+                    <DropdownMenuItem>
+                      <Home />
+                      Github Profile
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link href={"https://github.com/zerochirou/zerochirou"}>
+                    <DropdownMenuItem>
+                      <PanelsTopLeft />
+                      zerochirou.com
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </ul>
         </div>
         <div className="md:hidden">

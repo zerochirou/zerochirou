@@ -48,7 +48,11 @@ export function MinimalFooter() {
         <div className="bg-border absolute inset-x-0 h-px w-full" />
         <div className="grid max-w-4xl grid-cols-6 gap-6 p-4">
           <div className="col-span-6 flex flex-col gap-5 md:col-span-4">
-            <Link href="/" aria-label="Zerochirou Homepage" className="w-max opacity-25 hover:opacity-100 transition-opacity">
+            <Link
+              href="/"
+              aria-label="Zerochirou Homepage"
+              className="w-max opacity-25 hover:opacity-100 transition-opacity"
+            >
               <Image
                 src="/favicon.ico"
                 alt="Zerochirou Logo"
@@ -60,6 +64,9 @@ export function MinimalFooter() {
             <p className="text-muted-foreground max-w-sm font-mono text-sm text-balance">
               A developer who works differently.
             </p>
+            <Link href={"/human"} className="underline-offset-4 underline">
+              This website was built 90% by human hands.
+            </Link>
           </div>
           <div className="col-span-3 w-full md:col-span-1">
             <span className="text-muted-foreground mb-1 text-xs font-semibold">

@@ -7,6 +7,7 @@ import { TextAnimate } from "@/components/ui/text_animate";
 import Image from "next/image";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { MagicCard } from "@/components/ui/magic-card";
 
 const data = [
   {
@@ -114,96 +115,106 @@ export function ProjectsSection() {
           {data.map((project) => (
             <Card
               key={project.id}
-              className="relative group rounded-none bg-background h-full flex flex-col border border-border/40 hover:border-border transition-colors shadow-sm overflow-hidden"
+              className="relative border-none p-0 group rounded-none bg-background h-full flex flex-col border border-border/40 hover:border-border transition-colors shadow-sm overflow-hidden"
             >
-              <Link href={`/projects/${project.id}`} className="absolute inset-0 z-10">
-                <span className="sr-only">View {project.title} details</span>
-              </Link>
-              
-              <CardHeader className="flex justify-center h-32 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
-                <div className="relative flex items-center justify-center">
-                  <Image
-                    src={project.logoUrl}
-                    alt={`${project.title} - ${project.description}`}
-                    width={project.width}
-                    height={project.height}
-                    className="max-h-full max-w-full object-contain grayscale-100 opacity-50 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
-                  />
-                </div>
-              </CardHeader>
+              <MagicCard
+                className="p-0 h-full"
+                gradientFrom="#fff"
+                gradientTo="#fff"
+                mode="orb"
+              >
+                <Link
+                  href={`/projects/${project.id}`}
+                  className="absolute inset-0 z-10"
+                >
+                  <span className="sr-only">View {project.title} details</span>
+                </Link>
 
-              <CardContent className="flex flex-col flex-1 p-4 sm:p-6 pt-0">
-                <div className="flex flex-col gap-2">
-                  <span className="flex gap-2 items-center flex-wrap">
-                    <h3 className="text-lg sm:text-xl font-normal inline-flex items-center">
-                      <DiaTextReveal
-                        once
-                        className="text-lg sm:text-xl"
-                        text={project.title}
-                      />
-                    </h3>
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      {project.badge && (
-                        <motion.span
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 2 }}
-                        >
-                          <Badge
-                            variant="default"
-                            className="text-xs px-2 py-0.5"
+                <CardHeader className="flex justify-center h-32 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
+                  <div className="relative flex items-center justify-center">
+                    <Image
+                      src={project.logoUrl}
+                      alt={`${project.title} - ${project.description}`}
+                      width={project.width}
+                      height={project.height}
+                      className="max-h-full group-hover:opacity-100 max-w-full object-contain grayscale-100 opacity-50 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
+                    />
+                  </div>
+                </CardHeader>
+
+                <CardContent className="flex flex-col flex-1 p-4 sm:p-6 pt-0">
+                  <div className="flex flex-col gap-2">
+                    <span className="flex gap-2 items-center flex-wrap">
+                      <h3 className="text-lg sm:text-xl font-normal inline-flex items-center">
+                        <DiaTextReveal
+                          once
+                          className="text-lg  sm:text-xl"
+                          text={project.title}
+                        />
+                      </h3>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        {project.badge && (
+                          <motion.span
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 2 }}
                           >
-                            {project.badge}
-                          </Badge>
-                        </motion.span>
-                      )}
+                            <Badge
+                              variant="default"
+                              className="text-xs px-2 py-0.5"
+                            >
+                              {project.badge}
+                            </Badge>
+                          </motion.span>
+                        )}
 
-                      {project.isOngoing && (
-                        <motion.span
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: 2.5 }}
-                        >
-                          <Badge
-                            variant="secondary"
-                            className="text-xs px-2 py-0.5"
+                        {project.isOngoing && (
+                          <motion.span
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 2.5 }}
                           >
-                            Ongoing
-                          </Badge>
-                        </motion.span>
-                      )}
-                    </div>
-                  </span>
-                  <p className="opacity-70 text-xs sm:text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-                </div>
+                            <Badge
+                              variant="secondary"
+                              className="text-xs px-2 py-0.5"
+                            >
+                              Ongoing
+                            </Badge>
+                          </motion.span>
+                        )}
+                      </div>
+                    </span>
+                    <p className="opacity-70 text-xs sm:text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+                  </div>
 
-                <div className="flex mt-auto pt-4 sm:pt-6 items-center text-xs sm:text-sm">
-                  <Image
-                    src="/assets/icons/github.svg"
-                    alt={"GitHub"}
-                    width={18}
-                    height={18}
-                    className="opacity-50 shrink-0"
-                  />
-                  {project.githubRepo ? (
-                    <span className="ml-2 font-normal truncate">
-                      <Link
-                        href={`https://github.com/${project.githubRepo}`}
-                        target="_blank"
-                        className="hover:underline hover:text-foreground transition-colors truncate block"
-                      >
-                        {project.githubRepo}
-                      </Link>
-                    </span>
-                  ) : (
-                    <span className="ml-2 font-normal opacity-50">
-                      Currently private
-                    </span>
-                  )}
-                </div>
-              </CardContent>
+                  <div className="flex mt-auto pt-4 sm:pt-6 items-center text-xs sm:text-sm">
+                    <Image
+                      src="/assets/icons/github.svg"
+                      alt={"GitHub"}
+                      width={18}
+                      height={18}
+                      className="opacity-50 shrink-0"
+                    />
+                    {project.githubRepo ? (
+                      <span className="ml-2 font-normal truncate">
+                        <Link
+                          href={`https://github.com/${project.githubRepo}`}
+                          target="_blank"
+                          className="hover:underline hover:text-foreground transition-colors truncate block"
+                        >
+                          {project.githubRepo}
+                        </Link>
+                      </span>
+                    ) : (
+                      <span className="ml-2 font-normal opacity-50">
+                        Currently private
+                      </span>
+                    )}
+                  </div>
+                </CardContent>
+              </MagicCard>
             </Card>
           ))}
         </ul>

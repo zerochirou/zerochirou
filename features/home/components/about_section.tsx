@@ -9,11 +9,17 @@ import {
 
 export function AboutSection() {
   return (
-    <section id="about" aria-label="About Zerochirou" className="relative w-full min-h-[300vh] sm:min-h-[350vh]">
-      <h2 className="sr-only">About Zerochirou - Programmer, Researcher, and Founder</h2>
+    <section
+      id="about"
+      aria-label="About Zerochirou"
+      className="relative w-full min-h-[300vh] sm:min-h-[350vh]"
+    >
+      <h2 className="sr-only">
+        About Zerochirou - Programmer, Researcher, and Founder
+      </h2>
       {/* Layar 1: Tertahan di posisi atas berkat 'sticky top-0' */}
       <div className="sticky top-0 h-screen flex items-center justify-center flex-col w-full bg-background z-10 px-4 text-center overflow-hidden">
-        <div className="w-full max-w-2xl px-2">
+        <div className="w-full  max-w-2xl px-2">
           <ScrollFloat
             animationDuration={1}
             ease="back.inOut(2)"
@@ -57,11 +63,21 @@ export function AboutSection() {
             ✔ CEO of clickfor.run
           </AnimatedSpan>
           <AnimatedSpan className="text-gray-500 text-xs sm:text-sm md:text-base">
-            <span className="text-xs sm:text-sm md:text-base font-semibold">ℹ Read 4 skills:</span>
-            <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/deep_learning.ipynb</span>
-            <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/web.ts</span>
-            <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/server.go</span>
-            <span className="pl-2 text-xs sm:text-sm md:text-base">- lib/engine.rs</span>
+            <span className="text-xs sm:text-sm md:text-base font-semibold">
+              ℹ Read 4 skills:
+            </span>
+            <span className="pl-2 text-xs sm:text-sm md:text-base">
+              - lib/deep_learning.ipynb
+            </span>
+            <span className="pl-2 text-xs sm:text-sm md:text-base">
+              - lib/web.ts
+            </span>
+            <span className="pl-2 text-xs sm:text-sm md:text-base">
+              - lib/server.go
+            </span>
+            <span className="pl-2 text-xs sm:text-sm md:text-base">
+              - lib/engine.rs
+            </span>
           </AnimatedSpan>
         </Terminal>
       </div>

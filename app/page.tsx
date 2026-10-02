@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <Navbar />
       <main className="overflow-x-clip">
-        <HeroSection nameText="ZEROCHIROU"/>
+        <HeroSection nameText="ZEROCHIROU."/>
         <AboutSection />
         <StackSection />
         <ProjectsSection />

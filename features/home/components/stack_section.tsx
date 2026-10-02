@@ -293,7 +293,7 @@ export function StackSection() {
           delay={100}
           animateBy="words"
           direction="top"
-          className="text-2xl sm:text-4xl md:text-5xl mb-2 justify-center"
+          className="text-2xl sm:text-5xl md:text-5xl mb-2 justify-center"
         />
         <BlurText
           text="Where is Next.js? Where are Rust and Go?"
@@ -302,6 +302,7 @@ export function StackSection() {
           direction="top"
           className="text-xs sm:text-base md:text-lg mb-8 text-muted-foreground justify-center"
         />
+        <Button>Keep Scroll</Button>
       </div>
 
       {/* Layar 2 */}
