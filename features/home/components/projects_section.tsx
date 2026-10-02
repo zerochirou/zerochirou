@@ -66,6 +66,18 @@ const data = [
     height: 80,
     width: 80,
   },
+  {
+    id: "desnet",
+    title: "Desnet",
+    description:
+      "A decentralized peer-to-peer network protocol running on the desnet v1 engine without central servers.",
+    stars: 142648,
+    logoUrl: "/assets/icons/zerochirou.png",
+    isOngoing: true,
+    height: 80,
+    width: 80,
+    badge: "Framework",
+  },
 ];
 
 export function ProjectsSection() {

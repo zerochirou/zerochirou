@@ -1,14 +1,61 @@
 ---
 title: "Hypergrid"
-description: "An instrument for analyzing road infrastructure capabilities using big data and deep learning."
+description: "Sistem pemetaan crowdsourcing kerusakan jalan berbasis sensor smartphone menggunakan edge-filtering dan analisis spasial."
 date: "2024-01-10"
-techStack: ["Python", "PyTorch", "Next.js", "PostgreSQL"]
+logoUrl: "/assets/icons/hyperg.png"
+height: 120
+width: 120
+techStack:
+  ["React Native", "Next.js", "Node.js", "PostgreSQL", "Supabase", "Python"]
 ---
 
 # Hypergrid
 
-Hypergrid is an advanced analytical instrument designed to evaluate road infrastructure capabilities. By combining big data processing with deep learning models, it provides urban planners and engineers with actionable insights into traffic patterns, structural integrity, and future infrastructure requirements.
+Hypergrid adalah sistem pemetaan kondisi jalan berbasis _crowdsourcing_ (_participatory sensing_) yang memanfaatkan sensor bawaan _smartphone_ seperti _gyroscope_ dan _accelerometer_ untuk mendeteksi anomali kerusakan infrastruktur secara _real-time_. Data yang dikumpulkan diproses menjadi visualisasi dasbor (GIS) guna membantu pemerintah dalam menentukan prioritas pemeliharaan jalan secara efisien dan responsif.
 
-## Architecture & Data Pipeline
+## Cara Kerja dan Sensor Edge-Filtering
 
-The platform ingests massive datasets from various IoT sensors and traffic cameras. This data is processed through our proprietary deep learning models built with PyTorch, which identify anomalies and predict infrastructure strain. The insights are then visualized through a high-performance Next.js dashboard, enabling real-time decision-making.
+Aplikasi menggunakan konsep **edge-calculate**, di mana data mentah dari _smartphone_ diproses terlebih dahulu sebelum dikirim ke server. Aplikasi menggabungkan _accelerometer_ dan geolokasi untuk mendeteksi getaran dan kecepatan.
+
+### 1. Konversi Vektor ke Skalar
+
+Sensor menangkap getaran dalam vektor 3D (sumbu x, y, z). Data tersebut dikonversi menjadi skalar menggunakan rumus magnitudo:
+
+> **|Magnitude| = √(x² + y² + z²)**
+
+### 2. Adaptive Baseline & EMA Filter
+
+Sistem menggunakan _Exponential Moving Average_ (EMA) untuk memfilter getaran mesin normal agar dapat menentukan batas getaran jalan (anomali) secara presisi:
+
+> **B(baru) = α _ M + (1 - α) _ B(lama)**
+> _(di mana α = 0.025 sebagai faktor pembobotan terkecil agar baseline tetap stabil)_
+
+Sistem mengklasifikasikan getaran melalui dua mode utama:
+
+- **Linear Acceleration Mode (LAM):** Menggunakan magnitudo getaran linear sebagai baseline utama.
+- **Gravitation Mode (GM):** Menggunakan magnitudo total, termasuk efek gravitasi bumi.
+
+### 3. Klasifikasi Kerusakan (Scoring)
+
+Setelah difilter, anomali diberi skor keparahan kerusakan yang dibagi menjadi 3 kategori (Ringan 1-54, Sedang 55-79, Berat 80-100) menggunakan aturan _threshold_:
+
+- Jika _shock_magnitude_ sama dengan _threshold_, maka _ratio = 1_ (Skor: 35)
+- Jika _shock_magnitude_ sama dengan 2x _threshold_, maka _ratio = 2_ (Skor: 75)
+  _(Sistem memberikan jeda/cooldown 1.5 detik per deteksi untuk mencegah redudansi data)._
+
+## Arsitektur & Pipeline Asinkron
+
+Alur kerja pengolahan data besar (_Big Data_) dirancang menggunakan arsitektur jaringan yang optimal, bahkan saat koneksi tidak stabil:
+
+1.  **Offline Queuing:** Saat guncangan terjadi, sistem mencatat koordinat dan menyimpannya dalam antrean _IndexedDB_ lokal jika perangkat _offline_.
+2.  **Asynchronous Ingestion:** Saat _online_, _payload_ (data berkelompok) dikirim asinkron melalui _HTTP REST_ (atau _MQTT_) tanpa membebani (_blocking_) performa perangkat.
+3.  **Spatial Clustering:** Pekerja (_worker_) _backend_ melakukan pengecekan klasterisasi spasial. Jika ditemukan ≥ 3 titik anomali dalam radius < 5 meter, status titik ditingkatkan menjadi _Confirmed Pothole_ dan dipublikasikan ke Peta (GIS) Dasbor Web _real-time_.
+
+## Stack Teknologi Inti
+
+| Lapisan Sistem      | Teknologi yang Digunakan                        |
+| :------------------ | :---------------------------------------------- |
+| **Mobile (Client)** | React Native (Expo)                             |
+| **Dasbor (Web)**    | Next.js, Shadcn UI, Tailwind CSS                |
+| **Backend & DB**    | Node.js, PostgreSQL, Supabase, MQTT             |
+| **R&D / Algoritma** | Python, Jupyter Notebook, Pandas, OpenStreetMap |

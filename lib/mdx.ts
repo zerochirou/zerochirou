@@ -9,6 +9,9 @@ export interface ProjectFrontmatter {
   description: string;
   date: string;
   techStack: string[];
+  logoUrl?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface Project {
@@ -37,7 +40,7 @@ export async function getAllProjects(): Promise<Project[]> {
   if (!fs.existsSync(contentDir)) {
     return [];
   }
-  
+
   const files = fs.readdirSync(contentDir);
   const projects = files
     .filter((file) => file.endsWith(".mdx"))
@@ -54,7 +57,7 @@ export async function getAllProjects(): Promise<Project[]> {
       };
     })
     .sort((a, b) =>
-      new Date(a.frontmatter.date) > new Date(b.frontmatter.date) ? -1 : 1
+      new Date(a.frontmatter.date) > new Date(b.frontmatter.date) ? -1 : 1,
     );
 
   return projects;
