@@ -11,8 +11,7 @@ import {
 describe("Human Feature Components", () => {
   it("renders HumanHero with 90/10 ratio headline", () => {
     render(<HumanHero />);
-    expect(screen.getByText(/90% Human Hands/i)).toBeDefined();
-    expect(screen.getByText(/10% AI Assistance/i)).toBeDefined();
+    expect(screen.getByText(/90% Human Hands, 10% AI/i)).toBeDefined();
   });
 
   it("renders RatioBreakdown transparent sections", () => {
