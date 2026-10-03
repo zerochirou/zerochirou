@@ -123,7 +123,7 @@ const jsonLd = [
     name: "Zerochirou",
     alternateName: ["zerochirou", "Zero Chirou"],
     url: "https://zerochirou.com",
-    image: "https://zerochirou.com/assets/icons/zerochirou.png",
+    image: "https://zerochirou.com/favicon.ico",
     jobTitle: [
       "Software Engineer",
       "Startup Founder",

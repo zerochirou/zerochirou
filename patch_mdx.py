@@ -4,9 +4,9 @@ import re
 files = {
     'clickfor.mdx': '/assets/icons/clickfor.png',
     'hypergrid.mdx': '/assets/icons/hyperg.png',
-    'devinion.mdx': '/assets/icons/zerochirou.png',
-    'zensekit.mdx': '/assets/icons/zerochirou.png',
-    'rhea.mdx': '/assets/icons/zerochirou.png'
+    'devinion.mdx': '/favicon.ico',
+    'zensekit.mdx': '/favicon.ico',
+    'rhea.mdx': '/favicon.ico'
 }
 
 for filename, url in files.items():
