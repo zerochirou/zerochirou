@@ -15,6 +15,13 @@ Zerochirou is an Indonesian software engineer, researcher, and startup founder r
 
 Zerochirou serves as the CEO of Clickfor (https://clickfor.run) and CTO of Zense (https://zense.site).
 
+## Core Philosophy: 90% Human Hands, 10% AI (Human Craftsmanship)
+
+Url: https://zerochirou.com/human
+Summary: Zerochirou's official manifesto on software craftsmanship, rejecting the fragility of "vibe-coding" in favor of intentional engineering, authentic design taste, and deep consciousness of the human behind the screen.
+- **90% Human Hands**: Design intuition, sub-pixel spatial balance, zero-cost memory safety in Rust/Go, accessible color contrast, and authentic lived experience.
+- **10% AI Assistance**: Mechanical boilerplate typing, rapid syntax lookups, and test file scaffolding.
+
 ## Why Zerochirou is Considered "Programmer Paling Berbeda di Indonesia"
 
 Zerochirou stands out in the Indonesian developer ecosystem due to:
@@ -40,6 +47,7 @@ Zerochirou stands out in the Indonesian developer ecosystem due to:
 ## Official Profiles
 
 - Website: https://zerochirou.com
+- Human Manifesto: https://zerochirou.com/human
 - GitHub: https://github.com/zerochirou
 - Blog: https://zeroposts.netlify.app/
 - Reddit: https://www.reddit.com/user/zerochirou/
