@@ -119,8 +119,8 @@ export function ProjectsSection() {
             >
               <MagicCard
                 className="p-0 h-full"
-                gradientFrom="#fff"
-                gradientTo="#fff"
+                gradientFrom="#FFED29"
+                gradientTo="#0095fe"
                 mode="orb"
               >
                 <Link
@@ -137,7 +137,7 @@ export function ProjectsSection() {
                       alt={`${project.title} - ${project.description}`}
                       width={project.width}
                       height={project.height}
-                      className="max-h-full group-hover:opacity-100 max-w-full object-contain grayscale-100 opacity-50 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
+                      className="max-h-full group-hover:rotate-3 group-hover:opacity-100 max-w-full object-contain grayscale-100 opacity-20 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
                     />
                   </div>
                 </CardHeader>
