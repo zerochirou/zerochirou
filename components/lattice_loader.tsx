@@ -279,7 +279,7 @@ export function LatticeLoader({
     <span
       role="status"
       data-slot="lattice-loader"
-      className={`ll-root group relative inline-flex items-center leading-none [font-family:inherit] [gap:calc(var(--ll-font)*0.625)] [font-size:var(--ll-font)]${className ? ` ${className}` : ""}`}
+      className={`ll-root group relative inline-flex items-center leading-none font-[inherit] gap-[calc(var(--ll-font)*0.625)] [font-size:var(--ll-font)]${className ? ` ${className}` : ""}`}
       data-status={status}
       data-shape={shape}
       data-glow={glow ? "" : undefined}
@@ -305,14 +305,14 @@ export function LatticeLoader({
     >
       <style>{STYLE}</style>
       <span className="grid shrink-0" aria-hidden="true">
-        <span className="ll-run [grid-area:1/1] grid [grid-template-columns:repeat(var(--ll-n),var(--ll-cell))] [gap:var(--ll-gap)] [transition:opacity_200ms_ease] group-data-[status=done]:opacity-0 group-data-[status=error]:opacity-0 group-data-[status=done]:[&>span]:[animation-play-state:paused] group-data-[status=error]:[&>span]:[animation-play-state:paused]">
+        <span className="ll-run [grid-area:1/1] grid grid-cols-[repeat(var(--ll-n),var(--ll-cell))] [transition:opacity_200ms_ease] group-data-[status=done]:opacity-0 group-data-[status=error]:opacity-0 group-data-[status=done]:[&>span]:paused group-data-[status=error]:[&>span]:paused">
           {pat.cells.map((unit, i) => (
             <span
               key={i}
               className={
                 unit == null
-                  ? `${CELL} [opacity:calc(var(--ll-idle)*0.47)]`
-                  : `${CELL} [opacity:var(--ll-idle)] ${LIT[Math.round((pat.lit ?? 0.62) * 100)] || LIT[62]} [animation-timing-function:var(--ll-ease-in-out)] group-data-[glow]:[box-shadow:0_0_calc(var(--ll-cell)*1.2)_calc(var(--ll-cell)*0.12)_var(--ll-glow)]`
+                  ? `${CELL} opacity-[calc(var(--ll-idle)*0.47)]`
+                  : `${CELL} opacity-(--ll-idle) ${LIT[Math.round((pat.lit ?? 0.62) * 100)] || LIT[62]} [animation-timing-function:var(--ll-ease-in-out)] group-data-glow:[box-shadow:0_0_calc(var(--ll-cell)*1.2)_calc(var(--ll-cell)*0.12)_var(--ll-glow)]`
               }
               data-hole={unit == null ? "" : undefined}
               data-lit={
@@ -328,11 +328,11 @@ export function LatticeLoader({
             />
           ))}
         </span>
-        <span className="ll-mark [grid-area:1/1] grid [grid-template-columns:repeat(var(--ll-n),var(--ll-cell))] [gap:var(--ll-gap)] origin-center opacity-0 [transform:scale(0.9)] [transition:opacity_160ms_var(--ll-ease-out),transform_160ms_var(--ll-ease-out)] group-data-[status=done]:opacity-100 group-data-[status=done]:[transform:none] group-data-[status=done]:[transition:opacity_200ms_ease,transform_200ms_var(--ll-ease-out)] group-data-[status=error]:opacity-100 group-data-[status=error]:[transform:none] group-data-[status=error]:[transition:opacity_200ms_ease,transform_200ms_var(--ll-ease-out)]">
+        <span className="ll-mark [grid-area:1/1] grid grid-cols-[repeat(var(--ll-n),var(--ll-cell))] gap-(--ll-gap) origin-center opacity-0 transform-[scale(0.9)] [transition:opacity_160ms_var(--ll-ease-out),transform_160ms_var(--ll-ease-out)] group-data-[status=done]:opacity-100 group-data-[status=done]:transform-none group-data-[status=done]:[transition:opacity_200ms_ease,transform_200ms_var(--ll-ease-out)] group-data-[status=error]:opacity-100 group-data-[status=error]:transform-none group-data-[status=error]:[transition:opacity_200ms_ease,transform_200ms_var(--ll-ease-out)]">
           {pat.cells.map((_, i) => (
             <span
               key={i}
-              className={`${CELL} [opacity:var(--ll-idle)] [transition:opacity_200ms_ease,background-color_200ms_ease] data-[on]:[background:var(--ll-mark)] data-[on]:[opacity:var(--ll-peak)] group-data-[glow]:data-[on]:[box-shadow:0_0_calc(var(--ll-cell)*1.2)_calc(var(--ll-cell)*0.12)_var(--ll-mark-glow)]`}
+              className={`${CELL} opacity-(--ll-idle) [transition:opacity_200ms_ease,background-color_200ms_ease] data-on:[background:var(--ll-mark)] data-on:opacity-(--ll-peak) group-data-glow:data-on:[box-shadow:0_0_calc(var(--ll-cell)*1.2)_calc(var(--ll-cell)*0.12)_var(--ll-mark-glow)]`}
               data-on={marks[mark].includes(i) ? "" : undefined}
             />
           ))}
@@ -340,19 +340,19 @@ export function LatticeLoader({
       </span>
       <span className="relative inline-block font-medium" aria-hidden="true">
         <span
-          className="ll-text absolute top-0 left-0 whitespace-nowrap opacity-0 [filter:blur(2px)] [transition:opacity_200ms_ease,filter_200ms_ease] data-[active]:static data-[active]:opacity-100 data-[active]:[filter:blur(0)]"
+          className="ll-text absolute top-0 left-0 whitespace-nowrap opacity-0 filter-[blur(2px)] [transition:opacity_200ms_ease,filter_200ms_ease] data-active:static data-active:opacity-100 data-active:filter-[blur(0)]"
           data-active={status === "working" ? "" : undefined}
         >
           {label}
         </span>
         <span
-          className="ll-text absolute top-0 left-0 whitespace-nowrap opacity-0 [filter:blur(2px)] [transition:opacity_200ms_ease,filter_200ms_ease] data-[active]:static data-[active]:opacity-100 data-[active]:[filter:blur(0)]"
+          className="ll-text absolute top-0 left-0 whitespace-nowrap opacity-0 filter-[blur(2px)] [transition:opacity_200ms_ease,filter_200ms_ease] data-active:static data-active:opacity-100 data-active:filter-[blur(0)]"
           data-active={status === "done" ? "" : undefined}
         >
           {doneLabel}
         </span>
         <span
-          className="ll-text absolute top-0 left-0 whitespace-nowrap opacity-0 [filter:blur(2px)] [transition:opacity_200ms_ease,filter_200ms_ease] data-[active]:static data-[active]:opacity-100 data-[active]:[filter:blur(0)]"
+          className="ll-text absolute top-0 left-0 whitespace-nowrap opacity-0 filter-[blur(2px)] [transition:opacity_200ms_ease,filter_200ms_ease] data-active:static data-active:opacity-100 data-active:filter-[blur(0)]"
           data-active={status === "error" ? "" : undefined}
         >
           {errorLabel}
@@ -361,7 +361,7 @@ export function LatticeLoader({
       {showTimer ? (
         <span
           ref={timerRef}
-          className="font-mono tabular-nums opacity-60 [font-size:calc(var(--ll-font)*0.875)]"
+          className="font-mono tabular-nums opacity-60 text-[calc(var(--ll-font)*0.875)]"
           aria-hidden="true"
         >
           0.0s
