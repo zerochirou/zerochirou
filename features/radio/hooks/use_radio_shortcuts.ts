@@ -51,6 +51,11 @@ export function useRadioShortcuts() {
           e.preventDefault();
           radioStore.toggleAnimatedBg();
           break;
+        case "w":
+        case "W":
+          e.preventDefault();
+          radioStore.cycleWallpaper();
+          break;
         case "?":
         case "c":
         case "C":

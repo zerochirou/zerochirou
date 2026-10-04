@@ -3,7 +3,6 @@
 import {
   Play,
   Pause,
-  RotateCcw,
   Volume2,
   Volume1,
   VolumeX,

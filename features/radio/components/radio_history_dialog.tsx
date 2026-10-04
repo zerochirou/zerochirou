@@ -17,7 +17,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import RefineFrame from "@/components/ui/refine_image";
 import { Button } from "@/components/ui/button";
 
 export function RadioHistoryDialog() {

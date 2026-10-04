@@ -5,7 +5,10 @@ import type { RadioStore, RadioState, SongInfo, RadioMetadataResult } from "../t
 import {
   CODE_RADIO_STREAM_URL,
   DEFAULT_SONG,
+  DEFAULT_WALLPAPER_ID,
   VOLUME_STORAGE_KEY,
+  WALLPAPER_STORAGE_KEY,
+  WALLPAPERS,
 } from "../constants";
 import { audioService } from "../services/audio_service";
 
@@ -25,6 +28,7 @@ class RadioStoreInstance {
       isMuted: false,
       isFullscreen: false,
       isAnimatedBg: true,
+      currentWallpaperId: DEFAULT_WALLPAPER_ID,
       currentSong: DEFAULT_SONG,
       songHistory: [],
       listenersCount: 0,
@@ -41,6 +45,8 @@ class RadioStoreInstance {
       toggleFullscreen: this.toggleFullscreen,
       setIsFullscreen: this.setIsFullscreen,
       toggleAnimatedBg: this.toggleAnimatedBg,
+      setWallpaperId: this.setWallpaperId,
+      cycleWallpaper: this.cycleWallpaper,
       setCurrentSong: this.setCurrentSong,
       setSongHistory: this.setSongHistory,
       setListenersCount: this.setListenersCount,
@@ -87,6 +93,11 @@ class RadioStoreInstance {
           });
           audioService.setVolume(val);
         }
+      }
+
+      const savedWallpaper = localStorage.getItem(WALLPAPER_STORAGE_KEY);
+      if (savedWallpaper && WALLPAPERS.some((w) => w.id === savedWallpaper)) {
+        this.setState({ currentWallpaperId: savedWallpaper });
       }
     } catch {
       // Ignore storage read errors
@@ -152,6 +163,24 @@ class RadioStoreInstance {
 
   public toggleAnimatedBg = (): void => {
     this.setState((prev) => ({ isAnimatedBg: !prev.isAnimatedBg }));
+  };
+
+  public setWallpaperId = (wallpaperId: string): void => {
+    this.setState({ currentWallpaperId: wallpaperId });
+    try {
+      localStorage.setItem(WALLPAPER_STORAGE_KEY, wallpaperId);
+    } catch {
+      // Ignore
+    }
+  };
+
+  public cycleWallpaper = (): void => {
+    const currentIndex = WALLPAPERS.findIndex(
+      (w) => w.id === this.state.currentWallpaperId,
+    );
+    const nextIndex = (currentIndex + 1) % WALLPAPERS.length;
+    const nextId = WALLPAPERS[nextIndex].id;
+    this.setWallpaperId(nextId);
   };
 
   public setCurrentSong = (song: SongInfo): void => {

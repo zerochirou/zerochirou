@@ -16,6 +16,13 @@ export interface RadioStation {
   apiEndpoint?: string;
 }
 
+export interface RadioWallpaper {
+  id: string;
+  name: string;
+  videoSrc: string;
+  posterSrc: string;
+}
+
 export interface ShortcutItem {
   key: string;
   desc: string;
@@ -35,6 +42,7 @@ export interface RadioState {
   isMuted: boolean;
   isFullscreen: boolean;
   isAnimatedBg: boolean;
+  currentWallpaperId: string;
   currentSong: SongInfo;
   songHistory: SongInfo[];
   listenersCount: number;
@@ -52,6 +60,8 @@ export interface RadioActions {
   toggleFullscreen: () => void;
   setIsFullscreen: (isFullscreen: boolean) => void;
   toggleAnimatedBg: () => void;
+  setWallpaperId: (wallpaperId: string) => void;
+  cycleWallpaper: () => void;
   setCurrentSong: (song: SongInfo) => void;
   setSongHistory: (history: SongInfo[]) => void;
   setListenersCount: (count: number) => void;
