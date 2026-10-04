@@ -1,6 +1,6 @@
 "use client";
 
-import ScrollFloat from "@/components/scroll_float";
+import ScrollFloat from "@/components/ui/scroll_float";
 import { Button } from "@/components/ui/button";
 import {
   AnimatedSpan,

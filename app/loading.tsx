@@ -1,4 +1,4 @@
-import { LatticeLoader } from "@/components/lattice_loader";
+import { LatticeLoader } from "@/components/ui/lattice_loader";
 
 export default function Loading() {
   return (

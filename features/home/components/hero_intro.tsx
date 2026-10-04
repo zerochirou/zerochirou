@@ -1,6 +1,6 @@
 "use client";
 
-import TechText from "@/components/tech_text";
+import TechText from "@/components/ui/tech_text";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 
 interface HeroIntroProps {

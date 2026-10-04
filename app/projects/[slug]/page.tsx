@@ -10,7 +10,7 @@ import { Navbar } from "@/features/commons/navbar";
 import { MinimalFooter } from "@/features/commons/footer";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 import { TypingAnimation } from "@/components/ui/typing-animation";
-import LightRays from "@/components/LightRays";
+import LightRays from "@/components/ui/LightRays";
 import { cn } from "@/lib/utils";
 
 interface ProjectPageProps {

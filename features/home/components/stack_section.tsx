@@ -1,6 +1,6 @@
 "use client";
 
-import BlurText from "@/components/blur_text";
+import BlurText from "@/components/ui/blur_text";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Languages } from "lucide-react";
@@ -8,7 +8,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 
-const Galaxy = dynamic(() => import("@/components/galaxy"), {
+const Galaxy = dynamic(() => import("@/components/ui/galaxy"), {
   ssr: false,
 });
 

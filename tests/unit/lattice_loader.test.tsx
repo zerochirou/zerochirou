@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { LatticeLoader } from "@/components/lattice_loader";
+import { LatticeLoader } from "@/components/ui/lattice_loader";
 
 describe("LatticeLoader component", () => {
   it("renders with working status and accessible announcement", () => {

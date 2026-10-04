@@ -5,7 +5,7 @@ import {
   HumanHero,
   ManifestoContent,
 } from "@/features/human/components";
-import LightRays from "@/components/LightRays";
+import LightRays from "@/components/ui/LightRays";
 
 export const metadata: Metadata = {
   title: "90% Human Hands, 10% AI: A Manifesto of Authentic Craft | Zerochirou",
