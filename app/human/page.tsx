@@ -157,8 +157,8 @@ export default function HumanPage() {
             saturation={1}
           />
         </div>
-        <Navbar subtitle="Human Craft" />
-        <main className="overflow-x-clip min-h-screen">
+        <Navbar subtitle="Human" />
+        <main className="overflow-x-clip min-h-screen mb-20">
           <HumanHero />
           <ManifestoContent />
           {/* <CraftComparison /> */}

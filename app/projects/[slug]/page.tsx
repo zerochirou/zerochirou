@@ -131,7 +131,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <Navbar />
 
       {/* 3. LAYER KONTEN UTAMA */}
-      <article className="relative z-10 container max-w-3xl mx-auto pt-40 px-4 sm:px-6">
+      <article className="relative z-10 mb-20 container max-w-3xl mx-auto pt-40 px-4 sm:px-6">
         <div>
           <header className="mb-12">
             {project.frontmatter.logoUrl && (

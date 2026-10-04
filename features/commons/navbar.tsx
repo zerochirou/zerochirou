@@ -27,6 +27,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "https://blog.zerochirou.com", label: "Blog" },
   { href: "/human", label: "Human" },
+  { href: "/radio", label: "Radio" },
   { href: "#about", label: "About" },
   { href: "#stack", label: "Stack" },
   { href: "#projects", label: "Projects" },
