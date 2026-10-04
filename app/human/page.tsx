@@ -3,10 +3,7 @@ import { MinimalFooter } from "@/features/commons/footer";
 import { Navbar } from "@/features/commons/navbar";
 import {
   HumanHero,
-  RatioBreakdown,
   ManifestoContent,
-  CraftComparison,
-  HumanSeal,
 } from "@/features/human/components";
 import LightRays from "@/components/LightRays";
 

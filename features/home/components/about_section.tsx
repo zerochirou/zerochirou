@@ -1,11 +1,13 @@
 "use client";
 
 import ScrollFloat from "@/components/scroll_float";
+import { Button } from "@/components/ui/button";
 import {
   AnimatedSpan,
   Terminal,
   TypingAnimation,
 } from "@/components/ui/terminal";
+import { Terminal as TerminalIcon } from "lucide-react";
 
 export function AboutSection() {
   return (
@@ -33,11 +35,10 @@ export function AboutSection() {
       </div>
 
       {/* Layar 2: Akan menutupi Layar 1 saat di-scroll ke bawah dan tertahan di top-0 */}
-      <div className="sticky top-0 h-screen flex items-center justify-center w-full bg-background z-20 px-3 sm:px-6">
+      <div className="sticky top-0 flex-col h-screen flex items-center justify-center w-full bg-background z-20 px-3 sm:px-6">
         {/* Shadow memancar ke atas di luar container */}
-        <div className="pointer-events-none absolute -top-40 sm:-top-64 left-0 right-0 h-65 sm:h-64 z-5 bg-linear-to-t from-background to-transparent" />
-
-        <Terminal className="max-h-[82vh] sm:max-h-140">
+        <div className="pointer-events-none absolute  -top-40 sm:-top-64 left-0 right-0 h-65 sm:h-64 z-5 bg-linear-to-t from-background to-transparent" />
+        <Terminal className="max-h-[82vh] sm:max-h-140 bg-card">
           <TypingAnimation className="text-xs sm:text-sm md:text-base">
             &gt; pnpm dlx @zerochirou/about --all
           </TypingAnimation>
@@ -80,6 +81,9 @@ export function AboutSection() {
             </span>
           </AnimatedSpan>
         </Terminal>
+        <Button className="mt-4" variant={'default'}>
+          Open Terminal <TerminalIcon />
+        </Button>
       </div>
     </section>
   );

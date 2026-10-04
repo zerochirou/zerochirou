@@ -1,4 +1,3 @@
-import ScrollFloat from "@/components/scroll_float";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 
 export function ManifestoContent() {

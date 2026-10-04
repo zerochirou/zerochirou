@@ -10,7 +10,7 @@ export default async function Home() {
     <>
       <Navbar />
       <main className="overflow-x-clip">
-        <HeroSection nameText="ZEROCHIROU." />
+        <HeroSection nameText="Zerochirou." heading="Hi, introduction" />
         <AboutSection />
         <StackSection />
         <ProjectsSection />
