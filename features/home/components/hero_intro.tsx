@@ -1,6 +1,7 @@
 "use client";
 
-import TechText from "@/components/tech_text";
+import TechText from "@/components/ui/tech_text";
+import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 
 interface HeroIntroProps {
   heading?: string;
@@ -27,9 +28,11 @@ export function HeroIntro({
         Next.js, Deep Learning). A developer who works differently. CEO of
         Clickfor, CTO of Zense.
       </p>
-      <h2 className="text-2xl sm:text-3xl md:text-4xl tracking-tight mb-0">
-        {heading}
-      </h2>
+      <DiaTextReveal
+        text={heading}
+        colors={["#FFED29", "#0095fe"]}
+        className="text-2xl sm:text-3xl md:text-4xl tracking-tight mb-0"
+      />
       <div className="w-full max-w-4xl h-24 sm:h-32 md:h-40 pointer-events-auto px-2 overflow-hidden">
         <TechText
           text={nameText}

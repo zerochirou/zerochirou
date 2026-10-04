@@ -1,21 +1,13 @@
 'use client'
 
-import Link from "next/link";
+
 import {
-  ArrowLeft,
-  User,
-  Sparkles,
-  SlidersHorizontal,
   Brain,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 import { motion } from "motion/react";
 
 export function HumanHero() {
-  const ratio = 90;
-
   return (
     <section className="relative w-full pt-28 pb-16 sm:pt-36 overflow-hidden">
       <div className="relative mx-auto max-w-3xl px-4 flex flex-col gap-8 ">

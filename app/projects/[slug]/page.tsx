@@ -10,7 +10,7 @@ import { Navbar } from "@/features/commons/navbar";
 import { MinimalFooter } from "@/features/commons/footer";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 import { TypingAnimation } from "@/components/ui/typing-animation";
-import LightRays from "@/components/LightRays";
+import LightRays from "@/components/ui/LightRays";
 import { cn } from "@/lib/utils";
 
 interface ProjectPageProps {
@@ -35,7 +35,7 @@ const mdxComponents = {
   ),
   p: (props: React.ComponentProps<"p">) => (
     <p
-      className="leading-7 text-muted-foreground [&:not(:first-child)]:mt-6"
+      className="leading-7 text-muted-foreground not-first:mt-6"
       {...props}
     />
   ),
@@ -71,7 +71,7 @@ const mdxComponents = {
   th: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <th
       className={cn(
-        "border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right",
+        "border px-4 py-2 text-left font-bold [[align=center]]:text-center [[align=right]]:text-right",
         className,
       )}
       {...props}
@@ -80,7 +80,7 @@ const mdxComponents = {
   td: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <td
       className={cn(
-        "border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right",
+        "border px-4 py-2 text-left [[align=center]]:text-center [[align=right]]:text-right",
         className,
       )}
       {...props}
@@ -131,7 +131,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <Navbar />
 
       {/* 3. LAYER KONTEN UTAMA */}
-      <article className="relative z-10 container max-w-3xl mx-auto pt-40 px-4 sm:px-6">
+      <article className="relative z-10 mb-20 container max-w-3xl mx-auto pt-40 px-4 sm:px-6">
         <div>
           <header className="mb-12">
             {project.frontmatter.logoUrl && (

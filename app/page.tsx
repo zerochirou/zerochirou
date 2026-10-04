@@ -5,12 +5,12 @@ import { AboutSection } from "@/features/home/components/about_section";
 import { ProjectsSection } from "@/features/home/components/projects_section";
 import { StackSection } from "@/features/home/components/stack_section";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Navbar />
       <main className="overflow-x-clip">
-        <HeroSection nameText="ZEROCHIROU."/>
+        <HeroSection nameText="Zerochirou." heading="Hi, introduction" />
         <AboutSection />
         <StackSection />
         <ProjectsSection />

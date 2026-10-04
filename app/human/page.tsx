@@ -3,12 +3,9 @@ import { MinimalFooter } from "@/features/commons/footer";
 import { Navbar } from "@/features/commons/navbar";
 import {
   HumanHero,
-  RatioBreakdown,
   ManifestoContent,
-  CraftComparison,
-  HumanSeal,
 } from "@/features/human/components";
-import LightRays from "@/components/LightRays";
+import LightRays from "@/components/ui/LightRays";
 
 export const metadata: Metadata = {
   title: "90% Human Hands, 10% AI: A Manifesto of Authentic Craft | Zerochirou",
@@ -160,8 +157,8 @@ export default function HumanPage() {
             saturation={1}
           />
         </div>
-        <Navbar subtitle="Human Craft" />
-        <main className="overflow-x-clip min-h-screen">
+        <Navbar subtitle="Human" />
+        <main className="overflow-x-clip min-h-screen mb-20">
           <HumanHero />
           <ManifestoContent />
           {/* <CraftComparison /> */}

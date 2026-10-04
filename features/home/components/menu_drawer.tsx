@@ -24,6 +24,7 @@ export interface MenuItem {
 const DEFAULT_MENU_ITEMS: MenuItem[] = [
   { label: "HOME", ariaLabel: "Go to home page", link: "/" },
   { label: "BLOG", ariaLabel: "Read my blog", link: "https://blog.zerochirou.com" },
+  { label: "HUMAN", ariaLabel: "90% Human Hands, 10% AI.", link: "/human" },
   { label: "ABOUT", ariaLabel: "Learn about me", link: "#about" },
   { label: "STACK", ariaLabel: "View tech stack", link: "#stack" },
   { label: "PROJECTS", ariaLabel: "View projects", link: "#projects" },

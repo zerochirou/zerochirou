@@ -1,6 +1,6 @@
 "use client";
 
-import Dither from "@/components/dither";
+import Dither from "@/components/ui/dither";
 
 const DEFAULT_WAVE_COLOR: [number, number, number] = [
   0.4588235294117647, 0.4588235294117647, 0.4588235294117647,

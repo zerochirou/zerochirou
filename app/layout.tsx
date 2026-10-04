@@ -233,7 +233,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         geistMono.variable,
         newsreader.variable,
         "font-sans",
-        )}
+      )}
     >
       <head>
         <script
@@ -241,7 +241,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col selection:bg-foreground selection:text-background selection:font-newsreader">
+        {children}
+      </body>
     </html>
   );
 }
