@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
-import { MenuDrawer, type MenuItem } from "../home/components/menu_drawer";
+import { MenuDrawer, type MenuItem } from "./menu_drawer";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -95,7 +95,7 @@ export function Navbar({ subtitle = "Portofolio", menuItems }: NavbarProps) {
                   alt="Github Link"
                 />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="bg-background border-card border">
                 <DropdownMenuGroup>
                   <DropdownMenuLabel>My Github</DropdownMenuLabel>
                   <DropdownMenuItem className="flex items-center flex-col justify-center gap-2">
