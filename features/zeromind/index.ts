@@ -9,7 +9,6 @@ export {
   exportCanvasAsJson,
   copyCanvasToClipboard,
 } from "./export_utils";
-export { DEFAULT_DIAGRAM_ELEMENTS } from "./default_diagram";
 export type {
   CanvasTheme,
   MermaidPreset,

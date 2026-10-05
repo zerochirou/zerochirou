@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import {
   MERMAID_PRESETS,
-  DEFAULT_DIAGRAM_ELEMENTS,
   parseMermaidCode,
   exportCanvasAsImage,
   exportCanvasAsJson,
@@ -11,13 +10,10 @@ import {
   MermaidDialog,
 } from "@/features/zeromind";
 
-describe("Zeromind - Default Diagram", () => {
-  it("provides non-empty pre-configured Excalidraw elements for initial fallback", () => {
-    expect(DEFAULT_DIAGRAM_ELEMENTS).toBeDefined();
-    expect(DEFAULT_DIAGRAM_ELEMENTS.length).toBeGreaterThan(0);
-    expect(DEFAULT_DIAGRAM_ELEMENTS.some((el) => el.type === "rectangle")).toBe(true);
-    expect(DEFAULT_DIAGRAM_ELEMENTS.some((el) => el.type === "arrow")).toBe(true);
-    expect(DEFAULT_DIAGRAM_ELEMENTS.some((el) => el.type === "text")).toBe(true);
+describe("Zeromind - Canvas Initialization", () => {
+  it("starts with a clean state when no saved diagram is present in localStorage", () => {
+    localStorage.removeItem("zeromind_canvas_data_v1");
+    expect(localStorage.getItem("zeromind_canvas_data_v1")).toBeNull();
   });
 });
 

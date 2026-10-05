@@ -5,7 +5,6 @@ import type {
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
 } from "@excalidraw/excalidraw/types";
-import { DEFAULT_DIAGRAM_ELEMENTS } from "./default_diagram";
 import { ZeromindCanvas } from "./zeromind_canvas";
 import type { CanvasTheme } from "./types";
 
@@ -30,14 +29,7 @@ export function ZeromindView() {
     } catch {
       // Fallback silently if corrupt or unavailable
     }
-    // Provide default diagram when no saved diagram is present
-    return {
-      elements: DEFAULT_DIAGRAM_ELEMENTS,
-      appState: {
-        viewBackgroundColor: "transparent",
-        scrollToContent: true,
-      },
-    };
+    return null;
   });
 
   const apiRef = React.useRef<ExcalidrawImperativeAPI | null>(null);
