@@ -48,8 +48,14 @@ function DropdownMenuContent({
   )
 }
 
+const DropdownMenuGroupContext = React.createContext<boolean>(false)
+
 function DropdownMenuGroup({ ...props }: MenuPrimitive.Group.Props) {
-  return <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
+  return (
+    <DropdownMenuGroupContext.Provider value={true}>
+      <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
+    </DropdownMenuGroupContext.Provider>
+  )
 }
 
 function DropdownMenuLabel({
@@ -59,15 +65,31 @@ function DropdownMenuLabel({
 }: MenuPrimitive.GroupLabel.Props & {
   inset?: boolean
 }) {
+  const isInGroup = React.useContext(DropdownMenuGroupContext)
+
+  if (isInGroup) {
+    return (
+      <MenuPrimitive.GroupLabel
+        data-slot="dropdown-menu-label"
+        data-inset={inset}
+        className={cn(
+          "px-3 py-2.5 text-xs text-muted-foreground data-inset:pl-9.5",
+          className
+        )}
+        {...props}
+      />
+    )
+  }
+
   return (
-    <MenuPrimitive.GroupLabel
+    <div
       data-slot="dropdown-menu-label"
       data-inset={inset}
       className={cn(
         "px-3 py-2.5 text-xs text-muted-foreground data-inset:pl-9.5",
         className
       )}
-      {...props}
+      {...(props as React.ComponentProps<"div">)}
     />
   )
 }
@@ -180,10 +202,12 @@ function DropdownMenuCheckboxItem({
 
 function DropdownMenuRadioGroup({ ...props }: MenuPrimitive.RadioGroup.Props) {
   return (
-    <MenuPrimitive.RadioGroup
-      data-slot="dropdown-menu-radio-group"
-      {...props}
-    />
+    <DropdownMenuGroupContext.Provider value={true}>
+      <MenuPrimitive.RadioGroup
+        data-slot="dropdown-menu-radio-group"
+        {...props}
+      />
+    </DropdownMenuGroupContext.Provider>
   )
 }
 
