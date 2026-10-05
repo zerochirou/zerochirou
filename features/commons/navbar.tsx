@@ -21,6 +21,7 @@ interface NavbarProps {
   title?: string;
   subtitle?: string;
   menuItems?: MenuItem[];
+  className?: string;
 }
 
 const links = [
@@ -34,7 +35,7 @@ const links = [
   { href: "#projects", label: "Projects" },
 ];
 
-export function Navbar({ subtitle = "Portofolio", menuItems }: NavbarProps) {
+export function Navbar({ subtitle = "Portofolio", menuItems, className }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -52,8 +53,9 @@ export function Navbar({ subtitle = "Portofolio", menuItems }: NavbarProps) {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300 -mb-[73px]",
         scrolled
-          ? "backdrop-blur-md bg-background/60 border-b border-border/10 shadow-sm border-b"
+          ? "backdrop-blur-md bg-background/60 border-b border-border/10 shadow-sm"
           : "bg-transparent border-b border-transparent",
+        className,
       )}
     >
       <nav className="mx-auto flex w-full max-w-4xl items-center justify-between px-4 py-3 sm:p-4 pointer-events-auto">

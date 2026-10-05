@@ -5,6 +5,7 @@ import type {
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
 } from "@excalidraw/excalidraw/types";
+import { DEFAULT_DIAGRAM_ELEMENTS } from "./default_diagram";
 import { ZeromindCanvas } from "./zeromind_canvas";
 import type { CanvasTheme } from "./types";
 
@@ -19,7 +20,7 @@ export function ZeromindView() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && Array.isArray(parsed.elements)) {
+        if (parsed && Array.isArray(parsed.elements) && parsed.elements.length > 0) {
           return {
             elements: parsed.elements,
             appState: parsed.appState || {},
@@ -29,7 +30,14 @@ export function ZeromindView() {
     } catch {
       // Fallback silently if corrupt or unavailable
     }
-    return null;
+    // Provide default diagram when no saved diagram is present
+    return {
+      elements: DEFAULT_DIAGRAM_ELEMENTS,
+      appState: {
+        viewBackgroundColor: "transparent",
+        scrollToContent: true,
+      },
+    };
   });
 
   const apiRef = React.useRef<ExcalidrawImperativeAPI | null>(null);
@@ -73,7 +81,7 @@ export function ZeromindView() {
   );
 
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-background">
+    <main className="relative h-full w-full overflow-hidden bg-background">
       {/* Excalidraw Whiteboard Canvas */}
       <ZeromindCanvas
         theme={theme}

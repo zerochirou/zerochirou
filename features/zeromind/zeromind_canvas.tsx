@@ -57,7 +57,7 @@ export function ZeromindCanvas({
   return (
     <div
       data-slot="zeromind-canvas-container"
-      className="relative h-screen w-screen overflow-hidden bg-background"
+      className="relative h-full w-full overflow-hidden bg-background"
     >
       <Excalidraw
         excalidrawAPI={onApiReady}
