@@ -32,11 +32,14 @@ describe("Radio Store and Components", () => {
     expect(screen.getByText(/42 listening/i)).toBeInTheDocument();
   });
 
-  it("renders RadioControls with store data correctly", () => {
+  it("renders RadioControls with mobile-friendly controls and action triggers", () => {
     render(<RadioControls />);
 
     expect(screen.getByText("Lo-Fi Coding Beats")).toBeInTheDocument();
     expect(screen.getByText("Trebles and Blues")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /play music/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /open song history/i })).toBeInTheDocument();
+    expect(screen.getByRole("slider", { name: /volume slider/i })).toBeInTheDocument();
   });
 
   it("updates store state when actions are called", () => {

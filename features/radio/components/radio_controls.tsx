@@ -9,6 +9,7 @@ import {
   Maximize,
   Minimize,
   Loader2,
+  History,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRadioStore } from "../store/radio_store";
@@ -40,54 +41,67 @@ export function RadioControls() {
   };
 
   return (
-    <div className="relative border-b border-card/10 z-20 flex w-full flex-col justify-between border-t bg-card/40 px-4 py-3 sm:flex-row sm:items-center sm:px-6">
-      {/* Left Section: History Button & Current Track Info */}
-      <div className="flex min-w-0 flex-1 items-center gap-3.5">
-        {/* History Button (Icon as in reference screenshot) */}
+    <div className="relative z-20 flex w-full flex-col justify-between border-t border-b border-card/10 bg-card/40 px-3.5 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:px-6 sm:py-3 sm:pb-3">
+      {/* Left Section: Current Track Info & History */}
+      <div className="flex min-w-0 flex-1 items-center justify-between gap-3 sm:justify-start sm:gap-3.5">
+        <div className="flex min-w-0 items-center gap-3">
+          {/* History Button (Artwork thumbnail) */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setHistoryOpen(true)}
+            className="size-10 shrink-0 p-0 hover:bg-transparent"
+            aria-label="View Recently Played History"
+            title="Recently Played Song History (H)"
+          >
+            <Image
+              src={currentSong.art || "/assets/images/radio_bg.jpg"}
+              width={260}
+              height={260}
+              alt={currentSong.title || "Code Radio Track"}
+              unoptimized
+              className="size-10 rounded-sm border border-card object-cover grayscale-100 transition-opacity hover:opacity-80"
+            />
+          </Button>
+
+          {/* Track Title, Artist, & Live Equalizer Visualizer */}
+          <div className="flex min-w-0 flex-col">
+            <div className="flex items-center gap-2">
+              <p className="truncate text-xs font-semibold text-foreground sm:text-sm">
+                {currentSong.title || "Code Radio Stream"}
+              </p>
+
+              {/* Mini Equalizer Bar Animation when Playing */}
+              {isPlaying && !isBuffering ? (
+                <div className="flex h-3 shrink-0 items-end gap-[2px]">
+                  <span className="h-full w-[3px] rounded-full bg-primary animate-[bounce_0.8s_ease-in-out_infinite]" />
+                  <span className="h-2/3 w-[3px] rounded-full bg-primary animate-[bounce_0.6s_ease-in-out_0.2s_infinite]" />
+                  <span className="h-4/5 w-[3px] rounded-full bg-primary animate-[bounce_0.7s_ease-in-out_0.4s_infinite]" />
+                </div>
+              ) : null}
+            </div>
+
+            <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
+              {currentSong.artist || "24/7 music designed for coding"}
+            </p>
+          </div>
+        </div>
+
+        {/* Mobile Quick Song History Button */}
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setHistoryOpen(true)}
-          className=""
-          aria-label="View Recently Played History"
-          title="Recently Played Song History (H)"
+          className="size-8 shrink-0 text-muted-foreground hover:text-foreground sm:hidden"
+          aria-label="Open Song History"
+          title="Song History"
         >
-          {/* <RotateCcw className="size-5 stroke-[2.2]" /> */}
-        <Image
-          src={currentSong.art || "/assets/images/radio_bg.jpg"}
-          width={260}
-          height={260}
-          alt={currentSong.title || "Code Radio Track"}
-          unoptimized
-          className="h-10 w-10 border border-card rounded-sm object-cover grayscale-100"
-        />
+          <History className="size-4" />
         </Button>
-
-        {/* Track Title, Artist, & Live Equalizer Visualizer */}
-        <div className="flex min-w-0 flex-col">
-          <div className="flex items-center gap-2">
-            <p className="truncate text-xs font-semibold text-foreground sm:text-sm">
-              {currentSong.title || "Code Radio Stream"}
-            </p>
-
-            {/* Mini Equalizer Bar Animation when Playing */}
-            {isPlaying && !isBuffering ? (
-              <div className="flex items-end gap-[2px] h-3">
-                <span className="w-[3px] h-full bg-primary animate-[bounce_0.8s_ease-in-out_infinite] rounded-full" />
-                <span className="w-[3px] h-2/3 bg-primary animate-[bounce_0.6s_ease-in-out_0.2s_infinite] rounded-full" />
-                <span className="w-[3px] h-4/5 bg-primary animate-[bounce_0.7s_ease-in-out_0.4s_infinite] rounded-full" />
-              </div>
-            ) : null}
-          </div>
-
-          <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
-            {currentSong.artist || "24/7 music designed for coding"}
-          </p>
-        </div>
       </div>
 
       {/* Right Section: Play/Pause, Volume Slider, Fullscreen */}
-      <div className="mt-3 flex items-center justify-between gap-4 sm:mt-0 sm:justify-end">
+      <div className="mt-2.5 flex items-center justify-between gap-3 sm:mt-0 sm:justify-end sm:gap-4">
         {/* Play / Pause Main Trigger */}
         <Button
           onClick={togglePlay}
@@ -106,18 +120,18 @@ export function RadioControls() {
         </Button>
 
         {/* Volume Controls with WakeSlider */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex min-w-0 flex-1 items-center gap-2 sm:flex-initial sm:gap-2.5">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleMute}
-            className="size-8 text-foreground/80 hover:text-foreground"
+            className="size-8 shrink-0 text-foreground/80 hover:text-foreground"
             aria-label={isMuted ? "Unmute sound" : "Mute sound"}
           >
             {renderVolumeIcon()}
           </Button>
 
-          <div className="w-20 sm:w-28">
+          <div className="w-full min-w-0 max-w-full sm:w-28 sm:flex-none">
             <WakeSlider
               value={Math.round(effectiveVolume * 100)}
               defaultValue={Math.round(effectiveVolume * 100)}

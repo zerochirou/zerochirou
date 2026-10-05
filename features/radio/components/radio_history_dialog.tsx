@@ -27,20 +27,20 @@ export function RadioHistoryDialog() {
 
   return (
     <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
-      <DialogContent className="max-h-[85vh] max-w-lg overflow-y-auto border border-card/10 bg-background/95 backdrop-blur-xl">
+      <DialogContent className="max-h-[85vh] max-w-lg overflow-y-auto border border-card/10 bg-background/95 p-4 backdrop-blur-xl sm:p-6">
         <DialogHeader>
           <div className="flex items-center gap-2">
             <History className="size-5 text-primary" />
             <DialogTitle>Song History</DialogTitle>
           </div>
-          <DialogDescription>
+          <DialogDescription className="text-xs sm:text-sm">
             Recently played songs on the Code Radio live stream.
           </DialogDescription>
         </DialogHeader>
 
         {currentSong ? (
           <Card className="mt-2 overflow-hidden border-border/40 bg-card/60">
-            <CardHeader className="">
+            <CardHeader className="p-0">
               <div className="relative flex justify-center">
                 <Image
                   src={currentSong.art || "/assets/images/radio_bg.jpg"}
@@ -48,17 +48,17 @@ export function RadioHistoryDialog() {
                   height={260}
                   alt={currentSong.title || "Code Radio Track"}
                   unoptimized
-                  className="h-44 w-full rounded-xl object-cover grayscale-100"
+                  className="h-32 w-full rounded-xl object-cover grayscale-100 sm:h-44"
                 />
               </div>
             </CardHeader>
-            <CardContent className="p-4 pt-3">
+            <CardContent className="p-3.5 pt-2.5 sm:p-4 sm:pt-3">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <span className="text-[10px] font-semibold tracking-wider text-primary uppercase">
                     Now Playing
                   </span>
-                  <CardTitle className="truncate text-lg font-semibold">
+                  <CardTitle className="truncate text-base font-semibold sm:text-lg">
                     {currentSong.title}
                   </CardTitle>
                   <CardDescription className="truncate text-xs text-muted-foreground mt-0.5">
@@ -87,6 +87,7 @@ export function RadioHistoryDialog() {
               {songHistory.map((song, idx) => (
                 <Card
                   key={`${song.title}-${song.playedAt || idx}`}
+                  size="sm"
                   className=""
                 >
                   <CardContent className="flex items-center justify-between gap-3">
