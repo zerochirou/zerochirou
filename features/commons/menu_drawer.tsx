@@ -33,6 +33,11 @@ const DEFAULT_MENU_ITEMS: MenuItem[] = [
     ariaLabel: "Code Radio - 24/7 Music Designed for Coding",
     link: "/radio",
   },
+  {
+    label: "ZEROMIND",
+    ariaLabel: "Zeromind - Interactive Architecture Whiteboard",
+    link: "/zeromind",
+  },
   { label: "HUMAN", ariaLabel: "90% Human Hands, 10% AI.", link: "/human" },
   { label: "ABOUT", ariaLabel: "Learn about me", link: "#about" },
   { label: "STACK", ariaLabel: "View tech stack", link: "#stack" },
