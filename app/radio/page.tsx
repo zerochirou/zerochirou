@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { RadioPlayer } from "@/features/radio/components/radio_player";
-import { Navbar } from "@/features/commons/navbar";
 import { MinimalFooter } from "@/features/commons/footer";
 
 export const metadata: Metadata = {
