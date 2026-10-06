@@ -34,6 +34,16 @@ const data = [
     width: 120,
   },
   {
+    id: "rayna",
+    title: "Rayna",
+    description: "Mathematical Love (for research)",
+    stars: 142648,
+    logoUrl: "/favicon.ico",
+    isOngoing: true,
+    height: 80,
+    width: 80,
+  },
+  {
     id: "devinion",
     title: "Devinion",
     description:

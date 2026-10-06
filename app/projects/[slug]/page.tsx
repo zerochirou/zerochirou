@@ -19,68 +19,114 @@ interface ProjectPageProps {
   }>;
 }
 
-// Custom components to pass to MDXRemote for typography styling
-const mdxComponents = {
-  h1: (props: React.ComponentProps<"h1">) => (
+export const mdxComponents = {
+  h1: ({ className, ...props }: React.ComponentProps<"h1">) => (
     <h1
-      className="mt-8 font-newsreader mb-4 text-4xl tracking-tight text-foreground"
-      {...props}
-    />
-  ),
-  h2: (props: React.ComponentProps<"h2">) => (
-    <h2
-      className="mt-8 mb-4 font-newsreader text-2xl font-semibold tracking-tight text-foreground border-b border-border/10 pb-2"
-      {...props}
-    />
-  ),
-  p: (props: React.ComponentProps<"p">) => (
-    <p
-      className="leading-7 text-muted-foreground not-first:mt-6"
-      {...props}
-    />
-  ),
-  a: (props: React.ComponentProps<"a">) => (
-    <a
-      className="font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
-      {...props}
-    />
-  ),
-  ul: (props: React.ComponentProps<"ul">) => (
-    <ul
-      className="my-6 ml-6 list-disc [&>li]:mt-2 text-muted-foreground"
-      {...props}
-    />
-  ),
-  code: (props: React.ComponentProps<"code">) => (
-    <code
-      className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm text-foreground"
-      {...props}
-    />
-  ),
-  table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
-    <div className="my-6 w-full overflow-y-auto">
-      <table className={cn("w-full", className)} {...props} />
-    </div>
-  ),
-  tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
-    <tr
-      className={cn("m-0 border-t p-0 even:bg-muted", className)}
-      {...props}
-    />
-  ),
-  th: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-    <th
       className={cn(
-        "border px-4 py-2 text-left font-bold [[align=center]]:text-center [[align=right]]:text-right",
+        "mt-8 mb-4 font-newsreader text-4xl tracking-tight text-foreground",
         className,
       )}
       {...props}
     />
   ),
-  td: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
+  h2: ({ className, ...props }: React.ComponentProps<"h2">) => (
+    <h2
+      className={cn(
+        "mt-8 mb-4 border-b border-border/10 pb-2 font-newsreader text-2xl tracking-tight text-foreground",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  p: ({ className, ...props }: React.ComponentProps<"p">) => (
+    <p
+      className={cn(
+        "leading-7 text-muted-foreground not-first:mt-6",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  a: ({ className, href, ...props }: React.ComponentProps<"a">) => {
+    const isExternal = href?.startsWith("http");
+    return (
+      <a
+        href={href}
+        className={cn(
+          "font-medium text-primary underline underline-offset-4 transition-colors hover:text-primary/80",
+          className,
+        )}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noopener noreferrer" : undefined}
+        {...props}
+      />
+    );
+  },
+  ul: ({ className, ...props }: React.ComponentProps<"ul">) => (
+    <ul
+      className={cn(
+        "my-6 ml-6 list-disc text-muted-foreground [&>li]:mt-2",
+        className,
+      )}
+      {...props}
+    />
+  ),
+
+  // 1. Komponen PRE untuk membungkus blok kode (Code Block)
+  pre: ({ className, ...props }: React.ComponentProps<"pre">) => (
+    <pre
+      className={cn(
+        "relative my-6 max-h-[650px] overflow-x-auto rounded-lg border border-border/40 bg-muted/50 p-4 font-mono text-sm leading-relaxed text-foreground",
+        // CSS Reset: hilangkan styling inline code jika berada di dalam tag pre
+        "[&>code]:border-0 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit [&>code]:text-xs md:[&>code]:text-sm",
+        className,
+      )}
+      {...props}
+    />
+  ),
+
+  // 2. Komponen CODE khusus untuk teks kode sebaris (Inline Code)
+  code: ({ className, ...props }: React.ComponentProps<"code">) => (
+    <code
+      className={cn(
+        "relative rounded-md border border-border/50 bg-muted px-[0.35rem] py-[0.15rem] font-mono text-[0.875em] font-normal text-foreground",
+        className,
+      )}
+      {...props}
+    />
+  ),
+
+  // 3. Perbaikan pembungkus tabel: overflow-x-auto
+  table: ({ className, ...props }: React.ComponentProps<"table">) => (
+    <div className="my-6 w-full overflow-x-auto">
+      <table
+        className={cn("w-full border-collapse text-sm", className)}
+        {...props}
+      />
+    </div>
+  ),
+  tr: ({ className, ...props }: React.ComponentProps<"tr">) => (
+    <tr
+      className={cn(
+        "m-0 border-t border-border/40 p-0 transition-colors even:bg-muted/30 hover:bg-muted/50",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  th: ({ className, ...props }: React.ComponentProps<"th">) => (
+    <th
+      className={cn(
+        "border border-border/40 px-4 py-2 text-left font-semibold text-foreground [[align=center]]:text-center [[align=right]]:text-right",
+        className,
+      )}
+      {...props}
+    />
+  ),
+  td: ({ className, ...props }: React.ComponentProps<"td">) => (
     <td
       className={cn(
-        "border px-4 py-2 text-left [[align=center]]:text-center [[align=right]]:text-right",
+        "border border-border/40 px-4 py-2 text-left text-muted-foreground [[align=center]]:text-center [[align=right]]:text-right",
         className,
       )}
       {...props}
@@ -148,7 +194,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <DiaTextReveal
               once
               text={project.frontmatter.title}
-              className="text-4xl font-newsreader sm:text-5xl font-semibold tracking-tight text-foreground mb-8"
+              className="text-4xl font-newsreader sm:text-5xl tracking-tight text-foreground mb-8"
             />
             <div>
               <TypingAnimation
@@ -176,7 +222,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </time>
               <div className="flex gap-2 flex-wrap">
                 {project.frontmatter.techStack.map((tech) => (
-                  <Badge key={tech} variant="secondary" className="font-normal">
+                  <Badge key={tech} variant="default" className="font-normal">
                     {tech}
                   </Badge>
                 ))}
