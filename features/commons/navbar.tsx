@@ -30,7 +30,6 @@ const links = [
   { href: "/human", label: "Human" },
   { href: "/radio", label: "Radio" },
   { href: "/zeromind", label: "Zeromind" },
-  { href: "/love", label: "Love" },
   { href: "#about", label: "About" },
   { href: "#stack", label: "Stack" },
   { href: "#projects", label: "Projects" },
