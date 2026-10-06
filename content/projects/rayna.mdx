@@ -1,0 +1,106 @@
+---
+title: "Rayna"
+description: "Proyek Machine Learning & NLP berbahasa Indonesia untuk mengekstraksi percakapan pasangan dari chat untuk menganalisis persentase cinta."
+date: "2026-10-6"
+logoUrl: "/favicon.ico"
+height: 80
+width: 80
+techStack: ["Pytorch", "Datasets", "Python", "Transformer"]
+---
+
+Proyek Machine Learning & NLP berbahasa Indonesia untuk mengekstraksi percakapan pasangan dari tangkapan layar WhatsApp dan menganalisis persentase cinta (**Love Rate %**) serta tingkat keyakinan (**Confidence %**) menggunakan **Pretrained Transformer IndoBERT**.
+
+---
+
+## Fitur Utama
+
+1. **OCR Dataset Pipeline**:
+   - Mengekstrak dataset screenshot chat WhatsApp menggunakan Apple Vision Framework.
+   - Deteksi pembicara berdasarkan warna bubble (Green Bubble = User/Speaker B) dan pembersihan noise otomatis (timestamp, watermark TikTok, centang pesan).
+   - Menghasilkan dataset format CSV, JSONL (Multi-Turn ChatML), TXT corpus, dan visualisasi bounding box.
+
+2. **Pembersihan & Normalisasi Teks untuk NLP**:
+   - Ekspansi kamus gaul/slang chat WhatsApp (`ayg` -> `sayang`, `bgt` -> `banget`, `gw` -> `aku`).
+   - Normalisasi perpanjangan huruf berulang (`kangeeeennn` -> `kangen`).
+   - Konversi representasi emosional ke kata semantik bahasa Indonesia.
+
+3. **Model Prediksi Love Rate Pasangan**:
+   - Arsitektur: `indobenchmark/indobert-base-p1` dengan dual-pooling (CLS token + Mean Pooling).
+   - Output: **Love Rate (0-100%)**, **Confidence (0-100%)**, dan **Kategori Dinamika Hubungan**:
+     - Bucin / Sangat Romantis (>= 80%)
+     - Manis & Penuh Perhatian (65% - 80%)
+     - Santai & Candaan Akrab (45% - 65%)
+     - Dingin / Kurang Antusias (25% - 45%)
+     - Konflik / Kesal / Jengkel (< 25%)
+
+4. **Model Export & Low-Latency Deployment (ONNX)**:
+   - Model diekspor ke format **ONNX** (`models/export/love_predictor.onnx`).
+   - Dilengkapi runtime tokenizer mandiri di `models/export/tokenizer/` untuk inferensi berlatensi rendah tanpa dependensi berat PyTorch.
+
+---
+
+## Panduan Penggunaan
+
+### 1. Eksekusi CLI
+
+```bash
+# Prediksi 1 kalimat
+uv run python main.py --predict "kangen banget sayang"
+
+# Prediksi alur percakapan beberapa giliran
+uv run python main.py --dialogue "kamu siang kosong ga" "kemana yuk" "dia sekangen itu ya sama aku"
+
+# Mode interaktif
+uv run python main.py --interactive
+```
+
+### 2. Inferensi Menggunakan Python
+
+```python
+from src.love_predictor.onnx_predictor import ONNXLovePredictor
+
+predictor = ONNXLovePredictor()
+hasil = predictor.analyze_single_text("kangen banget ayang")
+print(f"Love Rate : {hasil['love_rate']}% | Status: {hasil['vibe']}")
+```
+
+### 3. Eksplorasi Notebook
+
+Eksplorasi modul dan eksperimen terorganisir di folder `notebooks/`:
+
+- `notebooks/model_training.ipynb`: Arsitektur model, fine-tuning, dan evaluasi head Transformer.
+- `notebooks/ocr_exploration.ipynb`: Ekstraksi OCR gambar WhatsApp dan pembentukan dataset.
+- `notebooks/pipeline_demo.ipynb`: Demo pipeline lengkap end-to-end.
+
+---
+
+## Struktur Proyek Standard
+
+```
+├── data/
+│   ├── raw/                      # Tangkapan layar WhatsApp mentah
+│   └── processed/                # Dataset hasil ekstraksi OCR (CSV, JSONL, TXT)
+├── models/
+│   ├── indobert_base_p1/         # Pretrained model base IndoBERT lokal
+│   ├── love_indobert_weights.pt  # Checkpoint bobot PyTorch
+│   └── export/                   # Model ONNX hasil ekspor + standalone tokenizer
+├── src/
+│   ├── love_predictor/           # Modul pemodelan Transformer & inferensi
+│   │   ├── __init__.py
+│   │   ├── predictor.py          # Definisi model & pipeline PyTorch
+│   │   ├── text_cleaner.py       # Pembersihan & normalisasi slang chat
+│   │   └── onnx_predictor.py     # Runtime engine ONNX
+│   └── ocr/                      # Modul OCR & clustering dialog
+│       ├── __init__.py
+│       └── pipeline.py           # Pipeline Vision OCR & grouping pesan
+├── notebooks/                    # Notebook eksperimen & analisis data
+│   ├── model_training.ipynb
+│   ├── ocr_exploration.ipynb
+│   └── pipeline_demo.ipynb
+├── tests/                        # Automated unit tests
+│   └── test_text_cleaner.py
+├── main.py                       # CLI entrypoint
+├── export_model.py               # Skrip ekspor ONNX
+├── pyproject.toml                # Konfigurasi dependensi project
+└── README.md
+```
