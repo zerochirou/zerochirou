@@ -38,11 +38,6 @@ const DEFAULT_MENU_ITEMS: MenuItem[] = [
     ariaLabel: "Zeromind - Interactive Architecture Whiteboard",
     link: "/zeromind",
   },
-  {
-    label: "LOVE",
-    ariaLabel: "Love Rate Predictor — IndoBERT NLP",
-    link: "/love",
-  },
   { label: "HUMAN", ariaLabel: "90% Human Hands, 10% AI.", link: "/human" },
   { label: "ABOUT", ariaLabel: "Learn about me", link: "#about" },
   { label: "STACK", ariaLabel: "View tech stack", link: "#stack" },
