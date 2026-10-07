@@ -11,6 +11,16 @@ import { MagicCard } from "@/components/ui/magic-card";
 
 const data = [
   {
+    id: "rayna",
+    title: "Rayna",
+    description: "Mathematical Love (for research)",
+    stars: 142648,
+    logoUrl: "/assets/icons/rayna.png",
+    isOngoing: true,
+    height: 130,
+    width: 130,
+  },
+  {
     id: "clickfor",
     title: "Clickfor",
     description: "Changing the way food is ordered.",
@@ -32,16 +42,6 @@ const data = [
     isOngoing: true,
     height: 120,
     width: 120,
-  },
-  {
-    id: "rayna",
-    title: "Rayna",
-    description: "Mathematical Love (for research)",
-    stars: 142648,
-    logoUrl: "/favicon.ico",
-    isOngoing: true,
-    height: 80,
-    width: 80,
   },
   {
     id: "devinion",
@@ -155,14 +155,14 @@ export function ProjectsSection() {
                     </span>
                   </Link>
 
-                  <CardHeader className="flex justify-center h-32 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
+                  <CardHeader className="flex mt-6 justify-center h-16 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
                     <div className="relative flex items-center justify-center">
                       <Image
                         src={project.logoUrl}
                         alt={`${project.title} - ${project.description}`}
                         width={project.width}
                         height={project.height}
-                        className="max-h-full group-hover:rotate-3 group-hover:opacity-100 max-w-full object-contain grayscale-100 opacity-20 hover:opacity-100 hover:grayscale-0 transition-all ease-in-out duration-300"
+                        className="max-h-full group-hover:rotate-3 group-hover:opacity-100 max-w-full object-contain opacity-20 hover:opacity-100 transition-all grayscale-100 hover:grayscale-0 ease-in-out duration-300"
                       />
                     </div>
                   </CardHeader>

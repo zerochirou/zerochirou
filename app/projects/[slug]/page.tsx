@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
@@ -17,6 +18,36 @@ interface ProjectPageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
+
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+
+  const iconUrl = project.frontmatter.logoUrl || "/favicon.ico";
+
+  return {
+    title: project.frontmatter.title,
+    description: project.frontmatter.description,
+    icons: {
+      icon: [{ url: iconUrl }],
+      apple: [{ url: iconUrl }],
+    },
+    openGraph: {
+      title: `${project.frontmatter.title} | Zerochirou`,
+      description: project.frontmatter.description,
+      type: "article",
+      images: iconUrl ? [{ url: iconUrl, alt: project.frontmatter.title }] : undefined,
+    },
+  };
 }
 
 export const mdxComponents = {
@@ -174,7 +205,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </div>
 
       {/* 2. LAYER NAVBAR (Melayang transparan di atas halaman) */}
-      <Navbar />
+      <Navbar
+        logoSrc={project.frontmatter.logoUrl || "/favicon.ico"}
+        subtitle={project.frontmatter.title}
+      />
 
       {/* 3. LAYER KONTEN UTAMA */}
       <article className="relative z-10 mb-20 container max-w-3xl mx-auto pt-40 px-4 sm:px-6">

@@ -22,6 +22,7 @@ interface NavbarProps {
   subtitle?: string;
   menuItems?: MenuItem[];
   className?: string;
+  logoSrc?: string;
 }
 
 const links = [
@@ -35,7 +36,12 @@ const links = [
   { href: "#projects", label: "Projects" },
 ];
 
-export function Navbar({ subtitle = "Portofolio", menuItems, className }: NavbarProps) {
+export function Navbar({
+  subtitle = "Portofolio",
+  menuItems,
+  className,
+  logoSrc = "/favicon.ico",
+}: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -65,11 +71,11 @@ export function Navbar({ subtitle = "Portofolio", menuItems, className }: Navbar
           aria-label="Zerochirou Homepage"
         >
           <Image
-            src="/favicon.ico"
+            src={logoSrc}
             alt="Zerochirou Logo"
             width={28}
             height={28}
-            className="rounded"
+            className="rounded object-contain"
           />
           <Separator className="rotate-12 bg-white" orientation="vertical" />
           <span className="text-lg sm:text-xl font-bold tracking-tight">
