@@ -107,7 +107,7 @@ export const mdxComponents = {
   pre: ({ className, ...props }: React.ComponentProps<"pre">) => (
     <pre
       className={cn(
-        "relative my-6 max-h-[650px] overflow-x-auto rounded-lg border border-border/40 bg-muted/50 p-4 font-mono text-sm leading-relaxed text-foreground",
+        "relative my-6 max-h-162.5 overflow-x-auto rounded-lg border border-border/40 bg-muted/50 p-4 font-mono text-sm leading-relaxed text-foreground",
         // CSS Reset: hilangkan styling inline code jika berada di dalam tag pre
         "[&>code]:border-0 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit [&>code]:text-xs md:[&>code]:text-sm",
         className,

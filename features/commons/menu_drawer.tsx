@@ -127,7 +127,7 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link
               href="https://github.com/zerochirou"
-              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-[32px]"
+              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-8"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
@@ -142,7 +142,7 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
             </Link>
             <Link
               href="https://www.reddit.com/user/zerochirou/"
-              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-[32px]"
+              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-8"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
@@ -157,7 +157,7 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
             </Link>
             <Link
               href="https://www.threads.net/zerochirou"
-              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-[32px]"
+              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-8"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
