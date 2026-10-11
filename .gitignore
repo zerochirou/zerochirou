@@ -45,3 +45,5 @@ public/models/
 *.onnx
 *.onnx.data
 
+.open-next
+.wrangler

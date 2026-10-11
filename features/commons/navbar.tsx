@@ -27,7 +27,7 @@ interface NavbarProps {
 
 const links = [
   { href: "https://blog.zerochirou.com", label: "Blog" },
-  { href: "/course", label: "Learn Journey" },
+  // { href: "/course", label: "Learn Journey" },
   { href: "/human", label: "Human" },
   { href: "/radio", label: "Radio" },
   { href: "/zeromind", label: "Zeromind" },

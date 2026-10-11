@@ -28,11 +28,11 @@ const DEFAULT_MENU_ITEMS: MenuItem[] = [
     ariaLabel: "Read my blog",
     link: "https://blog.zerochirou.com",
   },
-  {
-    label: "LEARN JOURNEY",
-    ariaLabel: "Read my course journey",
-    link: "/course",
-  },
+  // {
+  //   label: "LEARN JOURNEY",
+  //   ariaLabel: "Read my course journey",
+  //   link: "/course",
+  // },
   {
     label: "RADIO",
     ariaLabel: "Code Radio - 24/7 Music Designed for Coding",

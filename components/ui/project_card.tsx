@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { ProjectFrontmatter } from "@/lib/mdx";
+import type { ProjectFrontmatter } from "@/lib/mdx";
 
 interface ProjectCardProps {
   slug: string;
