@@ -26,14 +26,11 @@ interface NavbarProps {
 }
 
 const links = [
-  { href: "/", label: "Home" },
   { href: "https://blog.zerochirou.com", label: "Blog" },
+  { href: "/course", label: "Learn Journey" },
   { href: "/human", label: "Human" },
   { href: "/radio", label: "Radio" },
   { href: "/zeromind", label: "Zeromind" },
-  { href: "#about", label: "About" },
-  { href: "#stack", label: "Stack" },
-  { href: "#projects", label: "Projects" },
 ];
 
 export function Navbar({
