@@ -82,6 +82,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
           size="sm"
           className="text-xs text-muted-foreground hover:text-foreground gap-1.5 p-0"
           render={<Link href="/course" />}
+          nativeButton={false}
         >
           <ArrowLeft className="size-4" />
           <span>Kembali ke Katalog Kursus</span>
@@ -137,9 +138,8 @@ export default async function CoursePage({ params }: CoursePageProps) {
                     variant={"default"}
                     size={"sm"}
                     className="text-xs rounded-xl gap-1.5"
-                    render={
-                      <Link href={`/course/${slug}/${chapter.slug}`} />
-                    }
+                    render={<Link href={`/course/${slug}/${chapter.slug}`} />}
+                    nativeButton={false}
                   >
                     <span>Start</span>
                     <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />

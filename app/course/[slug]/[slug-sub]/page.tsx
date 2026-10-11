@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -207,6 +206,7 @@ print("Hasil simulasi:", round(val, 2))`,
           size="sm"
           className="text-xs text-muted-foreground hover:text-foreground gap-1.5 p-0"
           render={<Link href={`/course/${slug}`} />}
+          nativeButton={false}
         >
           <ArrowLeft className="size-4" />
           <span>Kembali ke {courseTitle}</span>
@@ -347,6 +347,7 @@ print("Hasil simulasi:", round(val, 2))`,
             size="sm"
             className="text-xs rounded-xl border-border/40 gap-1.5"
             render={<Link href={`/course/${slug}`} />}
+            nativeButton={false}
           >
             <ArrowLeft className="size-3.5" />
             <span>Daftar Bab</span>
@@ -358,6 +359,7 @@ print("Hasil simulasi:", round(val, 2))`,
               size="sm"
               className="text-xs rounded-xl gap-1.5"
               render={<Link href={`/course/${slug}/${subData.nextSlug}`} />}
+              nativeButton={false}
             >
               <span>Lanjut: {subData.nextTitle}</span>
               <ArrowRight className="size-3.5" />
@@ -368,6 +370,7 @@ print("Hasil simulasi:", round(val, 2))`,
               size="sm"
               className="text-xs rounded-xl gap-1.5"
               render={<Link href={`/course/${slug}`} />}
+              nativeButton={false}
             >
               <span>Selesai Bab</span>
               <CheckCircle2 className="size-3.5" />

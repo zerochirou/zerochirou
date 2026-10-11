@@ -48,7 +48,7 @@ export function CourseCard({
       data-slot="course-card"
       className={cn(
         className,
-        "hover:bg-card bg-background transition-all ease-in-out border border-secondary h-full",
+        "hover:bg-card/50 bg-background transition-all ease-in-out border border-secondary h-full",
       )}
     >
       <CardHeader className="h-full">

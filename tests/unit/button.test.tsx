@@ -13,4 +13,16 @@ describe("Button component", () => {
     const btn = screen.getByRole("button", { name: "Outline" });
     expect(btn.className).toContain("border-border");
   });
+
+  it("renders non-button link element without error", () => {
+    render(
+      <Button render={<a href="/test" />}>
+        Link Button
+      </Button>
+    );
+    const link = screen.getByRole("button", { name: "Link Button" });
+    expect(link).toBeDefined();
+    expect(link.tagName).toBe("A");
+    expect(link.getAttribute("href")).toBe("/test");
+  });
 });
