@@ -8,10 +8,10 @@ describe("Navbar component", () => {
 
     expect(screen.getByLabelText("Zerochirou Homepage")).toBeDefined();
     expect(screen.getByText("Portfolio")).toBeDefined();
-    expect(screen.getByText("Home")).toBeDefined();
-    expect(screen.getByText("About")).toBeDefined();
-    expect(screen.getByText("Stack")).toBeDefined();
-    expect(screen.getByText("Projects")).toBeDefined();
+    expect(screen.getByText("Blog")).toBeDefined();
+    expect(screen.getByText("Human")).toBeDefined();
+    expect(screen.getByText("Radio")).toBeDefined();
+    expect(screen.getByText("Zeromind")).toBeDefined();
   });
 
   it("renders with custom subtitle", () => {

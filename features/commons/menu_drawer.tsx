@@ -28,6 +28,11 @@ const DEFAULT_MENU_ITEMS: MenuItem[] = [
     ariaLabel: "Read my blog",
     link: "https://blog.zerochirou.com",
   },
+  // {
+  //   label: "LEARN JOURNEY",
+  //   ariaLabel: "Read my course journey",
+  //   link: "/course",
+  // },
   {
     label: "RADIO",
     ariaLabel: "Code Radio - 24/7 Music Designed for Coding",
@@ -39,9 +44,6 @@ const DEFAULT_MENU_ITEMS: MenuItem[] = [
     link: "/zeromind",
   },
   { label: "HUMAN", ariaLabel: "90% Human Hands, 10% AI.", link: "/human" },
-  { label: "ABOUT", ariaLabel: "Learn about me", link: "#about" },
-  { label: "STACK", ariaLabel: "View tech stack", link: "#stack" },
-  { label: "PROJECTS", ariaLabel: "View projects", link: "#projects" },
 ];
 
 interface MenuDrawerProps {

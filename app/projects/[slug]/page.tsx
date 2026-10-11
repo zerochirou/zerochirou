@@ -165,6 +165,8 @@ export const mdxComponents = {
   ),
 };
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const projects = await getAllProjects();
   return projects.map((project) => ({
