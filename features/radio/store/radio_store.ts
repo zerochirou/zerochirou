@@ -3,13 +3,14 @@
 import { useSyncExternalStore } from "react";
 import type { RadioStore, RadioState, SongInfo, RadioMetadataResult } from "../types";
 import {
-  CODE_RADIO_STREAM_URL,
   DEFAULT_SONG,
   DEFAULT_WALLPAPER_ID,
+  STATIONS,
   VOLUME_STORAGE_KEY,
   WALLPAPER_STORAGE_KEY,
   WALLPAPERS,
 } from "../constants";
+
 import { audioService } from "../services/audio_service";
 
 type Listener = () => void;
@@ -107,7 +108,27 @@ class RadioStoreInstance {
   // --- Actions ---
 
   public setStationId = (stationId: string): void => {
+    const station = STATIONS.find((s) => s.id === stationId);
+    if (!station) return;
     this.setState({ currentStationId: stationId });
+
+    if (this.state.isPlaying) {
+      audioService.setSource(station.streamUrl, true);
+    }
+
+    if (station.id === "apollo_archive") {
+      this.setCurrentSong({
+        title: "One Small Step",
+        artist: "Neil Armstrong & NASA",
+        album: "Apollo 11 Flight Audio",
+      });
+    } else if (station.id !== "coderadio") {
+      this.setCurrentSong({
+        title: station.name,
+        artist: station.genre,
+        album: station.description,
+      });
+    }
   };
 
   public setIsPlaying = (isPlaying: boolean): void => {
@@ -143,10 +164,13 @@ class RadioStoreInstance {
     if (this.state.isPlaying) {
       audioService.pause();
     } else {
-      audioService.setSource(CODE_RADIO_STREAM_URL);
+      const activeStation =
+        STATIONS.find((s) => s.id === this.state.currentStationId) ?? STATIONS[0];
+      audioService.setSource(activeStation.streamUrl);
       audioService.play();
     }
   };
+
 
   public toggleFullscreen = (): void => {
     if (typeof document === "undefined") return;

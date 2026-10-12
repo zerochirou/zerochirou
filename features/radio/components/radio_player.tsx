@@ -20,7 +20,7 @@ export function RadioPlayer() {
   useRadioShortcuts();
 
   return (
-    <main className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-background font-sans text-foreground">
+    <main className="relative flex min-h-[100dvh] w-full flex-col overflow-x-clip bg-background font-sans text-foreground">
       {/* Top Header Bar */}
       <RadioHeader />
 
