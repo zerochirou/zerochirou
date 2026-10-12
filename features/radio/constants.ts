@@ -9,12 +9,34 @@ export const CODE_RADIO_API_ENDPOINT =
 export const STATIONS: RadioStation[] = [
   {
     id: "coderadio",
-    name: "freeCodeCamp Code Radio",
-    description: "24/7 music designed for coding and concentration",
+    name: "Code Radio 24/7",
+    description: "24/7 Lo-Fi and instrumental music for coding and deep focus",
     streamUrl: CODE_RADIO_STREAM_URL,
+    frequency: "88.5 FM",
+    callSign: "CODE-FM",
+    genre: "Lo-Fi Beats",
     apiEndpoint: CODE_RADIO_API_ENDPOINT,
   },
+  {
+    id: "synthwave",
+    name: "Synthwave Nightdrive",
+    description: "Atmospheric retro synth, synthwave, and electronic neon vibes",
+    streamUrl: "https://streams.ilovemusic.de/iloveradio2.mp3",
+    frequency: "94.2 FM",
+    callSign: "SYNTH-FM",
+    genre: "Synthwave",
+  },
+  {
+    id: "chillhop",
+    name: "Chillhop Cafe",
+    description: "Cozy jazz hop, coffee beats, and ambient study acoustics",
+    streamUrl: "https://streams.ilovemusic.de/iloveradio17.mp3",
+    frequency: "101.5 FM",
+    callSign: "CHILL-FM",
+    genre: "Chillhop",
+  },
 ];
+
 
 export const WALLPAPERS: RadioWallpaper[] = [
   {

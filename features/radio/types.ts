@@ -13,6 +13,9 @@ export interface RadioStation {
   name: string;
   description: string;
   streamUrl: string;
+  frequency: string;
+  callSign: string;
+  genre: string;
   apiEndpoint?: string;
 }
 
