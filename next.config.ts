@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
+initOpenNextCloudflareForDev();
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ["wrangler", "@opennextjs/cloudflare"],
   poweredByHeader: false,
   compress: true,
   allowedDevOrigins: ["spam-ready-saint-fish.trycloudflare.com"],

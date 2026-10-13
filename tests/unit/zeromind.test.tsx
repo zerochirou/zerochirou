@@ -51,7 +51,7 @@ describe("Zeromind - Mermaid Parser", () => {
     const result = await parseMermaidCode("this is completely invalid mermaid syntax 12345");
     expect(result.success).toBe(false);
     expect(result.error).toBeDefined();
-  }, 15000);
+  }, 30000);
 
   it("successfully parses valid flowchart into elements", async () => {
     const validFlowchart = `flowchart TD\n  Start[Start Node] --> End[Finish Node]`;

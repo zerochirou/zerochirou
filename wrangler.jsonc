@@ -1,16 +1,25 @@
 {
-    "$schema": "./node_modules/wrangler/config-schema.json",
-    "name": "zerochirou",
-    "main": ".open-next/worker.js",
-    "compatibility_date": "2026-10-11",
-    "compatibility_flags": [
-        "nodejs_compat"
-    ],
-    "assets": {
-        "directory": ".open-next/assets",
-        "binding": "ASSETS"
-    },
-    "observability": {
-        "enabled": true
-    }
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "zerochirou",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2026-10-11",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "zerochirou_db",
+			"database_name": "zerochirou-db",
+			"database_id": "b0b805f8-5d90-4cf8-a3d3-5b482a652578",
+			"migrations_dir": "drizzle",
+			"remote": true
+		}
+	]
 }
