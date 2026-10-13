@@ -23,10 +23,16 @@ export interface MenuItem {
 
 const DEFAULT_MENU_ITEMS: MenuItem[] = [
   { label: "HOME", ariaLabel: "Go to home page", link: "/" },
+  // {
+  //   label: "BLOG",
+  //   ariaLabel: "Read my blog",
+  //   link: "https://blog.zerochirou.com",
+  // },
   {
-    label: "BLOG",
-    ariaLabel: "Read my blog",
-    link: "https://blog.zerochirou.com",
+    label: "CURHAT",
+    ariaLabel:
+      "Sharing personal problems, deep emotions, secrets, or life struggles with a close friend, family member, or partner",
+    link: "/send",
   },
   // {
   //   label: "LEARN JOURNEY",

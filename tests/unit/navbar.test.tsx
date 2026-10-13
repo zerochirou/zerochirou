@@ -8,7 +8,7 @@ describe("Navbar component", () => {
 
     expect(screen.getByLabelText("Zerochirou Homepage")).toBeDefined();
     expect(screen.getByText("Portfolio")).toBeDefined();
-    expect(screen.getByText("Blog")).toBeDefined();
+    expect(screen.getByText("Curhat")).toBeDefined();
     expect(screen.getByText("Human")).toBeDefined();
     expect(screen.getByText("Radio")).toBeDefined();
     expect(screen.getByText("Zeromind")).toBeDefined();

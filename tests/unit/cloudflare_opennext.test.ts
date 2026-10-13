@@ -22,6 +22,15 @@ describe("Cloudflare OpenNext Compatibility", () => {
         directory: ".open-next/assets",
         binding: "ASSETS",
       });
+      expect(config.d1_databases).toEqual([
+        {
+          binding: "zerochirou_db",
+          database_name: "zerochirou-db",
+          database_id: "b0b805f8-5d90-4cf8-a3d3-5b482a652578",
+          migrations_dir: "drizzle",
+          remote: true,
+        },
+      ]);
     });
   });
 
