@@ -10,8 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/features/commons/navbar";
 import { MinimalFooter } from "@/features/commons/footer";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
-import { TypingAnimation } from "@/components/ui/typing-animation";
-import LightRays from "@/components/ui/LightRays";
+import { TypingAnimation } from "@/components/ui/typing_animation";
+import LightRays from "@/components/ui/light_rays";
 import { cn } from "@/lib/utils";
 
 interface ProjectPageProps {
@@ -103,12 +103,10 @@ export const mdxComponents = {
     />
   ),
 
-  // 1. Komponen PRE untuk membungkus blok kode (Code Block)
   pre: ({ className, ...props }: React.ComponentProps<"pre">) => (
     <pre
       className={cn(
         "relative my-6 max-h-162.5 overflow-x-auto rounded-lg border border-border/40 bg-muted/50 p-4 font-mono text-sm leading-relaxed text-foreground",
-        // CSS Reset: hilangkan styling inline code jika berada di dalam tag pre
         "[&>code]:border-0 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit [&>code]:text-xs md:[&>code]:text-sm",
         className,
       )}
@@ -116,7 +114,6 @@ export const mdxComponents = {
     />
   ),
 
-  // 2. Komponen CODE khusus untuk teks kode sebaris (Inline Code)
   code: ({ className, ...props }: React.ComponentProps<"code">) => (
     <code
       className={cn(
@@ -127,7 +124,6 @@ export const mdxComponents = {
     />
   ),
 
-  // 3. Perbaikan pembungkus tabel: overflow-x-auto
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
     <div className="my-6 w-full overflow-x-auto">
       <table
@@ -184,7 +180,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="relative min-h-screen">
-      {/* 1. LAYER BACKGROUND (Tepat di belakang segalanya) */}
       <div
         aria-hidden="true"
         className="fixed inset-0 -z-10 pointer-events-none overflow-hidden"
@@ -206,13 +201,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         />
       </div>
 
-      {/* 2. LAYER NAVBAR (Melayang transparan di atas halaman) */}
       <Navbar
         logoSrc={project.frontmatter.logoUrl || "/favicon.ico"}
         subtitle={project.frontmatter.title}
       />
 
-      {/* 3. LAYER KONTEN UTAMA */}
       <article className="relative z-10 mb-20 container max-w-3xl mx-auto pt-40 px-4 sm:px-6">
         <div>
           <header className="mb-12">

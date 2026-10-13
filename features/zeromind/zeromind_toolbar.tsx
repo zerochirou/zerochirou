@@ -12,7 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuLabel,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown_menu";
 import {
   ArrowLeftIcon,
   Code2Icon,

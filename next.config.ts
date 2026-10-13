@@ -1,8 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  poweredByHeader: false,
+  compress: true,
   allowedDevOrigins: ["spam-ready-saint-fish.trycloudflare.com"],
+  experimental: {
+    optimizePackageImports: ["lucide-react", "motion", "@hugeicons/react"],
+  },
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "warn"] }
+        : false,
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

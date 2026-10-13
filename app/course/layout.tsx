@@ -1,4 +1,4 @@
-import LightRays from "@/components/ui/LightRays";
+import LightRays from "@/components/ui/light_rays";
 import { MinimalFooter } from "@/features/commons/footer";
 import { Navbar } from "@/features/commons/navbar";
 import { ReactNode } from "react";
