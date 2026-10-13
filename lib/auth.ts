@@ -80,6 +80,19 @@ export const auth = betterAuth({
     process.env.BETTER_AUTH_SECRET ||
     "zerochirou-portfolio-auth-secret-change-in-production-min-32-chars",
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  trustedOrigins: [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+    "https://zerochirou.com",
+    "https://*.trycloudflare.com",
+    "https://*.pages.dev",
+    "https://*.workers.dev",
+    ...(process.env.BETTER_AUTH_TRUSTED_ORIGINS
+      ? process.env.BETTER_AUTH_TRUSTED_ORIGINS.split(",").map((s) => s.trim())
+      : []),
+  ],
   database: createAuthAdapter(getDb),
   emailAndPassword: {
     enabled: true,
