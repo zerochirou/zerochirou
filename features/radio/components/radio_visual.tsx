@@ -10,7 +10,6 @@ import { useRadioStore } from "../store/radio_store";
 import { STATIONS, WALLPAPERS } from "../constants";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 
 function VuMeter({ isPlaying }: { isPlaying: boolean }) {
   const bars = [40, 65, 85, 55, 90, 45, 95, 75];
@@ -175,7 +174,7 @@ export function RadioVisual() {
                       "flex flex-col items-start rounded-lg px-2.5 py-1.5 text-left transition-all",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       isActive
-                        ? "border border-white-400/40 bg-white/15 text-white-200 shadow-sm"
+                        ? "border border-white/40 bg-white/15 text-white shadow-sm"
                         : "border border-card bg-card/80 text-muted-foreground hover:bg-card hover:text-foreground",
                     )}
                   >

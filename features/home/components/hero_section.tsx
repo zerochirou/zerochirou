@@ -1,5 +1,3 @@
-"use client";
-
 import { DitherBackground } from "./dither_background";
 import { HeroIntro } from "./hero_intro";
 
@@ -14,10 +12,8 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <div id="hero" className="relative w-full min-h-screen bg-black/5 overflow-hidden flex items-center justify-center">
-      {/* 1. LAYER DITHER */}
       <DitherBackground />
 
-      {/* 2. LAYER KONTEN */}
       <div className="relative flex-col z-10 px-4 pt-16 sm:pt-0 pointer-events-none flex items-center justify-center min-h-screen w-full">
         <HeroIntro heading={heading} nameText={nameText} />
       </div>

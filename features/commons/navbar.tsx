@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown_menu";
 import { Home, PanelsTopLeft } from "lucide-react";
 
 interface NavbarProps {
@@ -27,7 +27,6 @@ interface NavbarProps {
 
 const links = [
   { href: "https://blog.zerochirou.com", label: "Blog" },
-  // { href: "/course", label: "Learn Journey" },
   { href: "/human", label: "Human" },
   { href: "/radio", label: "Radio" },
   { href: "/zeromind", label: "Zeromind" },
@@ -74,7 +73,7 @@ export function Navbar({
             height={28}
             className="rounded object-contain"
           />
-          <Separator className="rotate-12 bg-white" orientation="vertical" />
+          <Separator className="rotate-12 bg-border" orientation="vertical" />
           <span className="text-lg sm:text-xl font-bold tracking-tight">
             {subtitle}
           </span>
@@ -105,8 +104,6 @@ export function Navbar({
                 <DropdownMenuGroup>
                   <DropdownMenuLabel>My Github</DropdownMenuLabel>
                   <DropdownMenuItem className="flex items-center flex-col justify-center gap-2">
-                    {/* <Home /> */}
-                    {/* Github Profile */}
                     <Image
                       src="https://github.com/zerochirou.png"
                       alt="Foto profil GitHub zerochirou"

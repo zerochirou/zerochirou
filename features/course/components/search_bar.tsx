@@ -7,7 +7,7 @@ import {
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@/components/ui/input-group";
+} from "@/components/ui/input_group";
 import { Button } from "@/components/ui/button";
 
 export interface SearchBarProps {

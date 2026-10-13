@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,11 @@ import {
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 import { TextAnimate } from "@/components/ui/text_animate";
 import { ArrowLeft, ArrowRight, MoveUpRight } from "lucide-react";
+import {
+  COURSES_DATA,
+  COURSE_CHAPTERS,
+  formatSlugToTitle,
+} from "@/features/course/constants";
 
 interface CoursePageProps {
   params: Promise<{
@@ -19,60 +25,29 @@ interface CoursePageProps {
   }>;
 }
 
-const chapters = [
-  {
-    id: 1,
-    slug: "besaran-dan-pengukuran",
-    title: "Besaran dan Pengukuran",
-    description:
-      "Mempelajari konsep dimensi fisik, satuan internasional (SI), serta analisis ketidakpastian dalam eksperimen pengukuran.",
-  },
-  {
-    id: 2,
-    slug: "vektor-dan-kinematika",
-    title: "Vektor & Kinematika Partikel",
-    description:
-      "Dekomposisi vektor dalam ruang Cartesian, gerak lurus berubah beraturan (GLBB), dan trajektori gerak parabola.",
-  },
-  {
-    id: 3,
-    slug: "dinamika-hukum-newton",
-    title: "Dinamika Gerak & Hukum Newton",
-    description:
-      "Hukum Newton I, II, dan III, analisis diagram benda bebas, gaya gesek, dan gerak melingkar beraturan.",
-  },
-  {
-    id: 4,
-    slug: "usaha-dan-energi",
-    title: "Usaha, Energi, & Kekekalan",
-    description:
-      "Prinsip kerja mekanis, energi potensial konservatif, dan hukum kekekalan energi mekanik.",
-  },
-  {
-    id: 5,
-    slug: "momentum-dan-tumbukan",
-    title: "Momentum Linier & Tumbukan",
-    description:
-      "Impuls partikel, kekekalan momentum linier, dan analisis tumbukan elastis maupun tak elastis.",
-  },
-  {
-    id: 6,
-    slug: "gerak-rotasi",
-    title: "Dinamika Rotasi & Momen Inersia",
-    description:
-      "Torsi, momen inersia benda tegar, momentum sudut, dan analogi gerak rotasi dengan translasi.",
-  },
-  {
-    id: 7,
-    slug: "termodinamika-dasar",
-    title: "Hukum Termodinamika",
-    description:
-      "Suhu, kalor, kapasitas termal, siklus gas ideal, dan pengantar entropi sistem fisik.",
-  },
-];
+export async function generateMetadata({
+  params,
+}: CoursePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const course = COURSES_DATA.find((c) => c.id === slug);
+  const title = course ? course.title : formatSlugToTitle(slug);
+
+  return {
+    title: `${title} | Self Course`,
+    description: course?.description || `Pustaka modul pembelajaran ${title}.`,
+  };
+}
+
+export function generateStaticParams() {
+  return COURSES_DATA.map((course) => ({
+    slug: course.id,
+  }));
+}
 
 export default async function CoursePage({ params }: CoursePageProps) {
   const { slug } = await params;
+  const course = COURSES_DATA.find((c) => c.id === slug);
+  const courseTitle = course ? course.title : formatSlugToTitle(slug);
 
   return (
     <div className="w-full">
@@ -92,7 +67,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
       <header className="flex items-center justify-center flex-col px-4 text-center">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight">
           <DiaTextReveal
-            text={"Fisika Mekanika & Termodinamika"}
+            text={courseTitle}
             colors={["#FFED29", "#0095fe"]}
           />
         </h1>
@@ -109,7 +84,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
       <section className="mx-auto max-w-4xl w-full mt-8 sm:mt-12 px-2 sm:px-0">
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 list-none p-0 m-0">
-          {chapters.map((chapter) => (
+          {COURSE_CHAPTERS.map((chapter) => (
             <li key={chapter.id}>
               <Card className="bg-background border border-border/50 group hover:border-border hover:bg-card/50 transition-all duration-200 h-full flex flex-col justify-between">
                 <div>

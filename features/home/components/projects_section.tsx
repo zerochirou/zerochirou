@@ -7,89 +7,8 @@ import { TextAnimate } from "@/components/ui/text_animate";
 import Image from "next/image";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { MagicCard } from "@/components/ui/magic-card";
-
-const data = [
-  {
-    id: "rayna",
-    title: "Rayna",
-    description: "Mathematical Love (for research)",
-    stars: 142648,
-    logoUrl: "/assets/icons/rayna.png",
-    isOngoing: true,
-    height: 130,
-    width: 130,
-  },
-  {
-    id: "clickfor",
-    title: "Clickfor",
-    description: "Changing the way food is ordered.",
-    githubRepo: "zerochirou/clickfor",
-    stars: 142648,
-    logoUrl: "/assets/icons/clickfor.png",
-    badge: "Startup",
-    isOngoing: true,
-    height: 120,
-    width: 120,
-  },
-  {
-    id: "hypergrid",
-    title: "Hypergrid",
-    description:
-      "An instrument for analyzing road infrastructure capabilities using big data and deep learning.",
-    stars: 142648,
-    logoUrl: "/assets/icons/hyperg.png",
-    isOngoing: true,
-    height: 120,
-    width: 120,
-  },
-  {
-    id: "devinion",
-    title: "Devinion",
-    description:
-      "Devinion provides a comprehensive software platform for developing, deploying, and controlling hardware systems.",
-    stars: 142648,
-    logoUrl: "/favicon.ico",
-    isOngoing: true,
-    height: 80,
-    width: 80,
-  },
-  {
-    id: "zensekit",
-    title: "Zensekit",
-    description:
-      "A SaaS development kit optimized for rapid and scalable development. Using a monorepo architecture.",
-    githubRepo: "zerochirou/zensekit",
-    stars: 142648,
-    logoUrl: "/favicon.ico",
-    isOngoing: false,
-    height: 80,
-    width: 80,
-    badge: "Framework",
-  },
-  {
-    id: "rhea",
-    title: "Rhea",
-    description: "Voice-based Mac assistant running locally on the machine.",
-    stars: 142648,
-    logoUrl: "/favicon.ico",
-    isOngoing: true,
-    height: 80,
-    width: 80,
-  },
-  {
-    id: "desnet",
-    title: "Desnet",
-    description:
-      "A decentralized peer-to-peer network protocol running on the desnet v1 engine without central servers.",
-    stars: 142648,
-    logoUrl: "/favicon.ico",
-    isOngoing: true,
-    height: 80,
-    width: 80,
-    badge: "Framework",
-  },
-];
+import { MagicCard } from "@/components/ui/magic_card";
+import { FEATURED_PROJECTS } from "../constants";
 
 export function ProjectsSection() {
   return (
@@ -123,16 +42,12 @@ export function ProjectsSection() {
       </div>
       <div className="mx-auto max-w-7xl w-full mt-10 sm:mt-16 md:mt-20 px-4 sm:px-6 lg:px-8">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {data.map((project, index) => (
+          {FEATURED_PROJECTS.map((project, index) => (
             <motion.div
               key={project.id}
-              // 2. Ubah dari sumbu x ke y agar card muncul mulus dari bawah
               initial={{ opacity: 0 }}
-              // 3. Ganti "animate" menjadi "whileInView"
               whileInView={{ opacity: 1 }}
-              // 4. Atur deteksi layar (animasi berjalan saat 20% card terlihat)
               viewport={{ once: true, amount: 0.2 }}
-              // 5. Gunakan index untuk memberikan jeda animasi berurutan antar card
               transition={{
                 duration: 0.5,
                 delay: ((index * 3) % 5) * 0.15,

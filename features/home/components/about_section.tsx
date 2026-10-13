@@ -8,16 +8,10 @@ import {
   TypingAnimation,
 } from "@/components/ui/terminal";
 import { useState } from "react";
-import {
-  Terminal as TerminalIcon,
-  Sparkles,
-  BookOpen,
-  Compass,
-  Languages,
-  Flame,
-} from "lucide-react";
+import { Terminal as TerminalIcon, Languages } from "lucide-react";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 import { TextAnimate } from "@/components/ui/text_animate";
+import { STORY_DATA } from "../constants";
 
 function TerminalAbout() {
   return (
@@ -66,91 +60,6 @@ function TerminalAbout() {
     </Terminal>
   );
 }
-
-interface TimelineEntry {
-  period: string;
-  badge: string;
-  title: string;
-  description: string;
-  icon: typeof Sparkles;
-}
-
-const STORY_DATA: Record<
-  "en" | "id",
-  {
-    heading: string;
-    subtitle: string;
-    timeline: TimelineEntry[];
-    closing: string;
-  }
-> = {
-  en: {
-    heading: "About Me",
-    subtitle:
-      "High school student, software builder, and systems explorer based in Indonesia.",
-    timeline: [
-      {
-        period: "Origins",
-        badge: "The Spark",
-        title: "Curiosity for Low-Level Systems",
-        description:
-          "Drawn into software engineering by curiosity about what happens under the hood. Inspired early on by the open-source ethos, tech pioneers, and computing architectures—learning how operating systems, network protocols, and compilers operate from first principles rather than just consuming high-level abstractions.",
-        icon: Flame,
-      },
-      {
-        period: "Present",
-        badge: "Education & Craft",
-        title: "High School & Applied Systems",
-        description:
-          "Currently a high school student balancing formal education with disciplined software engineering. Actively developing projects and ventures like Clickfor and Zensekit, while exploring deep learning, distributed architecture, and dependable systems craftsmanship.",
-        icon: Flame,
-      },
-      {
-        period: "Future",
-        badge: "Horizon",
-        title: "Independent Deep Tech Lab",
-        description:
-          "Working towards establishing an independent software engineering and deep-tech studio. The ambition is to research and build robust computational tools, decentralized infrastructure, and physical-digital integrations that address genuine real-world challenges.",
-        icon: Flame,
-      },
-    ],
-    closing:
-      "At the core, I value intentional engineering over fleeting trends—believing that great software is built with patience, solid architecture, and a genuine respect for the people who use it.",
-  },
-  id: {
-    heading: "Tentang Saya",
-    subtitle:
-      "Siswa SMA, software builder, dan penikmat rekayasa sistem di Indonesia.",
-    timeline: [
-      {
-        period: "Masa Lalu",
-        badge: "Awal Mula",
-        title: "Rasa Ingin Tahu Arsitektur Sistem",
-        description:
-          "Tertarik ke dunia rekayasa perangkat lunak berawal dari rasa penasaran mendalam terhadap cara kerja komputer di balik layar. Terinspirasi oleh ekosistem open-source, para founder teknologi, serta rekayasa sistem tingkat rendah—bukan sekadar memakai software, melainkan memahami bagaimana OS, protokol jaringan, dan compiler beroperasi dari dasarnya.",
-        icon: Sparkles,
-      },
-      {
-        period: "Saat Ini",
-        badge: "Pendidikan & Karya",
-        title: "Bangku Sekolah & Riset Terapan",
-        description:
-          "Saat ini menempuh pendidikan di bangku SMA, membagi waktu antara studi formal dan eksplorasi rekayasa perangkat lunak mandiri. Mengembangkan inisiatif dan venture seperti Clickfor serta Zensekit, sembari mendalami distributed systems dan deep learning dengan pendekatan craftsmanship yang terukur.",
-        icon: BookOpen,
-      },
-      {
-        period: "Masa Depan",
-        badge: "Langkah Depan",
-        title: "Studio Rekayasa & Deep Tech Lab",
-        description:
-          "Membangun lab rekayasa software mandiri yang berorientasi pada deep tech—menciptakan perkakas komputasi yang kokoh, transparan, dan berdaya guna untuk memecahkan masalah nyata di masyarakat.",
-        icon: Compass,
-      },
-    ],
-    closing:
-      "Pada intinya, saya memprioritaskan rekayasa terarah di atas tren sesaat—percaya bahwa perangkat lunak yang baik dibangun dengan ketekunan, arsitektur yang bersih, serta penghormatan mendalam bagi manusia yang menggunakannya.",
-  },
-};
 
 function About() {
   const [lang, setLang] = useState<"en" | "id">("en");
@@ -238,7 +147,6 @@ function About() {
                 />
               </div>
 
-              {/* Description */}
               <TextAnimate
                 key={`desc-${lang}-${idx}`}
                 delay={idx + 2}
@@ -254,7 +162,6 @@ function About() {
         })}
       </div>
 
-      {/* Closing paragraph */}
       <div className="mt-8 pt-4 border-t border-border/20">
         <TextAnimate
           key={`closing-${lang}`}
@@ -282,7 +189,6 @@ export function AboutSection() {
       <h2 className="sr-only">
         About Zerochirou - Programmer, Researcher, and Founder
       </h2>
-      {/* Layar 1: Tertahan di posisi atas berkat 'sticky top-0' */}
       <div className="sticky top-0 h-screen flex items-center justify-center flex-col w-full bg-background z-10 px-4 text-center overflow-hidden">
         <div className="w-full max-w-2xl px-2">
           <ScrollFloat
@@ -297,14 +203,11 @@ export function AboutSection() {
         </div>
       </div>
 
-      {/* Layar 2: Akan menutupi Layar 1 saat di-scroll ke bawah dan tertahan di top-0 */}
       <div className="sticky top-0 flex-col h-screen flex items-center justify-center w-full bg-background z-20 px-3 sm:px-6">
-        {/* Shadow memancar ke atas di luar container */}
         <div className="pointer-events-none absolute -top-40 sm:-top-64 left-0 right-0 h-65 sm:h-64 z-5 bg-linear-to-t from-background to-transparent" />
 
         {showAbout ? <About /> : <TerminalAbout />}
 
-        {/* View Switchers */}
         <div className="flex gap-2 mt-4 flex-row items-center">
           {showAbout && <Button
             className="h-10 px-4"

@@ -5,7 +5,7 @@ import {
   HumanHero,
   ManifestoContent,
 } from "@/features/human/components";
-import LightRays from "@/components/ui/LightRays";
+import LightRays from "@/components/ui/light_rays";
 
 export const metadata: Metadata = {
   title: "90% Human Hands, 10% AI: A Manifesto of Authentic Craft | Zerochirou",
@@ -161,8 +161,6 @@ export default function HumanPage() {
         <main className="overflow-x-clip min-h-screen mb-20">
           <HumanHero />
           <ManifestoContent />
-          {/* <CraftComparison /> */}
-          {/* <HumanSeal /> */}
         </main>
         <MinimalFooter />
       </div>
