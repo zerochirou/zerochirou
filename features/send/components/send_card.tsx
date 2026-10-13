@@ -23,6 +23,8 @@ export interface SendCardProps {
   isSuccess?: boolean;
   onReset?: () => void;
   recipientHandle?: string;
+  printDuration?: number;
+  processingDelayMs?: number;
 }
 
 export function SendCard({
@@ -31,6 +33,8 @@ export function SendCard({
   isSuccess = false,
   onReset,
   recipientHandle = "@zerochirou",
+  printDuration = 2.8,
+  processingDelayMs = 600,
 }: SendCardProps) {
   const [question, setQuestion] = useState("");
   const [promptIndex, setPromptIndex] = useState(0);
@@ -43,23 +47,32 @@ export function SendCard({
 
   const [prevIsSuccess, setPrevIsSuccess] = useState(isSuccess);
   const [printerStage, setPrinterStage] =
-    useState<ReceiptPrinterStage>("printing");
+    useState<ReceiptPrinterStage>("processing");
 
   if (isSuccess && !prevIsSuccess) {
     setPrevIsSuccess(true);
-    setPrinterStage("printing");
+    setPrinterStage("processing");
   } else if (!isSuccess && prevIsSuccess) {
     setPrevIsSuccess(false);
   }
 
   useEffect(() => {
-    if (isSuccess && printerStage === "printing") {
+    if (!isSuccess) return;
+
+    if (printerStage === "processing") {
       const timer = setTimeout(() => {
-        setPrinterStage("complete");
-      }, 1600);
+        setPrinterStage("printing");
+      }, processingDelayMs);
       return () => clearTimeout(timer);
     }
-  }, [isSuccess, printerStage]);
+
+    if (printerStage === "printing") {
+      const timer = setTimeout(() => {
+        setPrinterStage("complete");
+      }, Math.round(printDuration * 1000));
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess, printerStage, processingDelayMs, printDuration]);
 
   const [sliderWidth, setSliderWidth] = useState(320);
   const sliderContainerRef = useRef<HTMLDivElement>(null);
@@ -131,6 +144,7 @@ export function SendCard({
       >
         <ReceiptPrinter.Root
           stage={printerStage}
+          duration={printDuration}
           feedMotion="stepped"
           className="w-full"
         >
