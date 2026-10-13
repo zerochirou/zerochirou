@@ -19,6 +19,8 @@ export type ReceiptPrinterRootProps = Omit<
   feedMotion?: ReceiptFeedMotion;
   /** Current state of the printer. */
   stage: ReceiptPrinterStage;
+  /** Duration of the print feed animation in seconds. Default: 2.8 */
+  duration?: number;
 };
 
 export type ReceiptPrinterMachineProps = React.ComponentPropsWithoutRef<"div">;
@@ -40,6 +42,7 @@ type ReceiptPrinterContextValue = {
   feedMotion: ReceiptFeedMotion;
   shouldMove: boolean;
   stage: ReceiptPrinterStage;
+  duration: number;
 };
 
 const ReceiptPrinterContext = React.createContext<ReceiptPrinterContextValue | null>(
@@ -91,7 +94,7 @@ const printingKeyframeTimes = [
 ];
 
 const statusLabels: Record<ReceiptPrinterStage, React.ReactNode> = {
-  processing: "Memproses pesan...",
+  processing: "Menyiapkan transmisi & struk...",
   printing: "Mencetak bukti pengiriman...",
   complete: "Pesan Terkirim!",
 };
@@ -116,6 +119,7 @@ function ReceiptPrinterRoot({
   className,
   feedMotion = "stepped",
   stage,
+  duration = 2.8,
   ...props
 }: ReceiptPrinterRootProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -124,6 +128,7 @@ function ReceiptPrinterRoot({
     feedMotion,
     shouldMove: animate && !shouldReduceMotion,
     stage,
+    duration,
   };
 
   return (
@@ -325,7 +330,7 @@ function ReceiptPrinterOutput({
   className,
   ...props
 }: ReceiptPrinterOutputProps) {
-  const { animate, feedMotion, shouldMove, stage } = useReceiptPrinter(
+  const { animate, feedMotion, shouldMove, stage, duration } = useReceiptPrinter(
     "ReceiptPrinter.Output",
   );
   const isReceiptVisible = stage !== "processing";
@@ -365,7 +370,7 @@ function ReceiptPrinterOutput({
         transition={{
           opacity: { duration: animate ? 0.16 : 0, ease: easeOut },
           transform: {
-            duration: shouldMove ? 1.75 : 0,
+            duration: shouldMove ? duration : 0,
             ease: shouldUseSteppedFeed ? "linear" : easeInOut,
             times: shouldUseSteppedFeed ? printingKeyframeTimes : undefined,
           },
