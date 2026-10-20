@@ -42,17 +42,17 @@ export default async function SendPage() {
         <LightRays
           raysOrigin="top-center"
           raysColor="#ffffff"
-          raysSpeed={1}
+          raysSpeed={0.5}
           lightSpread={0.5}
           rayLength={3}
-          followMouse={true}
+          followMouse={false}
           mouseInfluence={0.5}
           noiseAmount={0}
           distortion={0}
           className="custom-rays"
           pulsating={false}
-          fadeDistance={1}
-          saturation={1}
+          fadeDistance={0.2}
+          saturation={0.2}
         />
       </div>
       <Navbar subtitle="Curhat" />

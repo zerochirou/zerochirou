@@ -194,9 +194,11 @@ export function AboutSection() {
           <ScrollFloat
             animationDuration={1}
             ease="back.inOut(2)"
-            scrollStart="center bottom+=50%"
+            textClassName=" text-4xl"
+            containerClassName=" text-4xl"
+            scrollStart="center bottom+=80%"
             scrollEnd="bottom bottom-=40%"
-            stagger={0.03}
+            stagger={0.1}
           >
             Not just a developer!
           </ScrollFloat>
@@ -209,14 +211,16 @@ export function AboutSection() {
         {showAbout ? <About /> : <TerminalAbout />}
 
         <div className="flex gap-2 mt-4 flex-row items-center">
-          {showAbout && <Button
-            className="h-10 px-4"
-            variant={!showAbout ? "default" : "outline"}
-            size="sm"
-            onClick={() => setShowAbout(false)}
-          >
-            <TerminalIcon className="size-4" /> Terminal View
-          </Button>}
+          {showAbout && (
+            <Button
+              className="h-10 px-4"
+              variant={!showAbout ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowAbout(false)}
+            >
+              <TerminalIcon className="size-4" /> Terminal View
+            </Button>
+          )}
           <Button
             className="h-10 px-4"
             variant={showAbout ? "default" : "outline"}
