@@ -5,9 +5,9 @@ import type {
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
 } from "@excalidraw/excalidraw/types";
-import { DEFAULT_DIAGRAM_ELEMENTS } from "./default_diagram";
+import { DEFAULT_DIAGRAM_ELEMENTS } from "../constants/default_diagram";
 import { ZeromindCanvas } from "./zeromind_canvas";
-import type { CanvasTheme } from "./types";
+import type { CanvasTheme } from "../types";
 
 const STORAGE_KEY = "zeromind_canvas_data_v1";
 

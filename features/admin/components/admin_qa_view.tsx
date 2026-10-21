@@ -44,7 +44,6 @@ export function AdminQaView({ initialQuestions }: AdminQaViewProps) {
     setQuestions(initialQuestions);
   }
 
-  // Dialog states
   const [replyTarget, setReplyTarget] = React.useState<AnonymousQuestion | null>(null);
   const [isReplyOpen, setIsReplyOpen] = React.useState(false);
 
@@ -53,7 +52,6 @@ export function AdminQaView({ initialQuestions }: AdminQaViewProps) {
   const [deleteReplyTarget, setDeleteReplyTarget] =
     React.useState<AnonymousQuestion | null>(null);
 
-  // Real statistics derived from questions data (no invented numbers)
   const stats = React.useMemo(() => {
     const total = questions.length;
     const answered = questions.filter((q) => Boolean(q.answer)).length;
@@ -63,10 +61,8 @@ export function AdminQaView({ initialQuestions }: AdminQaViewProps) {
     return { total, answered, unanswered, archived, totalLikes };
   }, [questions]);
 
-  // Filtered questions
   const filteredQuestions = React.useMemo(() => {
     return questions.filter((q) => {
-      // Tab matching
       if (activeTab === "unanswered") {
         if (q.answer || q.isArchived) return false;
       } else if (activeTab === "answered") {
@@ -75,7 +71,6 @@ export function AdminQaView({ initialQuestions }: AdminQaViewProps) {
         if (!q.isArchived) return false;
       }
 
-      // Search matching
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
         const matchesQuestion = q.question.toLowerCase().includes(query);

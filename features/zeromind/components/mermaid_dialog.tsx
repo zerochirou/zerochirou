@@ -15,8 +15,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
-import { MERMAID_PRESETS } from "./template_presets";
-import { parseMermaidCode } from "./mermaid_parser";
+import { MERMAID_PRESETS } from "../constants/template_presets";
+import { parseMermaidCode } from "../lib/mermaid_parser";
 import { Code2Icon, SparklesIcon, AlertCircleIcon, CopyCheckIcon } from "lucide-react";
 
 export interface MermaidDialogProps {

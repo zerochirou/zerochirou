@@ -30,6 +30,7 @@ const links = [
   { href: "/send", label: "Curhat" },
   { href: "/radio", label: "Radio" },
   { href: "/zeromind", label: "Zeromind" },
+  { href: "/tarot", label: "Tarot" },
 ];
 
 export function Navbar({

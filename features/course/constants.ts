@@ -1,42 +1,8 @@
-import type { CourseItem } from "./components/course_card";
+import type { CourseChapter, SubCourseDetail, CourseItem } from "./types";
+import { formatSlugToTitle } from "./lib/format_slug";
 
-export interface CourseChapter {
-  id: number;
-  slug: string;
-  title: string;
-  description: string;
-}
-
-export interface SubCourseDetail {
-  title: string;
-  readTime: string;
-  level: string;
-  intuition: string;
-  formula: {
-    label: string;
-    equation: string;
-    explanation: string;
-  };
-  keyTakeaways: string[];
-  code: {
-    fileName: string;
-    language: string;
-    snippet: string;
-  };
-  exercise: {
-    question: string;
-    hint: string;
-  };
-  nextSlug?: string;
-  nextTitle?: string;
-}
-
-export function formatSlugToTitle(slug: string): string {
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
+export type { CourseChapter, SubCourseDetail, CourseItem };
+export { formatSlugToTitle };
 
 export const COURSE_CATEGORIES: string[] = [
   "Semua",
