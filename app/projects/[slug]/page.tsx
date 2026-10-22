@@ -12,6 +12,7 @@ import { MinimalFooter } from "@/features/commons/footer";
 import { DiaTextReveal } from "@/components/ui/dia_text_reveal";
 import { TypingAnimation } from "@/components/ui/typing_animation";
 import LightRays from "@/components/ui/light_rays";
+import { MdxPre, MdxCode } from "@/components/ui/mdx_code_block";
 import { cn } from "@/lib/utils";
 
 interface ProjectPageProps {
@@ -103,26 +104,8 @@ export const mdxComponents = {
     />
   ),
 
-  pre: ({ className, ...props }: React.ComponentProps<"pre">) => (
-    <pre
-      className={cn(
-        "relative my-6 max-h-162.5 overflow-x-auto rounded-lg border border-border/40 bg-muted/50 p-4 font-mono text-sm leading-relaxed text-foreground",
-        "[&>code]:border-0 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit [&>code]:text-xs md:[&>code]:text-sm",
-        className,
-      )}
-      {...props}
-    />
-  ),
-
-  code: ({ className, ...props }: React.ComponentProps<"code">) => (
-    <code
-      className={cn(
-        "relative rounded-md border border-border/50 bg-muted px-[0.35rem] py-[0.15rem] font-mono text-[0.875em] font-normal text-foreground",
-        className,
-      )}
-      {...props}
-    />
-  ),
+  pre: MdxPre,
+  code: MdxCode,
 
   table: ({ className, ...props }: React.ComponentProps<"table">) => (
     <div className="my-6 w-full overflow-x-auto">

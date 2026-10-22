@@ -29,7 +29,6 @@ uniform float uGlowIntensity;
 uniform float uSaturation;
 uniform bool uMouseRepulsion;
 uniform float uTwinkleIntensity;
-uniform float uRotationSpeed;
 uniform float uRepulsionStrength;
 uniform float uMouseActiveFactor;
 uniform float uAutoCenterRepulsion;
@@ -69,14 +68,16 @@ vec3 hsv2rgb(vec3 c) {
   return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
 }
 
-float Star(vec2 uv, float flare) {
-  float d = length(uv);
+float Star(vec2 uv, float d, float flare) {
   float m = (0.05 * uGlowIntensity) / d;
-  float rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
-  m += rays * flare * uGlowIntensity;
-  uv *= MAT45;
-  rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
-  m += rays * 0.3 * flare * uGlowIntensity;
+  // Rays only contribute when flare > 0 (roughly 10% of stars).
+  if (flare > 0.0) {
+    float rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
+    m += rays * flare * uGlowIntensity;
+    uv *= MAT45;
+    rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
+    m += rays * 0.3 * flare * uGlowIntensity;
+  }
   m *= smoothstep(1.0, 0.2, d);
   return m;
 }
@@ -92,6 +93,15 @@ vec3 StarLayer(vec2 uv) {
       vec2 offset = vec2(float(x), float(y));
       vec2 si = id + vec2(float(x), float(y));
       float seed = Hash21(si);
+
+      vec2 pad = vec2(tris(seed * 34.0 + uTime * uSpeed / 10.0), tris(seed * 38.0 + uTime * uSpeed / 30.0)) - 0.5;
+      vec2 p = gv - offset - pad;
+
+      // Star() fades to exactly 0 at d >= 1, so skip those cells before any further work.
+      float d2 = dot(p, p);
+      if (d2 >= 1.0) continue;
+      float d = sqrt(d2);
+
       float size = fract(seed * 345.32);
       float glossLocal = tri(uStarSpeed / (PERIOD * seed + 1.0));
       float flareSize = smoothstep(0.9, 1.0, size) * glossLocal;
@@ -99,23 +109,25 @@ vec3 StarLayer(vec2 uv) {
       float red = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 1.0)) + STAR_COLOR_CUTOFF;
       float blu = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 3.0)) + STAR_COLOR_CUTOFF;
       float grn = min(red, blu) * seed;
-      vec3 base = vec3(red, grn, blu);
-      
-      float hue = atan(base.g - base.r, base.b - base.r) / (2.0 * 3.14159) + 0.5;
-      hue = fract(hue + uHueShift / 360.0);
-      float sat = length(base - vec3(dot(base, vec3(0.299, 0.587, 0.114)))) * uSaturation;
-      float val = max(max(base.r, base.g), base.b);
-      base = hsv2rgb(vec3(hue, sat, val));
+      vec3 color;
+      if (uSaturation > 0.0) {
+        vec3 base = vec3(red, grn, blu);
+        float hue = atan(base.g - base.r, base.b - base.r) / (2.0 * 3.14159) + 0.5;
+        hue = fract(hue + uHueShift / 360.0);
+        float sat = length(base - vec3(dot(base, vec3(0.299, 0.587, 0.114)))) * uSaturation;
+        float val = max(max(base.r, base.g), base.b);
+        color = hsv2rgb(vec3(hue, sat, val));
+      } else {
+        // Zero saturation collapses hsv2rgb to a grey of value max(r, g, b); skip the hue math.
+        color = vec3(max(max(red, grn), blu));
+      }
 
-      vec2 pad = vec2(tris(seed * 34.0 + uTime * uSpeed / 10.0), tris(seed * 38.0 + uTime * uSpeed / 30.0)) - 0.5;
-
-      float star = Star(gv - offset - pad, flareSize);
-      vec3 color = base;
+      float star = Star(p, d, flareSize);
 
       float twinkle = trisn(uTime * uSpeed + seed * 6.2831) * 0.5 + 1.0;
       twinkle = mix(1.0, twinkle, uTwinkleIntensity);
       star *= twinkle;
-      
+
       col += star * size * color;
     }
   }
@@ -144,10 +156,7 @@ void main() {
     uv += mouseOffset;
   }
 
-  float autoRotAngle = uTime * uRotationSpeed;
-  mat2 autoRot = mat2(cos(autoRotAngle), -sin(autoRotAngle), sin(autoRotAngle), cos(autoRotAngle));
-  uv = autoRot * uv;
-
+  // uRotation already includes the auto-rotation (combined on the CPU once per frame).
   uv = mat2(uRotation.x, -uRotation.y, uRotation.y, uRotation.x) * uv;
 
   vec3 col = vec3(0.0);
@@ -156,6 +165,7 @@ void main() {
     float depth = fract(i + uStarSpeed * uSpeed);
     float scale = mix(20.0 * uDensity, 0.5 * uDensity, depth);
     float fade = depth * smoothstep(1.0, 0.9, depth);
+    if (fade < 0.002) continue;
     col += StarLayer(uv * scale + i * 453.32) * fade;
   }
 
@@ -193,6 +203,10 @@ interface GalaxyProps {
   autoCenterRepulsion?: number;
   transparent?: boolean;
   lightMode?: boolean;
+  /** Internal render resolution relative to CSS pixels (0.25 - 1). Adapts downward when frames are slow. */
+  resolutionScale?: number;
+  /** Frame rate cap. The animation is time-based so a lower cap does not slow motion. */
+  maxFps?: number;
 }
 
 const DEFAULT_FOCAL: [number, number] = [0.5, 0.5];
@@ -216,6 +230,8 @@ export default function Galaxy({
   autoCenterRepulsion = 0,
   transparent = true,
   lightMode = false,
+  resolutionScale = 0.75,
+  maxFps = 30,
   ...rest
 }: GalaxyProps) {
   const ctnDom = useRef<HTMLDivElement>(null);
@@ -227,9 +243,22 @@ export default function Galaxy({
   useEffect(() => {
     if (!ctnDom.current) return;
     const ctn = ctnDom.current;
+
+    const reducedMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const animated = !disableAnimation && !reducedMotion;
+
+    const MIN_SCALE = 0.4;
+    let scale = Math.min(1, Math.max(0.25, resolutionScale));
+    const minScale = Math.min(scale, MIN_SCALE);
+
     const renderer = new Renderer({
       alpha: transparent,
-      premultipliedAlpha: false
+      premultipliedAlpha: false,
+      depth: false,
+      stencil: false,
+      dpr: Math.min(window.devicePixelRatio || 1, 1) * scale
     });
     const gl = renderer.gl;
 
@@ -265,7 +294,6 @@ export default function Galaxy({
         uSaturation: { value: saturation },
         uMouseRepulsion: { value: mouseRepulsion },
         uTwinkleIntensity: { value: twinkleIntensity },
-        uRotationSpeed: { value: rotationSpeed },
         uRepulsionStrength: { value: repulsionStrength },
         uMouseActiveFactor: { value: 0.0 },
         uAutoCenterRepulsion: { value: autoCenterRepulsion },
@@ -273,33 +301,49 @@ export default function Galaxy({
         uLightMode: { value: lightMode ? 1 : 0 }
       }
     });
-
-    function resize() {
-      const scale = 1;
-      renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
-      program.uniforms.uResolution.value = new Color(
-        gl.canvas.width,
-        gl.canvas.height,
-        gl.canvas.width / gl.canvas.height
-      );
-    }
-    window.addEventListener('resize', resize, false);
-    resize();
-
     const mesh = new Mesh(gl, { geometry, program });
-    let animateId: number;
 
-    function update(t: number) {
-      animateId = requestAnimationFrame(update);
-      if (!disableAnimation) {
-        program.uniforms.uTime.value = t * 0.001;
-        program.uniforms.uStarSpeed.value = (t * 0.001 * starSpeed) / 10.0;
+    const resolution = program.uniforms.uResolution.value as Color;
+    function resize() {
+      const width = ctn.offsetWidth;
+      const height = ctn.offsetHeight;
+      if (width === 0 || height === 0) return;
+      renderer.dpr = Math.min(window.devicePixelRatio || 1, 1) * scale;
+      renderer.setSize(width, height);
+      resolution.set(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height);
+    }
+
+    // Combine auto-rotation and static rotation into a single (cos, sin) pair on the CPU.
+    const baseCos = rotation[0];
+    const baseSin = rotation[1];
+    const rotationUniform = program.uniforms.uRotation.value as Float32Array;
+    function updateRotation(seconds: number) {
+      const angle = seconds * rotationSpeed;
+      const c = Math.cos(angle);
+      const s = Math.sin(angle);
+      rotationUniform[0] = c * baseCos - s * baseSin;
+      rotationUniform[1] = s * baseCos + c * baseSin;
+    }
+    updateRotation(0);
+
+    const frameInterval = 1000 / Math.max(1, maxFps);
+    let animateId = 0;
+    let running = false;
+    let lastRender = 0;
+    let slowSamples = 0;
+    let slowTotal = 0;
+
+    function renderFrame(t: number) {
+      if (animated) {
+        const seconds = t * 0.001;
+        program.uniforms.uTime.value = seconds;
+        program.uniforms.uStarSpeed.value = (seconds * starSpeed) / 10.0;
+        updateRotation(seconds);
       }
 
       const lerpFactor = 0.05;
       smoothMousePos.current.x += (targetMousePos.current.x - smoothMousePos.current.x) * lerpFactor;
       smoothMousePos.current.y += (targetMousePos.current.y - smoothMousePos.current.y) * lerpFactor;
-
       smoothMouseActive.current += (targetMouseActive.current - smoothMouseActive.current) * lerpFactor;
 
       program.uniforms.uMouse.value[0] = smoothMousePos.current.x;
@@ -308,8 +352,70 @@ export default function Galaxy({
 
       renderer.render({ scene: mesh });
     }
-    animateId = requestAnimationFrame(update);
+
+    function adaptResolution(delta: number) {
+      slowTotal += delta;
+      slowSamples += 1;
+      if (slowSamples < 20) return;
+      const average = slowTotal / slowSamples;
+      slowTotal = 0;
+      slowSamples = 0;
+      // Failing to hit the frame cap means the GPU is the bottleneck: drop resolution.
+      if (average > frameInterval * 1.35 && scale > minScale) {
+        scale = Math.max(minScale, scale - 0.1);
+        resize();
+      }
+    }
+
+    function update(t: number) {
+      animateId = requestAnimationFrame(update);
+      const delta = t - lastRender;
+      if (delta < frameInterval - 1) return;
+      if (lastRender !== 0 && delta < 250) adaptResolution(delta);
+      lastRender = t;
+      renderFrame(t);
+    }
+
+    function start() {
+      if (running || !animated) return;
+      running = true;
+      lastRender = 0;
+      slowSamples = 0;
+      slowTotal = 0;
+      animateId = requestAnimationFrame(update);
+    }
+
+    function stop() {
+      running = false;
+      cancelAnimationFrame(animateId);
+    }
+
+    let inView = true;
+    function syncRunning() {
+      if (inView && !document.hidden) start();
+      else stop();
+    }
+
     ctn.appendChild(gl.canvas);
+    resize();
+    renderFrame(performance.now());
+    if (animated) syncRunning();
+
+    const resizeObserver = new ResizeObserver(() => {
+      resize();
+      if (!running) renderFrame(performance.now());
+    });
+    resizeObserver.observe(ctn);
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        syncRunning();
+      },
+      { threshold: 0 }
+    );
+    intersectionObserver.observe(ctn);
+    document.addEventListener('visibilitychange', syncRunning);
 
     function handleMouseMove(e: MouseEvent) {
       const rect = ctn.getBoundingClientRect();
@@ -329,8 +435,10 @@ export default function Galaxy({
     }
 
     return () => {
-      cancelAnimationFrame(animateId);
-      window.removeEventListener('resize', resize);
+      stop();
+      resizeObserver.disconnect();
+      intersectionObserver.disconnect();
+      document.removeEventListener('visibilitychange', syncRunning);
       if (mouseInteraction) {
         ctn.removeEventListener('mousemove', handleMouseMove);
         ctn.removeEventListener('mouseleave', handleMouseLeave);
@@ -338,6 +446,8 @@ export default function Galaxy({
       if (gl.canvas.parentNode === ctn) {
         ctn.removeChild(gl.canvas);
       }
+      geometry.remove();
+      program.remove();
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [
@@ -357,7 +467,9 @@ export default function Galaxy({
     repulsionStrength,
     autoCenterRepulsion,
     transparent,
-    lightMode
+    lightMode,
+    resolutionScale,
+    maxFps
   ]);
 
   return <div ref={ctnDom} className="w-full h-full relative" {...rest} />;

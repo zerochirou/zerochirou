@@ -11,8 +11,8 @@ export default async function Home() {
   return (
     <>
       <Navbar />
-      <main className="overflow-x-clip">
-        <HeroSection nameText="Zerochirou." heading="Hi, introduction" />
+      <main className="overflow-x-clip font-clash-grotesk">
+        <HeroSection showAscii={true} />
         <AboutSection />
         <StackSection />
         <ProjectsSection />

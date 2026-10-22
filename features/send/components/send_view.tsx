@@ -84,13 +84,12 @@ export function SendView({
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
     } catch {
-      // Fallback
+      // Ignore clipboard permission errors
     }
   };
 
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col gap-6 px-4 py-8 sm:py-12">
-      {/* Page Header */}
       <header className="flex flex-col items-center gap-2 text-center">
         <h2 className="text-5xl font-newsreader sm:text-5xl md:text-6xl lg:text-7xl flex flex-wrap items-center justify-center gap-x-2 sm:gap-x-4 gap-y-2 tracking-tight font-normal">
           <span className="sr-only">Tanya Anonim</span>
@@ -136,7 +135,6 @@ export function SendView({
         </div>
       </header>
 
-      {/* Navigation Tabs */}
       <nav
         aria-label="Navigasi Q&A"
         className="flex w-full rounded-2xl bg-muted/30 p-1"
@@ -167,7 +165,6 @@ export function SendView({
         </button>
       </nav>
 
-      {/* Main Content Stage */}
       <main className="w-full">
         {activeTab === "send" ? (
           <SendCard

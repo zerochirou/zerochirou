@@ -1,4 +1,4 @@
-import type { MermaidPreset } from "./types";
+import type { MermaidPreset } from "../types";
 
 export const MERMAID_PRESETS: MermaidPreset[] = [
   {

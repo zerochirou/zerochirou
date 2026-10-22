@@ -6,15 +6,14 @@ import { MenuDrawer, type MenuItem } from "./menu_drawer";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown_menu";
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+} from "@/components/ui/navigation_menu";
 import { Home, PanelsTopLeft } from "lucide-react";
 
 interface NavbarProps {
@@ -31,6 +30,7 @@ const links = [
   { href: "/send", label: "Curhat" },
   { href: "/radio", label: "Radio" },
   { href: "/zeromind", label: "Zeromind" },
+  { href: "/tarot", label: "Tarot" },
 ];
 
 export function Navbar({
@@ -54,14 +54,22 @@ export function Navbar({
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300 -mb-18.25",
-        scrolled
-          ? "backdrop-blur-md bg-background/60 border-b border-border/10 shadow-sm"
-          : "bg-transparent border-b border-transparent",
+        "-mb-18.25 pointer-events-none sticky top-0 z-50 flex w-full justify-center transition-all duration-300",
         className,
       )}
     >
-      <nav className="mx-auto flex w-full max-w-4xl items-center justify-between px-4 py-3 sm:p-4 pointer-events-auto">
+      <nav
+        data-scrolled={scrolled}
+        className={cn(
+          "pointer-events-auto relative flex w-fit max-w-[calc(100vw-2rem)] items-center gap-3 sm:gap-6",
+          "rounded-b-2xl sm:rounded-b-3xl border-b border-x border-border/40",
+          "bg-background backdrop-blur-xl shadow-2xs shadow-black/20",
+          "py-1.5 sm:py-2 pr-2 pl-3.5 sm:pl-4.5",
+          "transition-all duration-300 ease-out",
+          scrolled &&
+            "bg-background/95  border-b-card/50 border-x-card/50 border shadow-xl shadow-black/20",
+        )}
+      >
         <Link
           href="/"
           className="font-semibold flex items-center gap-2 justify-center group"
@@ -70,67 +78,92 @@ export function Navbar({
           <Image
             src={logoSrc}
             alt="Zerochirou Logo"
-            width={28}
-            height={28}
+            width={24}
+            height={24}
             className="rounded object-contain"
+            unoptimized
           />
-          <Separator className="rotate-12 bg-border" orientation="vertical" />
-          <span className="text-lg sm:text-xl font-bold tracking-tight">
+          <Separator className="rotate-12 bg-white/50" orientation="vertical" />
+          <span className="text-base sm:text-lg font-bold tracking-tight">
             {subtitle}
           </span>
         </Link>
-        <div className="hidden md:flex">
-          <ul className="flex items-center gap-6">
-            {links.map((item, index) => (
-              <Link
-                key={index}
-                className="text-sm font-medium py-1"
-                href={item.href}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={<Button variant="ghost" size={"icon-lg"} />}
-              >
-                <Image
-                  src={"/assets/icons/github.svg"}
-                  width={25}
-                  height={25}
-                  alt="Github Link"
-                />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-background border-card border">
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel>My Github</DropdownMenuLabel>
-                  <DropdownMenuItem className="flex items-center flex-col justify-center gap-2">
-                    <Image
-                      src="https://github.com/zerochirou.png"
-                      alt="Foto profil GitHub zerochirou"
-                      width={40}
-                      height={40}
-                      className="rounded-full object-cover border border-border"
-                      priority={false}
-                    />
-                    <h1 className="text-md font-semibold">zerochirou</h1>
-                  </DropdownMenuItem>
-                  <Link href={"https://github.com/zerochirou"}>
-                    <DropdownMenuItem>
-                      <Home />
-                      Github Profile
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link href={"https://github.com/zerochirou/zerochirou"}>
-                    <DropdownMenuItem>
-                      <PanelsTopLeft />
-                      zerochirou.com
-                    </DropdownMenuItem>
-                  </Link>
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </ul>
+        <div className="hidden md:flex items-center">
+          <NavigationMenu align="end">
+            <NavigationMenuList className="gap-1">
+              {links.map((item, index) => (
+                <NavigationMenuItem key={index}>
+                  <NavigationMenuLink
+                    render={<Link href={item.href} />}
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+                  >
+                    {item.label}
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
+
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="h-9 px-2.5 rounded-full hover:bg-muted/40 data-popup-open:bg-muted/50 transition-colors">
+                  <Image
+                    src={"/assets/icons/github.svg"}
+                    width={20}
+                    height={20}
+                    alt="Github Link"
+                  />
+                </NavigationMenuTrigger>
+                <NavigationMenuContent className="p-2 w-64 bg-background border border-border/40 rounded-2xl shadow-xl">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-col items-center justify-center gap-2 rounded-xl bg-muted/40 p-3 border border-border/20">
+                      <Image
+                        src="https://github.com/zerochirou.png"
+                        alt="Foto profil GitHub zerochirou"
+                        width={44}
+                        height={44}
+                        className="rounded-full object-cover border border-border"
+                        priority={false}
+                      />
+                      <div className="text-center">
+                        <p className="text-sm font-semibold text-foreground">
+                          zerochirou
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Software Engineer & Founder
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <NavigationMenuLink
+                        render={
+                          <Link
+                            href="https://github.com/zerochirou"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        }
+                        className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      >
+                        <Home className="size-4" />
+                        <span>Github Profile</span>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink
+                        render={
+                          <Link
+                            href="https://github.com/zerochirou/zerochirou"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        }
+                        className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      >
+                        <PanelsTopLeft className="size-4" />
+                        <span>zerochirou.com</span>
+                      </NavigationMenuLink>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
         <div className="md:hidden">
           <MenuDrawer items={menuItems} />

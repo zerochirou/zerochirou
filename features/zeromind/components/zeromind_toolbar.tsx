@@ -30,8 +30,8 @@ import {
   GridIcon,
   SlidersHorizontalIcon,
 } from "lucide-react";
-import type { CanvasTheme } from "./types";
-import { MERMAID_PRESETS } from "./template_presets";
+import type { CanvasTheme } from "../types";
+import { MERMAID_PRESETS } from "../constants/template_presets";
 
 export interface ZeromindToolbarProps {
   theme: CanvasTheme;

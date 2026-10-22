@@ -105,8 +105,6 @@ class RadioStoreInstance {
     }
   };
 
-  // --- Actions ---
-
   public setStationId = (stationId: string): void => {
     const station = STATIONS.find((s) => s.id === stationId);
     if (!station) return;

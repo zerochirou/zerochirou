@@ -7,7 +7,7 @@ import type {
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
 } from "@excalidraw/excalidraw/types";
-import type { CanvasTheme } from "./types";
+import type { CanvasTheme } from "../types";
 import { Spinner } from "@/components/ui/spinner";
 
 function CanvasLoadingSkeleton() {

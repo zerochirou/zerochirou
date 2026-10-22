@@ -49,6 +49,11 @@ const DEFAULT_MENU_ITEMS: MenuItem[] = [
     ariaLabel: "Zeromind - Interactive Architecture Whiteboard",
     link: "/zeromind",
   },
+  {
+    label: "TAROT",
+    ariaLabel: "Tarot - Interactive Reflection & Prediction Engine",
+    link: "/tarot",
+  },
   { label: "HUMAN", ariaLabel: "90% Human Hands, 10% AI.", link: "/human" },
 ];
 

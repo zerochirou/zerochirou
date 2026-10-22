@@ -11,7 +11,9 @@
   --font-sans: var(--font-sans);
   --font-newsreader: var(--font-newsreader);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-clash: var(--font-clash-grotesk);
+  --font-clash-grotesk: var(--font-clash-grotesk);
+  --font-heading: var(--font-clash-grotesk), var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -51,34 +53,45 @@
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   @keyframes marquee {
-  from {
-    transform: translateX(0);
+    from {
+      transform: translateX(0);
     }
-  to {
-    transform: translateX(calc(-100% - var(--gap)));
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
     }
   }
   @keyframes marquee-vertical {
-  from {
-    transform: translateY(0);
+    from {
+      transform: translateY(0);
     }
-  to {
-    transform: translateY(calc(-100% - var(--gap)));
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
     }
   }
-  --animate-blink-cursor: blink-cursor 1.2s step-end infinite
-;
+  --animate-blink-cursor: blink-cursor 1.2s step-end infinite;
   @keyframes blink-cursor {
-  0%, 49% {
-    opacity: 1;}
-  50%, 100% {
-    opacity: 0;}}
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
   --animate-shiny-text: shiny-text 8s infinite;
   @keyframes shiny-text {
-  0%, 90%, 100% {
-    background-position: calc(-100% - var(--shiny-width)) 0;}
-  30%, 60% {
-    background-position: calc(100% + var(--shiny-width)) 0;}}}
+    0%,
+    90%,
+    100% {
+      background-position: calc(-100% - var(--shiny-width)) 0;
+    }
+    30%,
+    60% {
+      background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
+}
 
 :root {
   --background: oklch(0.145 0 0);
@@ -116,37 +129,37 @@
 }
 
 .dark {
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
   --radius: 0.625rem;
 }
 
@@ -164,35 +177,49 @@
     overflow-x: clip;
     min-height: 100%;
   }
-  button:not(:disabled), [role="button"]:not(:disabled) {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
     cursor: pointer;
   }
 }
 
-
 .excalidraw {
   /* Design Tokens & Typography */
-  --ui-font: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  --ui-font:
+    var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif !important;
   font-family: var(--ui-font) !important;
   letter-spacing: -0.015em;
 
   /* Theme Colors mapped to OKLCH tokens */
   --default-bg-color: var(--background) !important;
-  --island-bg-color: color-mix(in oklch, var(--card) 92%, transparent) !important;
+  --island-bg-color: color-mix(
+    in oklch,
+    var(--card) 92%,
+    transparent
+  ) !important;
   --default-border-color: var(--border) !important;
   --color-on-surface: var(--foreground) !important;
   --color-surface-high: var(--secondary) !important;
   --color-surface-low: var(--card) !important;
   --color-surface-mid: var(--background) !important;
   --color-surface-lowest: var(--background) !important;
-  
+
   /* Primary & Accent Selection */
   --color-primary: var(--primary) !important;
   --color-primary-darker: var(--primary) !important;
   --color-primary-darkest: var(--primary) !important;
   --color-primary-light: var(--secondary) !important;
-  --color-primary-hover: color-mix(in oklch, var(--primary) 85%, var(--foreground)) !important;
-  --color-brand-hover: color-mix(in oklch, var(--primary) 85%, var(--foreground)) !important;
+  --color-primary-hover: color-mix(
+    in oklch,
+    var(--primary) 85%,
+    var(--foreground)
+  ) !important;
+  --color-brand-hover: color-mix(
+    in oklch,
+    var(--primary) 85%,
+    var(--foreground)
+  ) !important;
   --color-brand-active: var(--primary) !important;
   --color-surface-primary-container: var(--secondary) !important;
   --color-on-primary-container: var(--foreground) !important;
@@ -203,8 +230,10 @@
   --input-hover-bg-color: var(--accent) !important;
   --button-hover-bg: var(--muted) !important;
   --button-hover-color: var(--foreground) !important;
-  --shadow-island: 0 8px 30px rgba(0, 0, 0, 0.36), 0 0 0 1px var(--border) !important;
-  --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border) !important;
+  --shadow-island:
+    0 8px 30px rgba(0, 0, 0, 0.36), 0 0 0 1px var(--border) !important;
+  --modal-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border) !important;
 
   /* Border Radii (matching shadcn base-luma standard) */
   --border-radius-lg: calc(var(--radius) * 2.2) !important;
@@ -213,7 +242,11 @@
 
 .excalidraw.theme--dark {
   --default-bg-color: var(--background) !important;
-  --island-bg-color: color-mix(in oklch, var(--card) 92%, transparent) !important;
+  --island-bg-color: color-mix(
+    in oklch,
+    var(--card) 92%,
+    transparent
+  ) !important;
   --default-border-color: var(--border) !important;
   --color-on-surface: var(--foreground) !important;
   --color-surface-high: var(--secondary) !important;
@@ -221,19 +254,28 @@
   --color-surface-mid: var(--background) !important;
   --color-surface-lowest: var(--background) !important;
   --color-primary: var(--primary) !important;
-  --color-primary-hover: color-mix(in oklch, var(--primary) 85%, var(--foreground)) !important;
+  --color-primary-hover: color-mix(
+    in oklch,
+    var(--primary) 85%,
+    var(--foreground)
+  ) !important;
   --color-surface-primary-container: var(--secondary) !important;
   --color-on-primary-container: var(--foreground) !important;
   --input-bg-color: var(--secondary) !important;
   --input-border-color: var(--border) !important;
   --button-destructive-bg-color: var(--destructive) !important;
   --button-destructive-color: var(--foreground) !important;
-  --shadow-island: 0 8px 30px rgba(0, 0, 0, 0.36), 0 0 0 1px var(--border) !important;
+  --shadow-island:
+    0 8px 30px rgba(0, 0, 0, 0.36), 0 0 0 1px var(--border) !important;
 }
 
 /* 1. All Floating Island Containers (Dock, Zoom, Menus) */
 .excalidraw .Island {
-  background-color: color-mix(in oklch, var(--card) 90%, transparent) !important;
+  background-color: color-mix(
+    in oklch,
+    var(--card) 90%,
+    transparent
+  ) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1px solid var(--border) !important;
@@ -251,7 +293,10 @@
 .excalidraw .App-toolbar-container .ToolIcon__icon,
 .excalidraw .ToolIcon {
   border-radius: calc(var(--radius) * 1.6) !important; /* rounded-2xl ~16px */
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease !important;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease !important;
 }
 
 .excalidraw .ToolIcon:hover .ToolIcon__icon {
@@ -291,7 +336,11 @@
   border-radius: 9999px !important;
   width: 2.5rem !important;
   height: 2.5rem !important;
-  background-color: color-mix(in oklch, var(--card) 90%, transparent) !important;
+  background-color: color-mix(
+    in oklch,
+    var(--card) 90%,
+    transparent
+  ) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1px solid var(--border) !important;
@@ -371,7 +420,11 @@
 .excalidraw .layer-ui__wrapper .sidebar-trigger {
   border-radius: calc(var(--radius) * 2.6) !important;
   border: 1px solid var(--border) !important;
-  background-color: color-mix(in oklch, var(--card) 92%, transparent) !important;
+  background-color: color-mix(
+    in oklch,
+    var(--card) 92%,
+    transparent
+  ) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
 }
