@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import type { DrawnCard, TarotLocale } from "../types";
 import { HoloCard } from "@/components/ui/holo_card";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { getTarotImageUrl } from "../lib/tarot_image";
 

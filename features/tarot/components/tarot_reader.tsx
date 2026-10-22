@@ -13,7 +13,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { SlideCommit } from "@/components/ui/slide_commit";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Eye, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function TarotReader() {
@@ -42,8 +41,6 @@ export function TarotReader() {
     ro.observe(sliderContainerRef.current);
     return () => ro.disconnect();
   }, [status]);
-
-  const activeSpreadInfo = getSpreadOptions(locale)[spread] || getSpreadOptions(locale).three_card;
 
   const handleSwitchLocale = (nextLocale: TarotLocale) => {
     setLocale(nextLocale);
@@ -97,10 +94,6 @@ export function TarotReader() {
       prev.map((c) => (c.id === cardId ? { ...c, isFlipped: !c.isFlipped } : c))
     );
     setSelectedCardId(cardId);
-  };
-
-  const handleFlipAll = () => {
-    setCards((prev) => prev.map((c) => ({ ...c, isFlipped: true })));
   };
 
   const handleReset = () => {
