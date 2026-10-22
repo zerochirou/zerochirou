@@ -5,8 +5,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { DitherBackground } from "./dither_background";
 import { cn } from "@/lib/utils";
+import GradientASCII from "@/components/ui/gradient_ascii";
 
 export interface HeroSectionProps {
   firstName?: string;
@@ -17,9 +17,12 @@ export interface HeroSectionProps {
   ctaText?: string;
   ctaHref?: string;
   showDither?: boolean;
+  showAscii?: boolean;
   className?: string;
   centerElement?: React.ReactNode;
 }
+
+const emptySubscribe = () => () => {};
 
 export function HeroSection({
   firstName,
@@ -30,10 +33,17 @@ export function HeroSection({
   ctaText = "See The Projects",
   ctaHref = "#projects",
   showDither = true,
+  showAscii,
   className,
   centerElement,
 }: HeroSectionProps) {
   const shouldReduceMotion = useReducedMotion();
+  const displayAscii = showAscii ?? showDither;
+  const isMounted = React.useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 
   let line1 = firstName;
   let line2 = lastName;
@@ -88,9 +98,38 @@ export function HeroSection({
       )}
     >
       {/* Background Interactive Shader with Bottom Gradient */}
-      {showDither && (
-        <div className="pointer-events-none md:pointer-events-auto absolute inset-0 z-0 opacity-20 transition-opacity duration-700 hover:opacity-35">
-          <DitherBackground />
+      {displayAscii && (
+        <div className="pointer-events-none md:pointer-events-auto absolute inset-0 z-0 bg-black opacity-95 sm:opacity-100 transition-opacity duration-700 hover:opacity-100">
+          {isMounted ? (
+            <>
+              <GradientASCII
+                colors={["#1e3fd8", "#f6f8ff", "#a5d8ff", "#38bdf8"]}
+                shape="horizon"
+                characters="  .·•●"
+                cellSize={20}
+                density={0.8}
+                glyphOpacity={0.85}
+                glow={0.5}
+                depthOfField={0}
+                flicker={0.2}
+                softness={0.5}
+                scale={1}
+                flow={0.5}
+                speed={1}
+                gradientOpacity={0.9}
+                grain={0.08}
+                variation={0}
+                mouseInteraction
+                scrambleRadius={0.1}
+                clickEffect="wave"
+                intro={false}
+                lightMode={false}
+                className="w-full h-full"
+              />
+            </>
+          ) : (
+            <div className="w-full h-full bg-black" aria-hidden="true" />
+          )}
         </div>
       )}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 sm:h-48 z-[5] bg-gradient-to-t from-background to-transparent" />

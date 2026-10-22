@@ -1,22 +1,23 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useRef, useEffect, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import type { DrawnCard, SpreadType, ReadingStatus } from "../types";
-import { SPREAD_OPTIONS } from "../constants";
+import type { DrawnCard, SpreadType, ReadingStatus, TarotLocale } from "../types";
+import { getSpreadOptions, getTarotDeck } from "../constants";
 import { fetchTarotSpread } from "../services";
 import { TarotCard } from "./tarot_card";
 import { ReadingSummary } from "./reading_summary";
 import { ShareActions } from "./share_actions";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { SlideCommit } from "@/components/ui/slide_commit";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Spinner } from "@/components/ui/spinner";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Sparkles, Eye, RotateCcw } from "lucide-react";
+import { Eye, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function TarotReader() {
+  const [locale, setLocale] = useState<TarotLocale>("id");
   const [spread, setSpread] = useState<SpreadType>("three_card");
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<ReadingStatus>("idle");
@@ -25,7 +26,47 @@ export function TarotReader() {
   const [isPending, startTransition] = useTransition();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const activeSpreadInfo = SPREAD_OPTIONS[spread] || SPREAD_OPTIONS.three_card;
+  const [sliderWidth, setSliderWidth] = useState(280);
+  const sliderContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sliderContainerRef.current) return;
+    const updateWidth = () => {
+      if (sliderContainerRef.current) {
+        const w = sliderContainerRef.current.clientWidth;
+        if (w > 0) setSliderWidth(w);
+      }
+    };
+    updateWidth();
+    const ro = new ResizeObserver(updateWidth);
+    ro.observe(sliderContainerRef.current);
+    return () => ro.disconnect();
+  }, [status]);
+
+  const activeSpreadInfo = getSpreadOptions(locale)[spread] || getSpreadOptions(locale).three_card;
+
+  const handleSwitchLocale = (nextLocale: TarotLocale) => {
+    setLocale(nextLocale);
+    if (cards.length > 0) {
+      const nextDeck = getTarotDeck(nextLocale);
+      const nextSpread = getSpreadOptions(nextLocale)[spread];
+      setCards((prev) =>
+        prev.map((c, i) => {
+          const found = nextDeck.find((d) => d.name_short === c.card.name_short) || c.card;
+          const pos = nextSpread.positions[i] || {
+            name: c.positionName,
+            subtitle: c.positionSubtitle,
+          };
+          return {
+            ...c,
+            card: found,
+            positionName: pos.name,
+            positionSubtitle: pos.subtitle,
+          };
+        })
+      );
+    }
+  };
 
   const handleDrawCards = () => {
     setStatus("shuffling");
@@ -36,12 +77,16 @@ export function TarotReader() {
     startTransition(async () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 600));
-        const result = await fetchTarotSpread(spread);
+        const result = await fetchTarotSpread(spread, locale);
         setCards(result.cards);
         setStatus("revealed");
       } catch (err) {
         console.error("Tarot draw error:", err);
-        setErrorMsg("Failed to draw cards. Please try again.");
+        setErrorMsg(
+          locale === "id"
+            ? "Gagal menarik kartu. Silakan coba lagi."
+            : "Failed to draw cards. Please try again."
+        );
         setStatus("error");
       }
     });
@@ -68,30 +113,68 @@ export function TarotReader() {
   const allFlipped = cards.length > 0 && cards.every((c) => c.isFlipped);
 
   return (
-    <div className="w-full flex flex-col items-center gap-8">
+    <div className="w-full flex flex-col items-center gap-6 sm:gap-8 px-4 sm:px-6">
       {/* 1. IDLE / SPREAD SELECTION */}
       {status === "idle" && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="w-full max-w-lg flex flex-col items-center gap-6 text-center"
+          className="w-full max-w-sm sm:max-w-md flex flex-col items-center gap-5 sm:gap-6 text-center"
         >
+          {/* Top Language Toggle */}
+          <div
+            role="radiogroup"
+            aria-label={locale === "id" ? "Pilihan Bahasa" : "Language selection"}
+            className="inline-flex rounded-3xl p-1 bg-muted/40 border border-border/40 text-xs"
+          >
+            <button
+              type="button"
+              role="radio"
+              aria-checked={locale === "id"}
+              onClick={() => handleSwitchLocale("id")}
+              className={cn(
+                "min-w-9 min-h-8 px-3 py-1 rounded-3xl transition-all cursor-pointer flex items-center justify-center font-medium",
+                locale === "id"
+                  ? "bg-card text-foreground shadow-xs font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              ID
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={locale === "en"}
+              onClick={() => handleSwitchLocale("en")}
+              className={cn(
+                "min-w-9 min-h-8 px-3 py-1 rounded-3xl transition-all cursor-pointer flex items-center justify-center font-medium",
+                locale === "en"
+                  ? "bg-card text-foreground shadow-xs font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              EN
+            </button>
+          </div>
+
           {/* Header */}
-          <div className="flex flex-col gap-1.5">
-            <h2 className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-foreground">
-              Tarot Reflection
+          <div className="flex flex-col gap-2 px-2">
+            <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-foreground">
+              {locale === "id" ? "Refleksi Tarot" : "Tarot Reflection"}
             </h2>
-            <p className="text-xs text-muted-foreground font-sans">
-              Choose your spread and center your attention.
+            <p className="text-sm sm:text-base text-muted-foreground font-sans max-w-sm sm:max-w-md mx-auto leading-relaxed">
+              {locale === "id"
+                ? "Pilih sebaran kartu dan pusatkan fokus pikiran Anda."
+                : "Choose your spread and center your attention."}
             </p>
           </div>
 
           {/* Segmented Spread Toggle */}
           <div
             role="radiogroup"
-            aria-label="Tarot Spread Options"
-            className="inline-flex rounded-3xl p-1 bg-muted/50 border border-border/40"
+            aria-label={locale === "id" ? "Opsi Sebaran Tarot" : "Tarot Spread Options"}
+            className="inline-flex rounded-3xl p-1 bg-muted/50 border border-border/40 text-xs sm:text-sm"
           >
             <button
               type="button"
@@ -99,13 +182,13 @@ export function TarotReader() {
               aria-checked={spread === "single"}
               onClick={() => setSpread("single")}
               className={cn(
-                "px-4 py-1.5 rounded-3xl text-xs font-mono tracking-wider transition-all cursor-pointer",
+                "min-h-9 px-4 sm:px-5 py-1.5 rounded-3xl tracking-wider transition-all cursor-pointer flex items-center justify-center",
                 spread === "single"
-                  ? "bg-card text-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10"
+                  ? "bg-primary text-primary-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10 font-medium"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              Single Card
+              {locale === "id" ? "Satu Kartu" : "Single Card"}
             </button>
             <button
               type="button"
@@ -113,114 +196,161 @@ export function TarotReader() {
               aria-checked={spread === "three_card"}
               onClick={() => setSpread("three_card")}
               className={cn(
-                "px-4 py-1.5 rounded-3xl text-xs font-mono tracking-wider transition-all cursor-pointer",
+                "min-h-9 px-4 sm:px-5 py-1.5 rounded-3xl tracking-wider transition-all cursor-pointer flex items-center justify-center",
                 spread === "three_card"
-                  ? "bg-card text-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10"
+                  ? "bg-primary text-primary-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10 font-medium"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              Trinity (Past · Present · Future)
+              {locale === "id"
+                ? "Trinitas"
+                : "Trinity"}
             </button>
           </div>
 
-          {/* Minimal Inquiry Input using Field & Input primitives */}
-          <Field className="w-full max-w-sm">
+          {/* Minimal Inquiry Input using Field & Textarea primitives */}
+          <Field className="w-full max-w-sm sm:max-w-md">
             <FieldLabel htmlFor="tarot-query-input" className="sr-only">
-              Focus or Intention
+              {locale === "id" ? "Fokus atau Niat" : "Focus or Intention"}
             </FieldLabel>
-            <Input
+            <Textarea
               id="tarot-query-input"
-              type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Focus or intention (optional)..."
-              className="text-center rounded-3xl"
+              placeholder={
+                locale === "id"
+                  ? "Fokus atau niat batin (opsional)..."
+                  : "Focus or intention (optional)..."
+              }
+              rows={3}
+              className=""
             />
           </Field>
 
-          {/* Draw Button with Spinner composition */}
-          <Button
-            size="default"
-            onClick={handleDrawCards}
-            disabled={isPending}
-            className="rounded-4xl px-7 h-10 text-xs tracking-wider uppercase font-mono shadow-sm cursor-pointer"
-          >
-            {isPending ? (
-              <>
-                <Spinner data-icon="inline-start" />
-                <span>Shuffling...</span>
-              </>
-            ) : (
-              <>
-                <Sparkles data-icon="inline-start" />
-                <span>Draw Cards</span>
-              </>
-            )}
-          </Button>
+          {/* Draw Button using SlideCommit */}
+          <div ref={sliderContainerRef} className="w-full max-w-sm sm:max-w-md flex justify-center">
+            <SlideCommit
+              width={sliderWidth}
+              height={52}
+              radius={26}
+              trackColor="var(--muted)"
+              handleColor="var(--primary)"
+              successColor="var(--primary)"
+              label={
+                locale === "id" ? "Geser untuk Tarik Kartu" : "Slide to Draw Cards"
+              }
+              doneLabel={
+                locale === "id" ? "Mengacak..." : "Shuffling..."
+              }
+              errorLabel={
+                locale === "id" ? "Gagal menarik" : "Draw failed"
+              }
+              disabled={isPending}
+              onConfirm={handleDrawCards}
+              className="border border-border/40 shadow-xs"
+            />
+          </div>
         </motion.div>
       )}
 
-      {/* 2. SHUFFLING STATE — using Skeleton & Shimmer utility */}
+      {/* 2. SHUFFLING STATE */}
       {status === "shuffling" && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="w-full max-w-sm py-16 flex flex-col items-center justify-center gap-4 text-center"
+          className="w-full max-w-sm py-12 sm:py-16 flex flex-col items-center justify-center gap-4 text-center"
         >
           <div className="relative flex items-center justify-center">
-            <Skeleton className="w-[180px] h-[270px] rounded-3xl border border-border/40 shadow-sm" />
+            <Skeleton className="w-[160px] h-[240px] sm:w-[180px] sm:h-[270px] rounded-3xl border border-border/40 shadow-sm" />
           </div>
-          <span className="shimmer text-xs font-mono tracking-widest text-muted-foreground uppercase">
-            Shuffling the deck...
+          <span className="shimmer text-xs sm:text-sm text-muted-foreground uppercase tracking-widest">
+            {locale === "id" ? "Mengacak kartu altar..." : "Shuffling the deck..."}
           </span>
         </motion.div>
       )}
 
       {/* 3. ERROR STATE */}
       {status === "error" && (
-        <div className="w-full max-w-md border border-border/60 rounded-3xl bg-card p-5 text-center flex flex-col items-center gap-3">
-          <p className="text-xs text-foreground font-mono">{errorMsg}</p>
+        <div className="w-full max-w-sm sm:max-w-md border border-border/60 rounded-3xl bg-card p-5 sm:p-6 text-center flex flex-col items-center gap-3">
+          <p className="text-xs sm:text-sm text-foreground">{errorMsg}</p>
           <Button
             variant="outline"
             size="sm"
             onClick={handleReset}
-            className="text-xs rounded-3xl border-border/60"
+            className="text-xs sm:text-sm rounded-3xl border-border/60 min-h-9 px-4"
           >
-            Return
+            {locale === "id" ? "Kembali" : "Return"}
           </Button>
         </div>
       )}
 
       {/* 4. REVEALED CARDS STATE */}
       {status === "revealed" && cards.length > 0 && (
-        <div className="w-full flex flex-col items-center gap-8">
+        <div className="w-full flex flex-col items-center gap-6 sm:gap-8">
           {/* Top Control Bar */}
-          <div className="w-full max-w-4xl flex items-center justify-between px-2 text-xs font-mono text-muted-foreground">
-            <span className="uppercase tracking-widest">
-              {activeSpreadInfo.title}
-            </span>
+          <div className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 px-2 text-xs sm:text-sm text-muted-foreground">
+            <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3">
+              <span className="uppercase font-medium text-[11px] sm:text-xs tracking-wider truncate max-w-[200px] sm:max-w-none">
+                {activeSpreadInfo.title}
+              </span>
+              {/* Language Switcher in revealed view */}
+              <div
+                role="radiogroup"
+                aria-label="Language"
+                className="inline-flex rounded-2xl p-0.5 bg-muted/40 border border-border/40 text-[10px] sm:text-xs shrink-0"
+              >
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={locale === "id"}
+                  onClick={() => handleSwitchLocale("id")}
+                  className={cn(
+                    "min-w-6 min-h-6 px-2 py-0.5 rounded-2xl transition-all cursor-pointer flex items-center justify-center",
+                    locale === "id"
+                      ? "bg-card text-foreground font-semibold"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  ID
+                </button>
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={locale === "en"}
+                  onClick={() => handleSwitchLocale("en")}
+                  className={cn(
+                    "min-w-6 min-h-6 px-2 py-0.5 rounded-2xl transition-all cursor-pointer flex items-center justify-center",
+                    locale === "en"
+                      ? "bg-card text-foreground font-semibold"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  EN
+                </button>
+              </div>
+            </div>
 
-            <div className="flex items-center gap-2">
+            <div className="w-full sm:w-auto flex items-center justify-end gap-2 shrink-0">
               {!allFlipped && (
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleFlipAll}
-                  className="rounded-3xl text-xs h-7 px-2.5 border-border/60"
+                  className="rounded-3xl text-xs sm:text-sm h-8 sm:h-9 px-3 border-border/60 cursor-pointer"
                 >
                   <Eye data-icon="inline-start" />
-                  <span>Reveal All</span>
+                  <span>{locale === "id" ? "Buka Semua" : "Reveal All"}</span>
                 </Button>
               )}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleReset}
-                className="rounded-3xl text-xs h-7 px-2 text-muted-foreground hover:text-foreground"
+                className="rounded-3xl text-xs sm:text-sm h-8 sm:h-9 px-2.5 text-muted-foreground hover:text-foreground cursor-pointer"
               >
                 <RotateCcw data-icon="inline-start" />
-                <span>Reset</span>
+                <span>{locale === "id" ? "Mulai Ulang" : "Reset"}</span>
               </Button>
             </div>
           </div>
@@ -228,7 +358,7 @@ export function TarotReader() {
           {/* Cards Altar */}
           <div
             className={cn(
-              "w-full max-w-5xl grid justify-items-center gap-6",
+              "w-full max-w-5xl grid justify-items-center gap-6 sm:gap-8",
               cards.length === 1
                 ? "grid-cols-1 max-w-xs"
                 : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -248,6 +378,7 @@ export function TarotReader() {
                     index={idx}
                     isSelected={selectedCardId === card.id}
                     onFlip={handleFlipCard}
+                    locale={locale}
                   />
                 </motion.div>
               ))}
@@ -256,8 +387,10 @@ export function TarotReader() {
 
           {/* Prompt if any cards are unflipped */}
           {!allFlipped && (
-            <p className="text-[11px] font-mono tracking-wider text-muted-foreground uppercase">
-              Click a card to reveal its insight
+            <p className="text-[11px] tracking-wider text-muted-foreground uppercase">
+              {locale === "id"
+                ? "Sentuh kartu untuk membuka wawasan maknanya"
+                : "Click a card to reveal its insight"}
             </p>
           )}
 
@@ -269,13 +402,14 @@ export function TarotReader() {
               transition={{ duration: 0.4 }}
               className="w-full flex flex-col items-center gap-6 mt-2"
             >
-              <ReadingSummary cards={cards} query={query} />
+              <ReadingSummary cards={cards} query={query} locale={locale} />
 
               <ShareActions
                 cards={cards}
                 spread={spread}
                 query={query}
                 onReset={handleReset}
+                locale={locale}
                 className="w-full pt-4 border-t border-border/40"
               />
             </motion.div>

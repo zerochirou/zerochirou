@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +17,43 @@ const newsreader = Newsreader({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const clashGrotesk = localFont({
+  src: [
+    {
+      path: "./fonts/clash_grostesk/ClashGrotesk-Extralight.otf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "./fonts/clash_grostesk/ClashGrotesk-Light.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./fonts/clash_grostesk/ClashGrotesk-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/clash_grostesk/ClashGrotesk-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/clash_grostesk/ClashGrotesk-Semibold.otf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "./fonts/clash_grostesk/ClashGrotesk-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-clash-grotesk",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -236,7 +274,9 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         newsreader.variable,
+        clashGrotesk.variable,
         "font-sans",
+        "overscroll-none",
       )}
     >
       <head>
@@ -245,7 +285,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col selection:bg-foreground selection:text-background selection:font-newsreader">
+      <body className="overscroll-none antialiased min-h-full flex flex-col selection:bg-foreground selection:text-background selection:font-newsreader">
         {children}
       </body>
     </html>

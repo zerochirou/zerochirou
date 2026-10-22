@@ -4,16 +4,16 @@ import { MinimalFooter } from "@/features/commons/footer";
 import { TarotReader } from "@/features/tarot";
 
 export const metadata: Metadata = {
-  title: "Tarot Reflection | Zerochirou",
+  title: "Refleksi Tarot | Zerochirou",
   description:
-    "Ruang kontemplasi tenang untuk menajamkan intuisi dan refleksi diri melalui kartu Major Arcana.",
+    "Ruang kontemplasi batin untuk menajamkan intuisi dan refleksi diri melalui arkana tarot.",
   alternates: {
     canonical: "https://zerochirou.com/tarot",
   },
   openGraph: {
-    title: "Tarot Reflection | Zerochirou",
+    title: "Refleksi Tarot | Zerochirou",
     description:
-      "Ruang kontemplasi tenang untuk menajamkan intuisi dan refleksi diri melalui kartu Major Arcana.",
+      "Ruang kontemplasi batin untuk menajamkan intuisi dan refleksi diri melalui arkana tarot.",
     url: "https://zerochirou.com/tarot",
   },
 };

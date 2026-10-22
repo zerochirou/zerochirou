@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "motion/react";
-import type { DrawnCard } from "../types";
+import { useMemo } from "react";
+import type { DrawnCard, TarotLocale } from "../types";
+import { HoloCard } from "@/components/ui/holo_card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,7 @@ interface TarotCardProps {
   isSelected?: boolean;
   onFlip: (id: string) => void;
   className?: string;
+  locale?: TarotLocale;
 }
 
 function getRomanNumeral(val: number): string {
@@ -140,51 +142,43 @@ function CardSigil({ suit, name }: { suit: string; name: string }) {
   );
 }
 
-export function TarotCard({ card, isSelected, onFlip, className }: TarotCardProps) {
+export function TarotCard({
+  card,
+  isSelected,
+  onFlip,
+  className,
+  locale = "id",
+}: TarotCardProps) {
   const roman = getRomanNumeral(card.card.value_int);
 
+  const cardPreset = useMemo(() => {
+    const lower = card.card.name.toLowerCase();
+    if (lower.includes("star") || lower.includes("wheel") || lower.includes("sun")) return "stars";
+    if (lower.includes("moon") || lower.includes("world") || lower.includes("priestess")) return "cosmos";
+    return "gold";
+  }, [card.card.name]);
+
   return (
-    <div
+    <HoloCard
+      preset={cardPreset}
+      intensity={0.9}
+      edgeSparkle={0.8}
+      glare={0.4}
+      radius={24}
+      width={260}
+      aspectRatio={260 / 420}
+      faceDown={!card.isFlipped}
+      onFlip={() => onFlip(card.id)}
+      alt={`${card.positionName}: ${card.card.name}. ${locale === "id" ? "Klik untuk membalik." : "Click to flip."}`}
+      ariaPressed={card.isFlipped}
       className={cn(
-        "relative w-[240px] sm:w-[260px] h-[390px] sm:h-[420px] select-none perspective-[1400px] group",
+        "rounded-3xl shadow-md transition-shadow duration-300",
+        isSelected && "shadow-xl",
         className
       )}
-    >
-      <motion.div
-        className={cn(
-          "w-full h-full relative cursor-pointer rounded-3xl transition-all duration-300",
-          isSelected && "ring-2 ring-primary/40 shadow-xl"
-        )}
-        style={{ transformStyle: "preserve-3d" }}
-        animate={{
-          rotateY: card.isFlipped ? 180 : 0,
-        }}
-        whileHover={{ y: -6 }}
-        transition={{
-          duration: 0.75,
-          ease: [0.19, 1, 0.22, 1],
-        }}
-        onClick={() => onFlip(card.id)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onFlip(card.id);
-          }
-        }}
-        role="button"
-        tabIndex={0}
-        aria-pressed={card.isFlipped}
-        aria-label={`${card.positionName}: ${card.card.name}. Klik untuk membalik kartu.`}
-      >
-        {/* CARD BACK — Sacred Guilloché Diamond Pattern */}
-        <div
-          className="absolute inset-0 w-full h-full rounded-3xl p-3 bg-card border border-border/60 shadow-md ring-1 ring-foreground/5 dark:ring-foreground/10 flex flex-col justify-between overflow-hidden"
-          style={{
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-          }}
-        >
-          <div className="relative w-full h-full rounded-2xl border border-border/40 p-3.5 flex flex-col justify-between items-center bg-muted/20">
+      backContent={
+        <div className="w-full h-full p-2.5 bg-card flex flex-col justify-between overflow-hidden">
+          <div className="relative w-full h-full rounded-2xl p-3.5 flex flex-col justify-between items-center bg-muted/20">
             {/* Top Info */}
             <div className="w-full flex items-center justify-between text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
               <span>{card.positionName}</span>
@@ -192,8 +186,8 @@ export function TarotCard({ card, isSelected, onFlip, className }: TarotCardProp
             </div>
 
             {/* Guilloché Diamond Centerpiece */}
-            <div className="relative flex flex-col items-center justify-center">
-              <svg viewBox="0 0 120 180" className="w-24 h-38 text-border" fill="none" stroke="currentColor" strokeWidth="1">
+            <div className="relative flex flex-col items-center justify-center my-auto">
+              <svg viewBox="0 0 120 180" className="w-24 h-36 text-border" fill="none" stroke="currentColor" strokeWidth="1">
                 <polygon points="60,10 110,90 60,170 10,90" />
                 <polygon points="60,22 98,90 60,158 22,90" strokeDasharray="1 2.5" />
                 <polygon points="60,38 86,90 60,142 34,90" />
@@ -208,60 +202,58 @@ export function TarotCard({ card, isSelected, onFlip, className }: TarotCardProp
             {/* Bottom Prompt */}
             <div className="w-full text-center">
               <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
-                Tap to Reveal
+                {locale === "id" ? "Sentuh untuk Membuka" : "Tap to Reveal"}
               </span>
             </div>
           </div>
         </div>
+      }
+    >
+      <div className="w-full h-full p-2.5 bg-card flex flex-col justify-between overflow-hidden text-card-foreground">
+        <div className="relative w-full h-full rounded-2xl border border-border/40 p-3.5 flex flex-col justify-between items-center bg-card">
+          {/* Top Roman Numeral & Position Marker */}
+          <div className="w-full flex items-center justify-between border-b border-border/30 pb-2">
+            <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
+              {card.positionName}
+            </span>
+            <span className="font-serif text-sm font-semibold tracking-wider text-foreground">
+              {roman}
+            </span>
+          </div>
 
-        {/* CARD FRONT — Classical Archival Tarot Aesthetic */}
-        <div
-          className="absolute inset-0 w-full h-full rounded-3xl p-3 bg-card border border-border/60 shadow-md ring-1 ring-foreground/5 dark:ring-foreground/10 flex flex-col justify-between overflow-hidden text-card-foreground"
-          style={{
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
-        >
-          <div className="relative w-full h-full rounded-2xl border border-border/40 p-3.5 flex flex-col justify-between items-center bg-card">
-            {/* Top Roman Numeral & Position Marker */}
-            <div className="w-full flex items-center justify-between border-b border-border/30 pb-2">
-              <span className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
-                {card.positionName}
-              </span>
-              <span className="font-serif text-sm font-semibold tracking-wider text-foreground">
-                {roman}
-              </span>
+          {/* Center Arch / Medallion with Archetype Sigil */}
+          <div
+            className={cn(
+              "relative my-auto flex flex-col items-center justify-center p-3 transition-transform duration-500",
+              card.isReversed && "rotate-180"
+            )}
+          >
+            <div className="relative size-28 rounded-t-full rounded-b-xl border border-border/40 flex items-center justify-center bg-muted/30">
+              <CardSigil suit={card.card.suit} name={card.card.name} />
             </div>
+          </div>
 
-            {/* Center Arch / Medallion with Archetype Sigil */}
-            <div
-              className={cn(
-                "relative my-auto flex flex-col items-center justify-center p-3 transition-transform duration-500",
-                card.isReversed && "rotate-180"
-              )}
+          {/* Bottom Typography: Card Name & Orientation Badge */}
+          <div className="w-full text-center pt-2.5 border-t border-border/30 flex flex-col items-center gap-1.5">
+            <h3 className="font-serif text-sm sm:text-base font-bold tracking-widest uppercase text-foreground">
+              {card.card.name}
+            </h3>
+
+            <Badge
+              variant={card.isReversed ? "destructive" : "secondary"}
+              className="text-[10px] px-2 py-0 font-mono tracking-wider"
             >
-              <div className="relative size-28 rounded-t-full rounded-b-xl border border-border/40 flex items-center justify-center bg-muted/30">
-                <CardSigil suit={card.card.suit} name={card.card.name} />
-              </div>
-            </div>
-
-            {/* Bottom Typography: Card Name & Orientation Badge */}
-            <div className="w-full text-center pt-2.5 border-t border-border/30 flex flex-col items-center gap-1.5">
-              <h3 className="font-serif text-sm sm:text-base font-bold tracking-widest uppercase text-foreground">
-                {card.card.name}
-              </h3>
-
-              <Badge
-                variant={card.isReversed ? "destructive" : "secondary"}
-                className="text-[10px] px-2 py-0 font-mono tracking-wider"
-              >
-                {card.isReversed ? "Reversed" : "Upright"}
-              </Badge>
-            </div>
+              {card.isReversed
+                ? locale === "id"
+                  ? "Terbalik"
+                  : "Reversed"
+                : locale === "id"
+                  ? "Tegak"
+                  : "Upright"}
+            </Badge>
           </div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </HoloCard>
   );
 }

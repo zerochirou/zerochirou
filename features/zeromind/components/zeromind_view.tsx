@@ -9,7 +9,7 @@ import { DEFAULT_DIAGRAM_ELEMENTS } from "../constants/default_diagram";
 import { ZeromindCanvas } from "./zeromind_canvas";
 import type { CanvasTheme } from "../types";
 
-const STORAGE_KEY = "zeromind_canvas_data_v1";
+const STORAGE_KEY = "zeromind_canvas_data_v2";
 
 export function ZeromindView() {
   const [theme] = React.useState<CanvasTheme>("dark");
@@ -30,12 +30,11 @@ export function ZeromindView() {
     } catch {
       // Fallback silently if corrupt or unavailable
     }
-    // Provide default diagram when no saved diagram is present
+    // Clean canvas with no default diagram elements
     return {
       elements: DEFAULT_DIAGRAM_ELEMENTS,
       appState: {
         viewBackgroundColor: "transparent",
-        scrollToContent: true,
       },
     };
   });

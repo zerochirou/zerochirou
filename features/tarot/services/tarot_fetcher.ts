@@ -1,5 +1,5 @@
-import type { DrawnCard, SpreadType, TarotCardData, TarotSuit } from "../types";
-import { getRandomLocalCards, SPREAD_OPTIONS } from "../constants";
+import type { DrawnCard, SpreadType, TarotCardData, TarotSuit, TarotLocale } from "../types";
+import { getRandomLocalCards, getSpreadOptions } from "../constants";
 
 interface RemoteCardResponse {
   nhits?: number;
@@ -40,43 +40,52 @@ function normalizeRemoteCard(raw: NonNullable<RemoteCardResponse["cards"]>[numbe
   };
 }
 
-export async function fetchTarotSpread(spread: SpreadType): Promise<{
+export async function fetchTarotSpread(
+  spread: SpreadType,
+  locale: TarotLocale = "en"
+): Promise<{
   cards: DrawnCard[];
   source: "api" | "fallback";
 }> {
-  const spreadConfig = SPREAD_OPTIONS[spread] || SPREAD_OPTIONS.single;
+  const spreadConfig = getSpreadOptions(locale)[spread] || getSpreadOptions(locale).single;
   const count = spreadConfig.cardCount;
 
   let rawCards: TarotCardData[] = [];
   let source: "api" | "fallback" = "api";
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
-
-    const res = await fetch(`https://tarotapi.dev/api/v1/cards/random?n=${count}`, {
-      signal: controller.signal,
-      headers: {
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!res.ok) {
-      throw new Error(`Tarot API responded with status ${res.status}`);
-    }
-
-    const data: RemoteCardResponse = await res.json();
-    if (data.cards && data.cards.length >= count) {
-      rawCards = data.cards.slice(0, count).map(normalizeRemoteCard);
-    } else {
-      throw new Error("Tarot API returned empty or insufficient cards");
-    }
-  } catch {
+  if (locale === "id") {
+    // For Indonesian readings, use the rich handcrafted Indonesian tarot arcana dataset
     source = "fallback";
-    rawCards = getRandomLocalCards(count);
+    rawCards = getRandomLocalCards(count, "id");
+  } else {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+      const res = await fetch(`https://tarotapi.dev/api/v1/cards/random?n=${count}`, {
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        throw new Error(`Tarot API responded with status ${res.status}`);
+      }
+
+      const data: RemoteCardResponse = await res.json();
+      if (data.cards && data.cards.length >= count) {
+        rawCards = data.cards.slice(0, count).map(normalizeRemoteCard);
+      } else {
+        throw new Error("Tarot API returned empty or insufficient cards");
+      }
+    } catch {
+      source = "fallback";
+      rawCards = getRandomLocalCards(count, "en");
+    }
   }
 
   const drawnAt = new Date().toISOString();
@@ -85,8 +94,8 @@ export async function fetchTarotSpread(spread: SpreadType): Promise<{
     // Standard ~25% chance of card reversal for authentic reading
     const isReversed = Math.random() < 0.25;
     const position = spreadConfig.positions[index] || {
-      name: `Posisi ${index + 1}`,
-      subtitle: "Refleksi",
+      name: locale === "id" ? `Posisi ${index + 1}` : `Position ${index + 1}`,
+      subtitle: locale === "id" ? "Refleksi" : "Reflection",
     };
 
     return {

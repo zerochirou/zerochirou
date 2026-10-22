@@ -12,12 +12,9 @@ import {
 } from "@/features/zeromind";
 
 describe("Zeromind - Default Diagram", () => {
-  it("provides non-empty pre-configured Excalidraw elements for initial fallback", () => {
+  it("provides an empty array for initial clean canvas", () => {
     expect(DEFAULT_DIAGRAM_ELEMENTS).toBeDefined();
-    expect(DEFAULT_DIAGRAM_ELEMENTS.length).toBeGreaterThan(0);
-    expect(DEFAULT_DIAGRAM_ELEMENTS.some((el) => el.type === "rectangle")).toBe(true);
-    expect(DEFAULT_DIAGRAM_ELEMENTS.some((el) => el.type === "arrow")).toBe(true);
-    expect(DEFAULT_DIAGRAM_ELEMENTS.some((el) => el.type === "text")).toBe(true);
+    expect(DEFAULT_DIAGRAM_ELEMENTS).toEqual([]);
   });
 });
 

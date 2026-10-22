@@ -2,7 +2,12 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { HeroSection } from "@/features/home/components/hero_section";
 
-// Mock Dither background component to avoid WebGL context requirements in jsdom
+// Mock background WebGL components to avoid WebGL context requirements in jsdom
+vi.mock("@/components/ui/gradient_ascii", () => ({
+  GradientASCII: () => <div data-testid="mock-gradient-ascii" />,
+  GradientAscii: () => <div data-testid="mock-gradient-ascii" />,
+  default: () => <div data-testid="mock-gradient-ascii" />,
+}));
 vi.mock("@/features/home/components/dither_background", () => ({
   DitherBackground: () => <div data-testid="mock-dither" />,
 }));

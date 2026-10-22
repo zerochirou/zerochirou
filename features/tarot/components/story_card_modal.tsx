@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { DrawnCard, SpreadType } from "../types";
+import type { DrawnCard, SpreadType, TarotLocale } from "../types";
 import {
   Dialog,
   DialogContent,
@@ -22,6 +22,7 @@ interface StoryCardModalProps {
   cards: DrawnCard[];
   spread: SpreadType;
   query?: string;
+  locale?: TarotLocale;
 }
 
 export function StoryCardModal({
@@ -30,12 +31,14 @@ export function StoryCardModal({
   cards,
   spread,
   query,
+  locale = "id",
 }: StoryCardModalProps) {
   const storyRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [copied, setCopied] = useState(false);
+  const isId = locale === "id";
 
-  const formattedDate = new Date().toLocaleDateString("en-US", {
+  const formattedDate = new Date().toLocaleDateString(isId ? "id-ID" : "en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -94,10 +97,12 @@ export function StoryCardModal({
       <DialogContent className="max-w-md max-h-[92vh] overflow-y-auto p-4 sm:p-5 bg-card border-border text-card-foreground">
         <DialogHeader className="pb-1 text-center">
           <DialogTitle className="font-serif text-lg font-semibold tracking-wide text-foreground">
-            Story Export (9:16)
+            {isId ? "Kartu Story Tarot (9:16)" : "Story Export (9:16)"}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Rendered for Instagram Stories and WhatsApp Status.
+            {isId
+              ? "Format vertikal siap dibagikan ke Instagram Story atau WhatsApp Status."
+              : "Rendered for Instagram Stories and WhatsApp Status."}
           </DialogDescription>
         </DialogHeader>
 
@@ -117,7 +122,9 @@ export function StoryCardModal({
                 <span>{formattedDate}</span>
               </div>
               <h2 className="font-serif text-sm font-semibold tracking-wider uppercase text-foreground">
-                {spread === "single" ? "Daily Reflection" : "Trinity Spread"}
+                {spread === "single"
+                  ? (isId ? "Refleksi Harian" : "Daily Reflection")
+                  : (isId ? "Trinitas Waktu" : "Trinity Spread")}
               </h2>
               {query && query.trim().length > 0 && (
                 <p className="text-[10px] text-muted-foreground italic font-serif line-clamp-1">
@@ -143,7 +150,9 @@ export function StoryCardModal({
                         variant={drawn.isReversed ? "destructive" : "secondary"}
                         className="text-[9px] px-1 py-0 font-mono tracking-widest uppercase"
                       >
-                        {drawn.isReversed ? "REV" : "UP"}
+                        {drawn.isReversed
+                          ? (isId ? "TERBALIK" : "REV")
+                          : (isId ? "TEGAK" : "UP")}
                       </Badge>
                     </div>
 
@@ -179,12 +188,12 @@ export function StoryCardModal({
             {copied ? (
               <>
                 <Check data-icon="inline-start" className="text-primary" />
-                <span>Copied</span>
+                <span>{isId ? "Tersalin!" : "Copied!"}</span>
               </>
             ) : (
               <>
                 <Copy data-icon="inline-start" />
-                <span>Copy Image</span>
+                <span>{isId ? "Salin Gambar" : "Copy Image"}</span>
               </>
             )}
           </Button>
@@ -197,7 +206,7 @@ export function StoryCardModal({
             className="w-full sm:w-auto text-xs rounded-3xl"
           >
             <Share2 data-icon="inline-start" />
-            <span>Share</span>
+            <span>{isId ? "Bagikan" : "Share"}</span>
           </Button>
 
           <Button
@@ -210,12 +219,12 @@ export function StoryCardModal({
             {isExporting ? (
               <>
                 <Spinner data-icon="inline-start" />
-                <span>Rendering...</span>
+                <span>{isId ? "Merender..." : "Rendering..."}</span>
               </>
             ) : (
               <>
                 <Download data-icon="inline-start" />
-                <span>Download PNG</span>
+                <span>{isId ? "Unduh PNG" : "Download PNG"}</span>
               </>
             )}
           </Button>

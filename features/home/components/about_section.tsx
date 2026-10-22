@@ -194,8 +194,8 @@ export function AboutSection() {
           <ScrollFloat
             animationDuration={1}
             ease="back.inOut(2)"
-            textClassName=" text-4xl"
-            containerClassName=" text-4xl"
+            textClassName="text-4xl"
+            containerClassName="text-4xl"
             scrollStart="center bottom+=80%"
             scrollEnd="bottom bottom-=40%"
             stagger={0.1}

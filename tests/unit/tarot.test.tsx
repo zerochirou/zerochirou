@@ -8,6 +8,7 @@ import {
   buildWhatsAppShareUrl,
   TarotCard,
   ReadingSummary,
+  TarotReader,
 } from "@/features/tarot";
 import type { DrawnCard } from "@/features/tarot/types";
 
@@ -37,7 +38,7 @@ describe("Tarot Feature Suite", () => {
     it("fetches single card spread correctly using fallback or api", async () => {
       const result = await fetchTarotSpread("single");
       expect(result.cards).toHaveLength(1);
-      expect(result.cards[0].positionName).toBe("Refleksi & Arah Energi");
+      expect(result.cards[0].positionName).toBe("Daily Insight");
       expect(typeof result.cards[0].isReversed).toBe("boolean");
       expect(result.cards[0].isFlipped).toBe(false);
     });
@@ -45,9 +46,18 @@ describe("Tarot Feature Suite", () => {
     it("fetches 3-card trinity spread with Past, Present, and Future positions", async () => {
       const result = await fetchTarotSpread("three_card");
       expect(result.cards).toHaveLength(3);
-      expect(result.cards[0].positionName).toContain("Masa Lalu");
-      expect(result.cards[1].positionName).toContain("Masa Kini");
-      expect(result.cards[2].positionName).toContain("Potensi Esok");
+      expect(result.cards[0].positionName).toBe("Past");
+      expect(result.cards[1].positionName).toBe("Present");
+      expect(result.cards[2].positionName).toBe("Future");
+    });
+
+    it("fetches Indonesian spread with Masa Lalu, Masa Kini, and Masa Depan positions", async () => {
+      const result = await fetchTarotSpread("three_card", "id");
+      expect(result.cards).toHaveLength(3);
+      expect(result.cards[0].positionName).toBe("Masa Lalu");
+      expect(result.cards[1].positionName).toBe("Masa Kini");
+      expect(result.cards[2].positionName).toBe("Masa Depan");
+      expect(result.cards[0].card.name).toContain("(");
     });
   });
 
@@ -57,8 +67,8 @@ describe("Tarot Feature Suite", () => {
         id: "ar00-0",
         card: TAROT_DECK[0],
         isReversed: false,
-        positionName: "Masa Kini",
-        positionSubtitle: "Realitas Saat Ini",
+        positionName: "Present",
+        positionSubtitle: "Current Dynamics",
         isFlipped: true,
         drawnAt: new Date().toISOString(),
       },
@@ -67,21 +77,49 @@ describe("Tarot Feature Suite", () => {
     it("generates structured markdown for Notion / Obsidian", () => {
       const md = generateNotionMarkdown({
         spread: "single",
-        query: "Bagaimana melangkah hari ini?",
+        query: "How to move forward today?",
         cards: mockCards,
       });
 
-      expect(md).toContain("# 🔮 Catatan Tarot Reading: Daily Spark (1 Kartu)");
+      expect(md).toContain("# 🔮 Tarot Reading Reflection: Daily Reflection (1 Card)");
+      expect(md).toContain('**Focus / Intention:** "How to move forward today?"');
+      expect(md).toContain(mockCards[0].card.name);
+      expect(md).toContain("Upright");
+      expect(md).toContain("💡 Synthesis & Action Steps");
+    });
+
+    it("generates structured markdown for Notion / Obsidian in Indonesian", () => {
+      const md = generateNotionMarkdown({
+        spread: "single",
+        query: "Bagaimana melangkah hari ini?",
+        cards: mockCards,
+        locale: "id",
+      });
+
+      expect(md).toContain("# 🔮 Catatan Refleksi Tarot: Refleksi Harian (1 Kartu)");
       expect(md).toContain('**Fokus / Niat:** "Bagaimana melangkah hari ini?"');
       expect(md).toContain(mockCards[0].card.name);
-      expect(md).toContain("Tegak (Upright)");
+      expect(md).toContain("Tegak");
       expect(md).toContain("💡 Sintesis & Langkah Tindakan");
+    });
+
+    it("builds a formatted WhatsApp share URL in Indonesian", () => {
+      const url = buildWhatsAppShareUrl({
+        spread: "single",
+        query: "Arah karier",
+        cards: mockCards,
+        locale: "id",
+      });
+
+      expect(url).toContain("https://api.whatsapp.com/send?text=");
+      expect(decodeURIComponent(url)).toContain("PEMBACAAN TAROT");
+      expect(decodeURIComponent(url)).toContain(mockCards[0].card.name);
     });
 
     it("builds a formatted WhatsApp share URL", () => {
       const url = buildWhatsAppShareUrl({
         spread: "single",
-        query: "Karier ke depan",
+        query: "Career trajectory",
         cards: mockCards,
       });
 
@@ -96,8 +134,8 @@ describe("Tarot Feature Suite", () => {
       id: "test-card-1",
       card: TAROT_DECK[0],
       isReversed: false,
-      positionName: "Kartu Harian",
-      positionSubtitle: "Fokus Hari Ini",
+      positionName: "Daily Insight",
+      positionSubtitle: "Core energy & direction for today",
       isFlipped: false,
       drawnAt: new Date().toISOString(),
     };
@@ -107,7 +145,7 @@ describe("Tarot Feature Suite", () => {
       render(<TarotCard card={mockCard} index={0} onFlip={onFlipMock} />);
 
       const cardBtn = screen.getByRole("button", {
-        name: /Kartu Harian: The Fool/i,
+        name: /Daily Insight: The Fool/i,
       });
       expect(cardBtn).toBeInTheDocument();
 
@@ -119,14 +157,21 @@ describe("Tarot Feature Suite", () => {
       render(
         <ReadingSummary
           cards={[mockCard]}
-          spread="single"
-          query="Pertanyaan Refleksi"
+          query="Inquiry focus"
         />
       );
 
-      expect(screen.getByText("Kartu Harian")).toBeInTheDocument();
-      expect(screen.getByText(/Pertanyaan Refleksi/i)).toBeInTheDocument();
+      expect(screen.getByText("Daily Insight")).toBeInTheDocument();
+      expect(screen.getByText(/Inquiry focus/i)).toBeInTheDocument();
       expect(screen.getByText("The Fool")).toBeInTheDocument();
+    });
+
+    it("renders TarotReader with textarea and slide commit button", () => {
+      render(<TarotReader />);
+      const textarea = screen.getByRole("textbox");
+      expect(textarea).toBeInTheDocument();
+      expect(textarea.tagName.toLowerCase()).toBe("textarea");
+      expect(screen.getByText(/Geser untuk Tarik Kartu/i)).toBeInTheDocument();
     });
   });
 });

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { DrawnCard, SpreadType } from "../types";
+import type { DrawnCard, SpreadType, TarotLocale } from "../types";
 import { Button } from "@/components/ui/button";
 import { buildWhatsAppShareUrl } from "../lib/social_share";
 import { copyMarkdownToClipboard } from "../lib/markdown_export";
@@ -20,6 +20,7 @@ interface ShareActionsProps {
   query?: string;
   onReset: () => void;
   className?: string;
+  locale?: TarotLocale;
 }
 
 export function ShareActions({
@@ -28,6 +29,7 @@ export function ShareActions({
   query,
   onReset,
   className,
+  locale = "id",
 }: ShareActionsProps) {
   const [storyOpen, setStoryOpen] = useState(false);
   const [copiedMd, setCopiedMd] = useState(false);
@@ -37,6 +39,7 @@ export function ShareActions({
       spread,
       query,
       cards,
+      locale,
     });
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -46,6 +49,7 @@ export function ShareActions({
       spread,
       query,
       cards,
+      locale,
     });
     if (success) {
       setCopiedMd(true);
@@ -55,14 +59,14 @@ export function ShareActions({
 
   return (
     <div className={className}>
-      <div className="flex flex-wrap items-center justify-center gap-2.5">
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
         {/* WhatsApp Share Button */}
         <Button
           variant="outline"
           size="sm"
           onClick={handleShareWhatsApp}
-          className="rounded-3xl border-border/60"
-          aria-label="Bagikan ke WhatsApp"
+          className="rounded-3xl border-border/60 min-h-9 px-3 sm:px-4 text-xs sm:text-sm cursor-pointer"
+          aria-label={locale === "id" ? "Bagikan ke WhatsApp" : "Share to WhatsApp"}
         >
           <Share2 data-icon="inline-start" />
           <span>WhatsApp</span>
@@ -73,8 +77,8 @@ export function ShareActions({
           variant="outline"
           size="sm"
           onClick={() => setStoryOpen(true)}
-          className="rounded-3xl border-border/60"
-          aria-label="Buka ekspor kartu Story 9:16"
+          className="rounded-3xl border-border/60 min-h-9 px-3 sm:px-4 text-xs sm:text-sm cursor-pointer"
+          aria-label={locale === "id" ? "Buka ekspor Story 9:16" : "Open 9:16 Story export"}
         >
           <Smartphone data-icon="inline-start" />
           <span>Story 9:16</span>
@@ -85,18 +89,18 @@ export function ShareActions({
           variant="outline"
           size="sm"
           onClick={handleCopyMarkdown}
-          className="rounded-3xl border-border/60"
-          aria-label="Salin catatan Notion Markdown"
+          className="rounded-3xl border-border/60 min-h-9 px-3 sm:px-4 text-xs sm:text-sm cursor-pointer"
+          aria-label={locale === "id" ? "Salin catatan Markdown Notion" : "Copy Notion Markdown notes"}
         >
           {copiedMd ? (
             <>
               <Check data-icon="inline-start" className="text-primary" />
-              <span>Tersalin (MD)</span>
+              <span>{locale === "id" ? "Tersalin (MD)" : "Copied (MD)"}</span>
             </>
           ) : (
             <>
               <FileText data-icon="inline-start" />
-              <span>Copy Notion</span>
+              <span>{locale === "id" ? "Salin Notion" : "Copy Notion"}</span>
             </>
           )}
         </Button>
@@ -106,11 +110,11 @@ export function ShareActions({
           variant="ghost"
           size="sm"
           onClick={onReset}
-          className="rounded-3xl text-muted-foreground hover:text-foreground"
-          aria-label="Tarik kartu baru"
+          className="rounded-3xl text-muted-foreground hover:text-foreground min-h-9 px-3 sm:px-4 text-xs sm:text-sm cursor-pointer"
+          aria-label={locale === "id" ? "Mulai ulang pembacaan" : "Reset reading"}
         >
           <RotateCcw data-icon="inline-start" />
-          <span>Reset</span>
+          <span>{locale === "id" ? "Mulai Ulang" : "Reset"}</span>
         </Button>
       </div>
 
@@ -121,6 +125,7 @@ export function ShareActions({
         cards={cards}
         spread={spread}
         query={query}
+        locale={locale}
       />
     </div>
   );

@@ -1,65 +1,86 @@
-import type { DrawnCard, SpreadType } from "../types";
+import type { DrawnCard, SpreadType, TarotLocale } from "../types";
 
 export interface MarkdownReadingParams {
   spread: SpreadType;
   query?: string;
   cards: DrawnCard[];
   dateStr?: string;
+  locale?: TarotLocale;
 }
 
 export function generateNotionMarkdown({
   spread,
   query,
   cards,
-  dateStr = new Date().toLocaleDateString("id-ID", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }),
+  dateStr,
+  locale = "en",
 }: MarkdownReadingParams): string {
-  const spreadTitle = spread === "single" ? "Daily Spark (1 Kartu)" : "Trinity Spread (Masa Lalu, Kini, Esok)";
+  const isId = locale === "id";
+  const dateFormatted = dateStr || (isId
+    ? new Date().toLocaleDateString("id-ID", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }));
+
+  const spreadTitle = isId
+    ? spread === "single" ? "Refleksi Harian (1 Kartu)" : "Trinitas Waktu (Masa Lalu · Masa Kini · Masa Depan)"
+    : spread === "single" ? "Daily Reflection (1 Card)" : "Trinity Spread (Past · Present · Future)";
 
   const lines: string[] = [
-    `# 🔮 Catatan Tarot Reading: ${spreadTitle}`,
+    `# 🔮 ${isId ? "Catatan Refleksi Tarot" : "Tarot Reading Reflection"}: ${spreadTitle}`,
     "",
-    `> **Tanggal:** ${dateStr}  `,
-    `> **Fokus / Niat:** ${query && query.trim().length > 0 ? `"${query.trim()}"` : "Refleksi Diri Harian"}  `,
-    `> **Engine:** Zerochirou Tarot & Prediction Engine (zerochirou.com/tarot)`,
+    `> **${isId ? "Tanggal" : "Date"}:** ${dateFormatted}  `,
+    `> **${isId ? "Fokus / Niat" : "Focus / Intention"}:** ${query && query.trim().length > 0 ? `"${query.trim()}"` : (isId ? "Refleksi Batin Harian" : "Daily Self-Reflection")}  `,
+    `> **Engine:** Zerochirou Tarot Engine (zerochirou.com/tarot)`,
     "",
     "---",
     "",
-    "## 🃏 Hasil Penarikan Kartu",
+    `## 🃏 ${isId ? "Kartu yang Ditarik" : "Drawn Cards"}`,
     "",
   ];
 
   cards.forEach((drawn, index) => {
-    const orientation = drawn.isReversed ? "Terbalik (Reversed)" : "Tegak (Upright)";
+    const orientation = drawn.isReversed
+      ? (isId ? "Terbalik" : "Reversed")
+      : (isId ? "Tegak" : "Upright");
     const meaning = drawn.isReversed ? drawn.card.meaning_rev : drawn.card.meaning_up;
 
     lines.push(`### ${index + 1}. ${drawn.card.name} — *${orientation}*`);
-    lines.push(`- **Posisi:** ${drawn.positionName} (${drawn.positionSubtitle})`);
-    lines.push(`- **Arkanum / Elemen:** ${drawn.card.type.toUpperCase()}${drawn.card.element ? ` · ${drawn.card.element}` : ""}`);
+    lines.push(`- **${isId ? "Posisi" : "Position"}:** ${drawn.positionName} (${drawn.positionSubtitle})`);
+    lines.push(`- **${isId ? "Arkana / Elemen" : "Arcana / Element"}:** ${drawn.card.type.toUpperCase()}${drawn.card.element ? ` · ${drawn.card.element}` : ""}`);
     if (drawn.card.keywords && drawn.card.keywords.length > 0) {
-      lines.push(`- **Kata Kunci:** ${drawn.card.keywords.join(", ")}`);
+      lines.push(`- **${isId ? "Kata Kunci" : "Keywords"}:** ${drawn.card.keywords.join(", ")}`);
     }
     lines.push("");
-    lines.push(`**Pesan Kebijaksanaan:**`);
+    lines.push(`**${isId ? "Hikmah & Bimbingan Batin" : "Wisdom & Guidance"}:**`);
     lines.push(`> ${meaning}`);
     lines.push("");
     if (drawn.card.desc) {
-      lines.push(`*Simbolisme Visual:* ${drawn.card.desc}`);
+      lines.push(`*${isId ? "Simbolisme Visual" : "Visual Symbolism"}:* ${drawn.card.desc}`);
       lines.push("");
     }
   });
 
   lines.push("---");
-  lines.push("## 💡 Sintesis & Langkah Tindakan");
-  lines.push("- [ ] Luangkan 5 menit untuk mengendapkan pesan di atas dalam jurnal pribadi.");
-  lines.push("- [ ] Identifikasi 1 tindakan nyata hari ini yang selaras dengan panduan kartu.");
+  lines.push(`## 💡 ${isId ? "Sintesis & Langkah Tindakan" : "Synthesis & Action Steps"}`);
+  if (isId) {
+    lines.push("- [ ] Luangkan 5 menit merenungkan pesan kartu ini dalam catatan jurnal harian Anda.");
+    lines.push("- [ ] Rumuskan satu langkah nyata hari ini yang selaras dengan wawasan refleksi ini.");
+  } else {
+    lines.push("- [ ] Spend 5 minutes contemplating the card's guidance in your personal journal.");
+    lines.push("- [ ] Identify one concrete action today aligned with this insight.");
+  }
   lines.push("");
   lines.push("---");
-  lines.push("*Disimpan dari [Zerochirou Tarot](https://zerochirou.com/tarot)*");
+  lines.push(`*${isId ? "Disimpan dari" : "Saved from"} [Zerochirou Tarot](https://zerochirou.com/tarot)*`);
 
   return lines.join("\n");
 }

@@ -54,14 +54,22 @@ export function Navbar({
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300 -mb-18.25",
-        scrolled
-          ? "backdrop-blur-md bg-background/60 border-b border-border/10 shadow-sm"
-          : "bg-transparent border-b border-transparent",
+        "-mb-18.25 pointer-events-none sticky top-0 z-50 flex w-full justify-center transition-all duration-300",
         className,
       )}
     >
-      <nav className="mx-auto flex w-full max-w-4xl items-center justify-between px-4 py-3 sm:p-4 pointer-events-auto">
+      <nav
+        data-scrolled={scrolled}
+        className={cn(
+          "pointer-events-auto relative flex w-fit max-w-[calc(100vw-2rem)] items-center gap-3 sm:gap-6",
+          "rounded-b-2xl sm:rounded-b-3xl border-b border-x border-border/40",
+          "bg-background backdrop-blur-xl shadow-2xs shadow-black/20",
+          "py-1.5 sm:py-2 pr-2 pl-3.5 sm:pl-4.5",
+          "transition-all duration-300 ease-out",
+          scrolled &&
+            "bg-background/95  border-b-card/50 border-x-card/50 border shadow-xl shadow-black/20",
+        )}
+      >
         <Link
           href="/"
           className="font-semibold flex items-center gap-2 justify-center group"
@@ -70,12 +78,13 @@ export function Navbar({
           <Image
             src={logoSrc}
             alt="Zerochirou Logo"
-            width={28}
-            height={28}
+            width={24}
+            height={24}
             className="rounded object-contain"
+            unoptimized
           />
-          <Separator className="rotate-12 bg-border" orientation="vertical" />
-          <span className="text-lg sm:text-xl font-bold tracking-tight">
+          <Separator className="rotate-12 bg-white/50" orientation="vertical" />
+          <span className="text-base sm:text-lg font-bold tracking-tight">
             {subtitle}
           </span>
         </Link>
@@ -114,20 +123,36 @@ export function Navbar({
                         priority={false}
                       />
                       <div className="text-center">
-                        <p className="text-sm font-semibold text-foreground">zerochirou</p>
-                        <p className="text-xs text-muted-foreground">Software Engineer & Founder</p>
+                        <p className="text-sm font-semibold text-foreground">
+                          zerochirou
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Software Engineer & Founder
+                        </p>
                       </div>
                     </div>
                     <div className="flex flex-col gap-0.5">
                       <NavigationMenuLink
-                        render={<Link href="https://github.com/zerochirou" target="_blank" rel="noopener noreferrer" />}
+                        render={
+                          <Link
+                            href="https://github.com/zerochirou"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        }
                         className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
                       >
                         <Home className="size-4" />
                         <span>Github Profile</span>
                       </NavigationMenuLink>
                       <NavigationMenuLink
-                        render={<Link href="https://github.com/zerochirou/zerochirou" target="_blank" rel="noopener noreferrer" />}
+                        render={
+                          <Link
+                            href="https://github.com/zerochirou/zerochirou"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        }
                         className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
                       >
                         <PanelsTopLeft className="size-4" />

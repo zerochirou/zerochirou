@@ -2,6 +2,8 @@ export type TarotSuit = "major" | "wands" | "cups" | "swords" | "pentacles";
 
 export type TarotType = "major" | "minor";
 
+export type TarotLocale = "id" | "en";
+
 export interface TarotCardData {
   name: string;
   name_short: string;

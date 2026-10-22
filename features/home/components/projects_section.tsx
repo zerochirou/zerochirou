@@ -70,7 +70,7 @@ export function ProjectsSection() {
                     </span>
                   </Link>
 
-                  <CardHeader className="flex mt-6 justify-center h-16 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
+                  <CardHeader className="flex mt-6 justify-center h-40 sm:h-40 md:h-48 items-center shrink-0 p-4 sm:p-6">
                     <div className="relative flex items-center justify-center">
                       <Image
                         src={project.logoUrl}
