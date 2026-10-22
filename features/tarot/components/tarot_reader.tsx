@@ -126,7 +126,7 @@ export function TarotReader() {
           <div
             role="radiogroup"
             aria-label={locale === "id" ? "Pilihan Bahasa" : "Language selection"}
-            className="inline-flex rounded-3xl p-1 bg-muted/40 border border-border/40 text-xs"
+            className="inline-flex rounded-3xl p-0.5 bg-muted border border-border/40 text-xs"
           >
             <button
               type="button"
@@ -134,9 +134,9 @@ export function TarotReader() {
               aria-checked={locale === "id"}
               onClick={() => handleSwitchLocale("id")}
               className={cn(
-                "min-w-9 min-h-8 px-3 py-1 rounded-3xl transition-all cursor-pointer flex items-center justify-center font-medium",
+                "min-w-3 min-h-4 px-3 py-1 rounded-3xl transition-all cursor-pointer flex items-center justify-center font-medium",
                 locale === "id"
-                  ? "bg-card text-foreground shadow-xs font-semibold"
+                  ? "bg-primary text-primary-foreground shadow-xs font-semibold"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -148,9 +148,9 @@ export function TarotReader() {
               aria-checked={locale === "en"}
               onClick={() => handleSwitchLocale("en")}
               className={cn(
-                "min-w-9 min-h-8 px-3 py-1 rounded-3xl transition-all cursor-pointer flex items-center justify-center font-medium",
+                "min-w-3 min-h-4 px-3 py-1 rounded-3xl transition-all cursor-pointer flex items-center justify-center font-medium",
                 locale === "en"
-                  ? "bg-card text-foreground shadow-xs font-semibold"
+                  ? "bg-primary text-primary-foreground shadow-xs font-semibold"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -174,7 +174,7 @@ export function TarotReader() {
           <div
             role="radiogroup"
             aria-label={locale === "id" ? "Opsi Sebaran Tarot" : "Tarot Spread Options"}
-            className="inline-flex rounded-3xl p-1 bg-muted/50 border border-border/40 text-xs sm:text-sm"
+            className="inline-flex rounded-3xl p-1 bg-muted border border-border/40 text-xs sm:text-sm"
           >
             <button
               type="button"
@@ -223,7 +223,7 @@ export function TarotReader() {
                   : "Focus or intention (optional)..."
               }
               rows={3}
-              className=""
+              className="bg-card"
             />
           </Field>
 
@@ -247,7 +247,6 @@ export function TarotReader() {
               }
               disabled={isPending}
               onConfirm={handleDrawCards}
-              className="border border-border/40 shadow-xs"
             />
           </div>
         </motion.div>
@@ -262,9 +261,9 @@ export function TarotReader() {
           className="w-full max-w-sm py-12 sm:py-16 flex flex-col items-center justify-center gap-4 text-center"
         >
           <div className="relative flex items-center justify-center">
-            <Skeleton className="w-[160px] h-[240px] sm:w-[180px] sm:h-[270px] rounded-3xl border border-border/40 shadow-sm" />
+            <Skeleton className="w-40 h-60 sm:w-45 sm:h-67.5 rounded-3xl border border-border/40 shadow-sm" />
           </div>
-          <span className="shimmer text-xs sm:text-sm text-muted-foreground uppercase tracking-widest">
+          <span className="shimmer text-xs sm:text-sm text-muted-foreground  tracking-widest">
             {locale === "id" ? "Mengacak kartu altar..." : "Shuffling the deck..."}
           </span>
         </motion.div>
@@ -288,77 +287,10 @@ export function TarotReader() {
       {/* 4. REVEALED CARDS STATE */}
       {status === "revealed" && cards.length > 0 && (
         <div className="w-full flex flex-col items-center gap-6 sm:gap-8">
-          {/* Top Control Bar */}
-          <div className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 px-2 text-xs sm:text-sm text-muted-foreground">
-            <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3">
-              <span className="uppercase font-medium text-[11px] sm:text-xs tracking-wider truncate max-w-[200px] sm:max-w-none">
-                {activeSpreadInfo.title}
-              </span>
-              {/* Language Switcher in revealed view */}
-              <div
-                role="radiogroup"
-                aria-label="Language"
-                className="inline-flex rounded-2xl p-0.5 bg-muted/40 border border-border/40 text-[10px] sm:text-xs shrink-0"
-              >
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={locale === "id"}
-                  onClick={() => handleSwitchLocale("id")}
-                  className={cn(
-                    "min-w-6 min-h-6 px-2 py-0.5 rounded-2xl transition-all cursor-pointer flex items-center justify-center",
-                    locale === "id"
-                      ? "bg-card text-foreground font-semibold"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  ID
-                </button>
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={locale === "en"}
-                  onClick={() => handleSwitchLocale("en")}
-                  className={cn(
-                    "min-w-6 min-h-6 px-2 py-0.5 rounded-2xl transition-all cursor-pointer flex items-center justify-center",
-                    locale === "en"
-                      ? "bg-card text-foreground font-semibold"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  EN
-                </button>
-              </div>
-            </div>
-
-            <div className="w-full sm:w-auto flex items-center justify-end gap-2 shrink-0">
-              {!allFlipped && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleFlipAll}
-                  className="rounded-3xl text-xs sm:text-sm h-8 sm:h-9 px-3 border-border/60 cursor-pointer"
-                >
-                  <Eye data-icon="inline-start" />
-                  <span>{locale === "id" ? "Buka Semua" : "Reveal All"}</span>
-                </Button>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleReset}
-                className="rounded-3xl text-xs sm:text-sm h-8 sm:h-9 px-2.5 text-muted-foreground hover:text-foreground cursor-pointer"
-              >
-                <RotateCcw data-icon="inline-start" />
-                <span>{locale === "id" ? "Mulai Ulang" : "Reset"}</span>
-              </Button>
-            </div>
-          </div>
-
           {/* Cards Altar */}
           <div
             className={cn(
-              "w-full max-w-5xl grid justify-items-center gap-6 sm:gap-8",
+              "grid justify-items-center gap-6 sm:gap-8",
               cards.length === 1
                 ? "grid-cols-1 max-w-xs"
                 : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -384,15 +316,6 @@ export function TarotReader() {
               ))}
             </AnimatePresence>
           </div>
-
-          {/* Prompt if any cards are unflipped */}
-          {!allFlipped && (
-            <p className="text-[11px] tracking-wider text-muted-foreground uppercase">
-              {locale === "id"
-                ? "Sentuh kartu untuk membuka wawasan maknanya"
-                : "Click a card to reveal its insight"}
-            </p>
-          )}
 
           {/* Summary & Actions when all cards revealed */}
           {allFlipped && (
