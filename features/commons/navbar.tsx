@@ -67,7 +67,7 @@ export function Navbar({
           "py-1.5 sm:py-2 pr-2 pl-3.5 sm:pl-4.5",
           "transition-all duration-300 ease-out",
           scrolled &&
-            "bg-background/95  border-b-card/50 border-x-card/50 border shadow-xl shadow-black/20",
+            "bg-background/95  border-b-card border-x-card border shadow-xl shadow-black/20",
         )}
       >
         <Link

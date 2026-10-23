@@ -137,14 +137,14 @@ export function SendView({
 
       <nav
         aria-label="Navigasi Q&A"
-        className="flex w-full rounded-2xl bg-muted/30 p-1"
+        className="flex w-full rounded-full bg-card p-2"
       >
         <button
           type="button"
           onClick={() => handleTabChange("send")}
           className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-medium transition-all ${
             activeTab === "send"
-              ? "bg-card text-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10"
+              ? "bg-primary text-primary-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
@@ -156,7 +156,7 @@ export function SendView({
           onClick={() => handleTabChange("feed")}
           className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-medium transition-all ${
             activeTab === "feed"
-              ? "bg-card text-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10"
+              ? "bg-primary text-primary-foreground shadow-xs ring-1 ring-foreground/5 dark:ring-foreground/10"
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
