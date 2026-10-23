@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import Image from "next/image";
 import type { DrawnCard, TarotLocale } from "../types";
 import { HoloCard } from "@/components/ui/holo_card";
@@ -191,7 +191,7 @@ function CardSigil({ suit, name }: { suit: string; name: string }) {
   );
 }
 
-export function TarotCard({
+export const TarotCard = memo(function TarotCard({
   card,
   isSelected,
   onFlip,
@@ -245,16 +245,13 @@ export function TarotCard({
       backContent={
         <div className="w-full h-full p-2.5 bg-card flex flex-col justify-between overflow-hidden">
           <div className="relative w-full h-full rounded-2xl p-3.5 flex flex-col justify-between items-center bg-muted/20">
-            {/* Top Info */}
             <div className="w-full flex items-center justify-between text-[10px] font-mono tracking-widest text-muted-foreground">
               <span>{card.positionName}</span>
               <span>{roman}</span>
             </div>
 
-            {/* Guilloché Diamond Centerpiece */}
-            <Image src={"/favicon.ico"} alt="" width={100} height={100} />
+            <Image src="/favicon.ico" alt="" width={100} height={100} />
 
-            {/* Bottom Prompt */}
             <div className="w-full text-center">
               <span className="text-[10px] font-mono tracking-widest text-muted-foreground">
                 {locale === "id" ? "Sentuh untuk Membuka" : "Tap to Reveal"}
@@ -312,4 +309,4 @@ export function TarotCard({
       </div>
     </HoloCard>
   );
-}
+});

@@ -142,12 +142,24 @@ describe("Tarot Feature Suite", () => {
 
     it("renders card back when unflipped and triggers onFlip when clicked", () => {
       const onFlipMock = vi.fn();
-      render(<TarotCard card={mockCard} index={0} onFlip={onFlipMock} />);
+      const { container } = render(
+        <TarotCard card={mockCard} index={0} onFlip={onFlipMock} />
+      );
 
       const cardBtn = screen.getByRole("button", {
         name: /Daily Insight: The Fool/i,
       });
       expect(cardBtn).toBeInTheDocument();
+
+      // Verify front face is hidden and back face is visible when faceDown (unflipped)
+      const frontFace = container.querySelector(
+        'div[style*="visibility: hidden"]'
+      );
+      const backFace = container.querySelector(
+        'div[style*="visibility: visible"]'
+      );
+      expect(frontFace).toBeInTheDocument();
+      expect(backFace).toBeInTheDocument();
 
       fireEvent.click(cardBtn);
       expect(onFlipMock).toHaveBeenCalledWith("test-card-1");

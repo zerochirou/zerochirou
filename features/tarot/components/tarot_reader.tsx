@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useTransition } from "react";
+import { useState, useRef, useEffect, useTransition, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import type { DrawnCard, SpreadType, ReadingStatus, TarotLocale } from "../types";
 import { getSpreadOptions, getTarotDeck } from "../constants";
@@ -42,28 +42,32 @@ export function TarotReader() {
     return () => ro.disconnect();
   }, [status]);
 
-  const handleSwitchLocale = (nextLocale: TarotLocale) => {
-    setLocale(nextLocale);
-    if (cards.length > 0) {
-      const nextDeck = getTarotDeck(nextLocale);
-      const nextSpread = getSpreadOptions(nextLocale)[spread];
-      setCards((prev) =>
-        prev.map((c, i) => {
-          const found = nextDeck.find((d) => d.name_short === c.card.name_short) || c.card;
-          const pos = nextSpread.positions[i] || {
-            name: c.positionName,
-            subtitle: c.positionSubtitle,
-          };
-          return {
-            ...c,
-            card: found,
-            positionName: pos.name,
-            positionSubtitle: pos.subtitle,
-          };
-        })
-      );
-    }
-  };
+  const handleSwitchLocale = useCallback(
+    (nextLocale: TarotLocale) => {
+      setLocale(nextLocale);
+      if (cards.length > 0) {
+        const nextDeck = getTarotDeck(nextLocale);
+        const nextSpread = getSpreadOptions(nextLocale)[spread];
+        setCards((prev) =>
+          prev.map((c, i) => {
+            const found =
+              nextDeck.find((d) => d.name_short === c.card.name_short) || c.card;
+            const pos = nextSpread.positions[i] || {
+              name: c.positionName,
+              subtitle: c.positionSubtitle,
+            };
+            return {
+              ...c,
+              card: found,
+              positionName: pos.name,
+              positionSubtitle: pos.subtitle,
+            };
+          })
+        );
+      }
+    },
+    [cards.length, spread]
+  );
 
   const handleDrawCards = () => {
     setStatus("shuffling");
@@ -89,19 +93,19 @@ export function TarotReader() {
     });
   };
 
-  const handleFlipCard = (cardId: string) => {
+  const handleFlipCard = useCallback((cardId: string) => {
     setCards((prev) =>
       prev.map((c) => (c.id === cardId ? { ...c, isFlipped: !c.isFlipped } : c))
     );
     setSelectedCardId(cardId);
-  };
+  }, []);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setStatus("idle");
     setCards([]);
     setSelectedCardId(null);
     setErrorMsg(null);
-  };
+  }, []);
 
   const allFlipped = cards.length > 0 && cards.every((c) => c.isFlipped);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 
 export type HoloPreset =
@@ -373,7 +373,7 @@ const compile = (
   return null;
 };
 
-export function HoloCard({
+export const HoloCard = memo(function HoloCard({
   image,
   backImage,
   children,
@@ -404,6 +404,8 @@ export function HoloCard({
   const rotorRef = useRef<HTMLDivElement>(null);
   const shadowRef = useRef<HTMLSpanElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const frontFaceRef = useRef<HTMLDivElement>(null);
+  const backFaceRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef<Settings | null>(null);
   const pointerRef = useRef({ x: 0.5, y: 0.5, inside: false });
   const wakeRef = useRef<(() => void) | null>(null);
@@ -414,7 +416,7 @@ export function HoloCard({
   const [flipped, setFlipped] = useState(false);
 
   const effectiveRatio = aspectRatio ?? ratio;
-  const isControlled = isFlipped !== undefined;
+  const isControlled = isFlipped !== undefined || faceDown !== undefined;
   const flippable = Boolean(backImage || backContent || onFlip);
   const effectiveFlipped = faceDown !== undefined
     ? faceDown
@@ -434,7 +436,7 @@ export function HoloCard({
       hoverScale: clamp(hoverScale, 0.8, 1.3),
       idle,
     };
-    flipRef.current = flippable && effectiveFlipped;
+    flipRef.current = Boolean(flippable && effectiveFlipped);
     wakeRef.current?.();
   });
 
@@ -530,6 +532,7 @@ export function HoloCard({
       }
     }
 
+    const initialTurn = flippable && effectiveFlipped ? 180 : 0;
     const state = {
       tiltX: 0,
       tiltY: 0,
@@ -541,7 +544,7 @@ export function HoloCard({
       lightVY: 0,
       lift: 1,
       liftV: 0,
-      turn: 0,
+      turn: initialTurn,
       turnV: 0,
       clock: Math.random() * 40,
     };
@@ -551,8 +554,25 @@ export function HoloCard({
     let alive = true;
     let calm = 0;
 
+    rotor.style.transform = `perspective(${PERSPECTIVE}px) scale(1) rotateX(0deg) rotateY(${initialTurn}deg)`;
+    const initialFacingFront = Math.cos((initialTurn * Math.PI) / 180) >= 0;
+    if (frontFaceRef.current) {
+      frontFaceRef.current.style.visibility = initialFacingFront
+        ? "visible"
+        : "hidden";
+      frontFaceRef.current.style.zIndex = initialFacingFront ? "2" : "1";
+    }
+    if (backFaceRef.current) {
+      backFaceRef.current.style.visibility = initialFacingFront
+        ? "hidden"
+        : "visible";
+      backFaceRef.current.style.zIndex = initialFacingFront ? "1" : "2";
+    }
+
     const draw = () => {
       if (!gl || !program) return;
+      const currentAngle = (state.tiltY + state.turn) % 360;
+      if (Math.cos((currentAngle * Math.PI) / 180) < -0.05) return;
       const s = settingsRef.current;
       if (!s) return;
       const w = canvas.width;
@@ -691,7 +711,21 @@ export function HoloCard({
       if (shadowRef.current) {
         shadowRef.current.style.transform = `translate(${-state.tiltY * 0.7}px, ${state.tiltX * 0.7}px) scale(${0.9 + (state.lift - 1) * 1.5})`;
       }
-      if (Math.cos(((state.tiltY + state.turn) * Math.PI) / 180) > -0.05) {
+      const currentAngle = (state.tiltY + state.turn) % 360;
+      const facingFront = Math.cos((currentAngle * Math.PI) / 180) >= 0;
+      if (frontFaceRef.current) {
+        frontFaceRef.current.style.visibility = facingFront
+          ? "visible"
+          : "hidden";
+        frontFaceRef.current.style.zIndex = facingFront ? "2" : "1";
+      }
+      if (backFaceRef.current) {
+        backFaceRef.current.style.visibility = facingFront
+          ? "hidden"
+          : "visible";
+        backFaceRef.current.style.zIndex = facingFront ? "1" : "2";
+      }
+      if (facingFront) {
         draw();
       }
       const motion =
@@ -816,7 +850,7 @@ export function HoloCard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const track = (e: ReactPointerEvent<HTMLDivElement>) => {
+  const track = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.pointerType === "touch" && e.type === "pointermove" && !e.buttons)
       return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -826,20 +860,20 @@ export function HoloCard({
       inside: true,
     };
     wakeRef.current?.();
-  };
+  }, []);
 
-  const leave = () => {
+  const leave = useCallback(() => {
     pointerRef.current = { ...pointerRef.current, inside: false };
     wakeRef.current?.();
-  };
+  }, []);
 
-  const toggle = () => {
+  const toggle = useCallback(() => {
     if (!flippable) return;
     onFlip?.();
     if (!isControlled) {
       setFlipped((value) => !value);
     }
-  };
+  }, [flippable, isControlled, onFlip]);
 
   return (
     <div
@@ -883,42 +917,60 @@ export function HoloCard({
         className="absolute inset-0 [transform-style:preserve-3d] will-change-transform"
       >
         {/* FRONT FACE (visible when turn = 0) */}
-        <div className="absolute inset-0 overflow-hidden rounded-[var(--hc-radius)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
-          {children}
-          {image ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={image}
-              alt=""
-              draggable={false}
-              className="absolute inset-0 block h-full w-full object-cover pointer-events-none [-webkit-user-drag:none]"
-            />
-          ) : null}
-          <canvas
-            ref={canvasRef}
-            className={`absolute inset-0 block h-full w-full pointer-events-none transition-opacity duration-300 ${ready ? "opacity-100" : "opacity-0"}`}
-            style={children && !image ? { mixBlendMode: "screen", opacity: 0.6 } : undefined}
-          />
-        </div>
-
-        {/* BACK FACE (visible when turn = 180) */}
-        {flippable ? (
-          <div className="absolute inset-0 overflow-hidden rounded-[var(--hc-radius)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]">
-            {backContent}
-            {backImage ? (
+        <div
+          ref={frontFaceRef}
+          className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(0deg)_translateZ(1px)]"
+          style={{
+            visibility: effectiveFlipped ? "hidden" : "visible",
+            zIndex: effectiveFlipped ? 1 : 2,
+          }}
+        >
+          <div className="relative w-full h-full overflow-hidden rounded-[var(--hc-radius)] [isolation:isolate]">
+            {children}
+            {image ? (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
-                src={backImage}
+                src={image}
                 alt=""
                 draggable={false}
                 className="absolute inset-0 block h-full w-full object-cover pointer-events-none [-webkit-user-drag:none]"
               />
             ) : null}
+            <canvas
+              ref={canvasRef}
+              className={`absolute inset-0 block h-full w-full pointer-events-none transition-opacity duration-300 ${ready ? "opacity-100" : "opacity-0"}`}
+              style={children && !image ? { mixBlendMode: "screen", opacity: 0.6 } : undefined}
+            />
+          </div>
+        </div>
+
+        {/* BACK FACE (visible when turn = 180) */}
+        {flippable ? (
+          <div
+            ref={backFaceRef}
+            className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)_translateZ(1px)]"
+            style={{
+              visibility: effectiveFlipped ? "visible" : "hidden",
+              zIndex: effectiveFlipped ? 2 : 1,
+            }}
+          >
+            <div className="relative w-full h-full overflow-hidden rounded-[var(--hc-radius)]">
+              {backContent}
+              {backImage ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={backImage}
+                  alt=""
+                  draggable={false}
+                  className="absolute inset-0 block h-full w-full object-cover pointer-events-none [-webkit-user-drag:none]"
+                />
+              ) : null}
+            </div>
           </div>
         ) : null}
       </div>
     </div>
   );
-}
+});
 
 export default HoloCard;
