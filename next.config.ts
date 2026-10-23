@@ -7,7 +7,13 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["wrangler", "@opennextjs/cloudflare"],
   poweredByHeader: false,
   compress: true,
-  allowedDevOrigins: ["spam-ready-saint-fish.trycloudflare.com"],
+  allowedDevOrigins: [
+    "localhost",
+    "localhost:3000",
+    "127.0.0.1",
+    "127.0.0.1:3000",
+    "*.trycloudflare.com",
+  ],
   experimental: {
     optimizePackageImports: ["lucide-react", "motion", "@hugeicons/react"],
   },
