@@ -129,37 +129,38 @@ export function StackSection() {
 
         {showStack && (
           <div className="relative z-10 w-full max-w-5xl mx-auto mt-2 sm:mt-4">
-            <ul className="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0 border border-border/40">
+            <ul className="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-0 border border-border/40 list-none p-0 m-0">
               {TECH_STACK_ITEMS.map((item) => (
-                <Card
-                  key={item.title}
-                  className="animate-in group fade-in zoom-in duration-500 group bg-background rounded-none border-none py-3 px-2 sm:py-4 sm:px-3 hover:bg-muted/40 transition-colors flex flex-col items-center justify-center gap-1 sm:gap-1.5"
-                >
-                  <CardHeader className="flex items-center justify-center p-0 mb-1.5 sm:mb-2">
-                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0">
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-contain group-hover:scale-110 group-hover:spin  transition-transform duration-300"
-                        unoptimized
-                      />
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex items-center justify-center p-0 w-full text-center">
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={item.description}
-                      className="text-center w-full min-w-0"
-                    >
-                      <span className="text-xs sm:text-sm font-medium block truncate max-w-full px-1">
-                        {item.title}
-                      </span>
-                    </a>
-                  </CardContent>
-                </Card>
+                <li key={item.title} className="list-none flex">
+                  <Card
+                    className="w-full animate-in group fade-in zoom-in duration-500 bg-background rounded-none border-none py-3 px-2 sm:py-4 sm:px-3 hover:bg-muted/40 transition-colors flex flex-col items-center justify-center gap-1 sm:gap-1.5"
+                  >
+                    <CardHeader className="flex items-center justify-center p-0 mb-1.5 sm:mb-2">
+                      <div className="relative w-8 h-8 sm:w-10 sm:h-10 shrink-0">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          className="object-contain group-hover:scale-110 group-hover:spin transition-transform duration-300"
+                          unoptimized
+                        />
+                      </div>
+                    </CardHeader>
+                    <CardContent className="flex items-center justify-center p-0 w-full text-center">
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={item.description}
+                        className="text-center w-full min-w-0"
+                      >
+                        <span className="text-xs sm:text-sm font-medium block truncate max-w-full px-1">
+                          {item.title}
+                        </span>
+                      </a>
+                    </CardContent>
+                  </Card>
+                </li>
               ))}
             </ul>
           </div>

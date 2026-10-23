@@ -41,10 +41,11 @@ export function ProjectsSection() {
         </TextAnimate>
       </div>
       <div className="mx-auto max-w-7xl w-full mt-10 sm:mt-16 md:mt-20 px-4 sm:px-6 lg:px-8">
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 list-none p-0 m-0">
           {FEATURED_PROJECTS.map((project, index) => (
-            <motion.div
+            <motion.li
               key={project.id}
+              className="list-none flex flex-col h-full"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -157,7 +158,7 @@ export function ProjectsSection() {
                   </CardContent>
                 </MagicCard>
               </Card>
-            </motion.div>
+            </motion.li>
           ))}
         </ul>
       </div>

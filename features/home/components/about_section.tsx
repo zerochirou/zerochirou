@@ -15,7 +15,7 @@ import { STORY_DATA } from "../constants";
 
 function TerminalAbout() {
   return (
-    <Terminal className="max-h-[82vh] sm:max-h-140 bg-card">
+    <Terminal className="max-h-[82vh] sm:max-h-140 bg-card font-mono">
       <TypingAnimation className="text-xs sm:text-sm md:text-base">
         &gt; pnpm dlx @zerochirou/about --all
       </TypingAnimation>

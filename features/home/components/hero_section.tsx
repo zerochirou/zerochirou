@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import GradientASCII from "@/components/ui/gradient_ascii";
+import { ShinyText } from "@/components/ui/shiny_text";
 
 export interface HeroSectionProps {
   firstName?: string;
@@ -97,7 +98,6 @@ export function HeroSection({
         className,
       )}
     >
-      {/* Background Interactive Shader with Bottom Gradient */}
       {displayAscii && (
         <div className="pointer-events-none md:pointer-events-auto absolute inset-0 z-0 bg-black opacity-95 sm:opacity-100 transition-opacity duration-700 hover:opacity-100">
           {isMounted ? (
@@ -134,18 +134,14 @@ export function HeroSection({
       )}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 sm:h-48 z-[5] bg-gradient-to-t from-background to-transparent" />
 
-      {/* Screen Reader Semantic Heading */}
       <h1 className="sr-only">
         {line1} {line2} - Software Engineer & Founder
       </h1>
       {heading && <span className="sr-only">{heading}</span>}
 
-      {/* Main Content Layout Container */}
       <div className="relative z-10 w-full max-w-[1720px] mx-auto px-6 sm:px-10 md:px-14 lg:px-18 xl:px-22 flex flex-col justify-between flex-1 pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12 md:pb-16 pointer-events-auto">
-        {/* Massive Staggered Editorial Typography */}
         <div className="flex flex-col justify-center flex-1 my-auto py-8 sm:py-12 md:py-16">
           <div className="mx-auto max-w-7xl w-full flex flex-col">
-            {/* Line 1 (Left Aligned) */}
             <div className="w-full flex justify-start overflow-hidden">
               <motion.span
                 custom={0.05}
@@ -158,7 +154,6 @@ export function HeroSection({
               </motion.span>
             </div>
 
-            {/* Line 2 (Right/Staggered Aligned) */}
             {line2 && (
               <div className="w-full flex justify-end overflow-hidden">
                 <motion.span
@@ -175,26 +170,22 @@ export function HeroSection({
           </div>
         </div>
 
-        {/* Bottom Section: Bio & CTA Button */}
         <motion.div
           variants={footerVariants}
           initial="hidden"
           animate="visible"
           className="w-full flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 sm:gap-8 pt-6 sm:pt-10 border-t border-border/10"
         >
-          {/* Bio Description (Left Rail) */}
           <p className="text-sm sm:text-base md:text-[17px] text-muted-foreground/90 font-normal leading-relaxed max-w-xs sm:max-w-sm md:max-w-md">
             {bio}
           </p>
 
-          {/* Optional Center Custom Slot */}
           {centerElement && (
             <div className="hidden lg:flex items-center justify-center">
               {centerElement}
             </div>
           )}
 
-          {/* CTA Link Pill (Right Rail) */}
           <div className="w-full sm:w-auto flex items-center justify-start sm:justify-end">
             <Button
               render={<Link href={ctaHref} />}
