@@ -6,3 +6,4 @@ export { HeroSection } from "./hero_section";
 export { AboutSection } from "./about_section";
 export { ProjectsSection } from "./projects_section";
 export { StackSection } from "./stack_section";
+export { VideoPlay } from "./video_play";

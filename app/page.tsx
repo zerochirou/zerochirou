@@ -5,19 +5,22 @@ import {
   AboutSection,
   ProjectsSection,
   StackSection,
+  VideoPlay,
 } from "@/features/home/components";
 
 export default async function Home() {
   return (
     <>
-      <Navbar />
-      <main className="overflow-x-clip font-clash-grotesk">
-        <HeroSection showAscii={true} />
-        <AboutSection />
-        <StackSection />
-        <ProjectsSection />
-      </main>
-      <MinimalFooter />
+      <VideoPlay>
+        <Navbar />
+        <main className="overflow-x-clip font-clash-grotesk">
+          <HeroSection showAscii={true} />
+          <AboutSection />
+          <StackSection />
+          <ProjectsSection />
+        </main>
+        <MinimalFooter />
+      </VideoPlay>
     </>
   );
 }
