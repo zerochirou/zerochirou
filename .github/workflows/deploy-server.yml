@@ -45,7 +45,7 @@ jobs:
 
       - name: Deploy Server Preview (Pull Request)
         if: github.event_name == 'pull_request'
-        run: pnpm --filter server exec wrangler versions upload --message "PR #${{ github.event.pull_request.number }} Preview"
+        run: pnpm --filter server exec wrangler versions upload --message "PR-${{ github.event.pull_request.number }}-Preview"
 
       - name: Deploy Server to Production (Main)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
