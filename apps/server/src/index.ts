@@ -22,7 +22,7 @@ app.get("/", (c) => {
     service: "zerochirou-api",
     version: "1.0.0",
     docs: "/health",
-    message: "Zerochirou Edge API Gateway powered by Hono, Drizzle ORM, & Cloudflare D1",
+    message: "Zerochirou Edge API Gateway v1.0 powered by Hono, Drizzle ORM, Cloudflare D1 & Workers",
   });
 });
 
