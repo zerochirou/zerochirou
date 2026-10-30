@@ -193,7 +193,7 @@ export function AboutSection() {
       </h2>
       <div className="sticky top-0 z-10 flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-background px-4 text-center">
         <div className="w-full max-w-2xl px-2">
-          <TypingAnimation className="shimmer text-6xl">
+          <TypingAnimation className="shimmer md:text-6xl text-4xl">
             Not just a developer!
           </TypingAnimation>
         </div>
