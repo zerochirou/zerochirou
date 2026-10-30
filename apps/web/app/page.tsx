@@ -8,6 +8,7 @@ import {
   VideoPlay,
 } from "@/features/home/components";
 
+// Monorepo web scope test
 export default async function Home() {
   return (
     <>
