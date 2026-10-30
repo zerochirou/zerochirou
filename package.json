@@ -9,6 +9,8 @@
     "format": "turbo format",
     "typecheck": "turbo typecheck",
     "test": "turbo test",
+    "build:opennext": "pnpm --filter web build:opennext",
+    "deploy": "pnpm --filter web deploy",
     "prepare": "husky"
   },
   "lint-staged": {
