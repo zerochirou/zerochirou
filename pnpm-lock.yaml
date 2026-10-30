@@ -33,6 +33,43 @@ importers:
         specifier: ^5
         version: 5.9.3
 
+  apps/server:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.45.4
+        version: 0.45.4(@cloudflare/workers-types@5.20261029.1)(@libsql/client@0.18.0)(kysely@0.29.7)
+      hono:
+        specifier: ^4.13.14
+        version: 4.13.14
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^5.20261012.1
+        version: 5.20261029.1
+      '@types/node':
+        specifier: ^20
+        version: 20.19.43
+      '@workspace/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
+      drizzle-kit:
+        specifier: ^0.31.11
+        version: 0.31.11
+      eslint:
+        specifier: ^10
+        version: 10.13.0(jiti@2.7.0)(supports-color@10.2.2)
+      tsx:
+        specifier: ^4.23.15
+        version: 4.23.15
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+      wrangler:
+        specifier: ^4.149.0
+        version: 4.155.0(@cloudflare/workers-types@5.20261029.1)(@types/node@20.19.43)
+
   apps/web:
     dependencies:
       '@base-ui/react':
@@ -4604,6 +4641,10 @@ packages:
 
   hls.js@1.7.4:
     resolution: {integrity: sha512-3GlxGdPvT2YHvQYOt+yOzT/DEior/qJVNIylHA77kgeoBTdQQqi70GwefNEUmHQeNGyjC8U62+bruqW/Tpm+tg==}
+
+  hono@4.13.14:
+    resolution: {integrity: sha512-yhRLQ21U6qa9Hsu2N7Qcbh8tE+WKEcoErjIo56LeSGiGXGp9sA7UpE86Ui9uexb61KakiGwuHMn2QdV7w6i6kQ==}
+    engines: {node: '>=16.9.0'}
 
   hookified@1.15.1:
     resolution: {integrity: sha512-MvG/clsADq1GPM2KGo2nyfaWVyn9naPiXrqIe4jYjXNZQt238kWyOGrsyc/DmRAQ+Re6yeo6yX/yoNCG5KAEVg==}
@@ -11342,6 +11383,8 @@ snapshots:
       hermes-estree: 0.25.1
 
   hls.js@1.7.4: {}
+
+  hono@4.13.14: {}
 
   hookified@1.15.1: {}
 
