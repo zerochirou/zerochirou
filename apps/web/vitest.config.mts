@@ -1,0 +1,20 @@
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    tsconfigPaths: true,
+  },
+  test: {
+    environment: "jsdom",
+    globals: true,
+    testTimeout: 20000,
+    setupFiles: ["./tests/setup.ts"],
+    server: {
+      deps: {
+        inline: [/@excalidraw/, /open-color/],
+      },
+    },
+  },
+});

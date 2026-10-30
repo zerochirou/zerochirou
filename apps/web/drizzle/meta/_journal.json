@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791896100332,
+      "tag": "0000_cynical_randall_flagg",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791900874686,
+      "tag": "0001_overjoyed_baron_zemo",
+      "breakpoints": true
+    }
+  ]
+}
