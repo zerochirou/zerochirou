@@ -1,0 +1,506 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+@source "../**/*.{ts,tsx}";
+@source "../../../../apps/web/**/*.{ts,tsx}";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-newsreader: var(--font-newsreader);
+  --font-mono: var(--font-geist-mono);
+  --font-clash: var(--font-clash-grotesk);
+  --font-clash-grotesk: var(--font-clash-grotesk);
+  --font-heading: var(--font-clash-grotesk), var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  --animate-blink-cursor: blink-cursor 1.2s step-end infinite;
+  @keyframes blink-cursor {
+  0%, 49% {
+    opacity: 1;
+    }
+  50%, 100% {
+    opacity: 0;
+    }
+  }
+  --animate-shiny-text: shiny-text 8s infinite;
+  @keyframes shiny-text {
+    0%,
+    90%,
+    100% {
+      background-position: calc(-100% - var(--shiny-width)) 0;
+    }
+    30%,
+    60% {
+      background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
+}
+
+:root {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    overflow-x: clip;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: clip;
+    min-height: 100%;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+.excalidraw {
+  /* Design Tokens & Typography */
+  --ui-font:
+    var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif !important;
+  font-family: var(--ui-font) !important;
+  letter-spacing: -0.015em;
+
+  /* Theme Colors mapped to OKLCH tokens */
+  --default-bg-color: var(--background) !important;
+  --island-bg-color: color-mix(
+    in oklch,
+    var(--card) 92%,
+    transparent
+  ) !important;
+  --default-border-color: var(--border) !important;
+  --color-on-surface: var(--foreground) !important;
+  --color-surface-high: var(--secondary) !important;
+  --color-surface-low: var(--card) !important;
+  --color-surface-mid: var(--background) !important;
+  --color-surface-lowest: var(--background) !important;
+
+  /* Primary & Accent Selection */
+  --color-primary: var(--primary) !important;
+  --color-primary-darker: var(--primary) !important;
+  --color-primary-darkest: var(--primary) !important;
+  --color-primary-light: var(--secondary) !important;
+  --color-primary-hover: color-mix(
+    in oklch,
+    var(--primary) 85%,
+    var(--foreground)
+  ) !important;
+  --color-brand-hover: color-mix(
+    in oklch,
+    var(--primary) 85%,
+    var(--foreground)
+  ) !important;
+  --color-brand-active: var(--primary) !important;
+  --color-surface-primary-container: var(--secondary) !important;
+  --color-on-primary-container: var(--foreground) !important;
+
+  /* Inputs, Borders & Shadows */
+  --input-bg-color: var(--secondary) !important;
+  --input-border-color: var(--border) !important;
+  --input-hover-bg-color: var(--accent) !important;
+  --button-hover-bg: var(--muted) !important;
+  --button-hover-color: var(--foreground) !important;
+  --shadow-island:
+    0 8px 30px rgba(0, 0, 0, 0.36), 0 0 0 1px var(--border) !important;
+  --modal-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border) !important;
+
+  /* Border Radii (matching shadcn base-luma standard) */
+  --border-radius-lg: calc(var(--radius) * 2.2) !important;
+  --border-radius-md: calc(var(--radius) * 1.4) !important;
+}
+
+.excalidraw.theme--dark {
+  --default-bg-color: var(--background) !important;
+  --island-bg-color: color-mix(
+    in oklch,
+    var(--card) 92%,
+    transparent
+  ) !important;
+  --default-border-color: var(--border) !important;
+  --color-on-surface: var(--foreground) !important;
+  --color-surface-high: var(--secondary) !important;
+  --color-surface-low: var(--card) !important;
+  --color-surface-mid: var(--background) !important;
+  --color-surface-lowest: var(--background) !important;
+  --color-primary: var(--primary) !important;
+  --color-primary-hover: color-mix(
+    in oklch,
+    var(--primary) 85%,
+    var(--foreground)
+  ) !important;
+  --color-surface-primary-container: var(--secondary) !important;
+  --color-on-primary-container: var(--foreground) !important;
+  --input-bg-color: var(--secondary) !important;
+  --input-border-color: var(--border) !important;
+  --button-destructive-bg-color: var(--destructive) !important;
+  --button-destructive-color: var(--foreground) !important;
+  --shadow-island:
+    0 8px 30px rgba(0, 0, 0, 0.36), 0 0 0 1px var(--border) !important;
+}
+
+/* 1. All Floating Island Containers (Dock, Zoom, Menus) */
+.excalidraw .Island {
+  background-color: color-mix(
+    in oklch,
+    var(--card) 90%,
+    transparent
+  ) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: calc(var(--radius) * 2.6) !important; /* rounded-4xl ~26px */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* 2. Top Drawing Toolbar */
+.excalidraw .App-toolbar-content {
+  padding: 4px 6px !important;
+  gap: 2px !important;
+}
+
+.excalidraw .App-toolbar-container .ToolIcon__icon,
+.excalidraw .ToolIcon {
+  border-radius: calc(var(--radius) * 1.6) !important; /* rounded-2xl ~16px */
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease !important;
+}
+
+.excalidraw .ToolIcon:hover .ToolIcon__icon {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+
+.excalidraw .ToolIcon:active {
+  transform: scale(0.96) !important;
+}
+
+/* Active tool state (radios & checkboxes & eraser) */
+.excalidraw .ToolIcon .ToolIcon_type_radio:checked + .ToolIcon__icon,
+.excalidraw .ToolIcon .ToolIcon_type_checkbox:checked + .ToolIcon__icon,
+.excalidraw .App-toolbar .eraser.active {
+  background-color: var(--secondary) !important;
+  color: var(--foreground) !important;
+  box-shadow: 0 0 0 1px var(--border) !important;
+}
+
+.excalidraw .ToolIcon .ToolIcon_type_radio:checked + .ToolIcon__icon svg,
+.excalidraw .ToolIcon .ToolIcon_type_checkbox:checked + .ToolIcon__icon svg {
+  fill: var(--foreground) !important;
+}
+
+/* Shortcut numbers on tool icons */
+.excalidraw .ToolIcon__keybinding {
+  font-family: var(--font-mono) !important;
+  font-size: 9px !important;
+  color: var(--muted-foreground) !important;
+  bottom: 2px !important;
+  right: 3px !important;
+}
+
+/* 3. Top-Left Hamburger Trigger Button */
+.excalidraw .main-menu-trigger {
+  border-radius: 9999px !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  background-color: color-mix(
+    in oklch,
+    var(--card) 90%,
+    transparent
+  ) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--foreground) !important;
+  transition: all 0.15s ease !important;
+}
+
+.excalidraw .main-menu-trigger:hover {
+  background-color: var(--muted) !important;
+  transform: scale(1.04) !important;
+}
+
+.excalidraw .main-menu-trigger:active {
+  transform: scale(0.96) !important;
+}
+
+/* 4. Dropdown Menu (Hamburger Menu Items & Context Menus) */
+.excalidraw .dropdown-menu .dropdown-menu-container,
+.excalidraw .dropdown-menu-container {
+  border-radius: calc(var(--radius) * 2.4) !important; /* rounded-3xl ~24px */
+  background-color: var(--popover) !important;
+  border: 1px solid var(--border) !important;
+  padding: 6px !important;
+  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+.excalidraw .dropdown-menu .dropdown-menu-item,
+.excalidraw .dropdown-menu .dropdown-menu-item-base {
+  border-radius: calc(var(--radius) * 1.4) !important; /* rounded-xl ~14px */
+  padding: 8px 12px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 13px !important;
+  color: var(--foreground) !important;
+  transition: background-color 0.12s ease !important;
+}
+
+.excalidraw .dropdown-menu .dropdown-menu-item:hover,
+.excalidraw .dropdown-menu .dropdown-menu-item-base:hover {
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+}
+
+.excalidraw .dropdown-menu-group-separator {
+  background-color: var(--border) !important;
+  height: 1px !important;
+  margin: 4px 0 !important;
+}
+
+/* 5. Bottom Zoom & Undo/Redo Buttons */
+.excalidraw .App-bottom-bar > .Island,
+.excalidraw .App-menu_bottom section {
+  border-radius: calc(var(--radius) * 2.2) !important;
+  padding: 4px !important;
+}
+
+.excalidraw .reset-zoom-button,
+.excalidraw .buttonList button,
+.excalidraw button.standalone {
+  border-radius: calc(var(--radius) * 1.2) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 11px !important;
+  transition: all 0.12s ease !important;
+}
+
+.excalidraw .buttonList button:hover,
+.excalidraw button.standalone:hover {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+
+/* 6. Sidebar / Element Style Properties Panel (Stroke, Colors, Layers) */
+.excalidraw .sidebar,
+.excalidraw .layer-ui__wrapper .sidebar-trigger {
+  border-radius: calc(var(--radius) * 2.6) !important;
+  border: 1px solid var(--border) !important;
+  background-color: color-mix(
+    in oklch,
+    var(--card) 92%,
+    transparent
+  ) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+.excalidraw .color-picker__button {
+  border-radius: var(--radius-sm) !important;
+  border: 1px solid var(--border) !important;
+  transition: transform 0.1s ease !important;
+}
+
+.excalidraw .color-picker__button:hover {
+  transform: scale(1.15) !important;
+}
+
+/* 7. Modals, Dialogs & Inputs */
+.excalidraw .Modal {
+  background-color: oklch(0 0 0 / 60%) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.excalidraw .Modal__content,
+.excalidraw .Dialog {
+  background-color: var(--popover) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: calc(var(--radius) * 2.6) !important; /* rounded-4xl */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6) !important;
+}
+
+.excalidraw .ExcTextField input,
+.excalidraw input[type="text"],
+.excalidraw input[type="number"] {
+  background-color: var(--secondary) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  color: var(--foreground) !important;
+  font-family: var(--font-sans) !important;
+  padding: 8px 12px !important;
+}
+
+.excalidraw .ExcButton {
+  border-radius: calc(var(--radius) * 1.6) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease !important;
+}
+
+.excalidraw .ExcButton--color-primary.ExcButton--variant-filled {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+.excalidraw .ExcButton--color-primary.ExcButton--variant-outlined {
+  border: 1px solid var(--border) !important;
+  color: var(--foreground) !important;
+  background-color: transparent !important;
+}
+
+.excalidraw .ExcButton--color-primary.ExcButton--variant-outlined:hover {
+  background-color: var(--muted) !important;
+}
+
+/* 8. Thin Sleek Scrollbars */
+.excalidraw ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.excalidraw ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.excalidraw ::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 9999px;
+}
+
+.excalidraw ::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
