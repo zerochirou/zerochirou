@@ -1,14 +1,14 @@
 export interface ProjectSummary {
-  id: string;
-  title: string;
-  description: string;
-  stars: number;
-  logoUrl: string;
-  isOngoing: boolean;
-  height: number;
-  width: number;
-  githubRepo?: string;
-  badge?: string;
+  id: string
+  title: string
+  description: string
+  stars: number
+  logoUrl: string
+  isOngoing: boolean
+  height: number
+  width: number
+  githubRepo?: string
+  badge?: string
 }
 
 export const FEATURED_PROJECTS: ProjectSummary[] = [
@@ -21,6 +21,17 @@ export const FEATURED_PROJECTS: ProjectSummary[] = [
     isOngoing: true,
     height: 130,
     width: 130,
+  },
+  {
+    id: "threads",
+    title: "Threads",
+    description: "Cloning of threads.com",
+    githubRepo: "zerochirou/threads",
+    stars: 142648,
+    logoUrl: "/assets/icons/threads.svg",
+    isOngoing: true,
+    height: 100,
+    width: 100,
   },
   {
     id: "clickfor",
@@ -91,4 +102,4 @@ export const FEATURED_PROJECTS: ProjectSummary[] = [
     width: 80,
     badge: "Framework",
   },
-];
+]
