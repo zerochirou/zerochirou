@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Link from "next/link";
-import { Button } from "@workspace/ui/components/button";
+import { useState } from "react"
+import Link from "next/link"
+import { Button } from "@workspace/ui/components/button"
 import {
   Drawer,
   DrawerClose,
@@ -11,14 +11,14 @@ import {
   DrawerFooter,
   DrawerTitle,
   DrawerTrigger,
-} from "@workspace/ui/components/drawer";
-import { PanelLeft, X } from "lucide-react";
-import Image from "next/image";
+} from "@workspace/ui/components/drawer"
+import { PanelLeft, X } from "lucide-react"
+import Image from "next/image"
 
 export interface MenuItem {
-  label: string;
-  ariaLabel: string;
-  link: string;
+  label: string
+  ariaLabel: string
+  link: string
 }
 
 const DEFAULT_MENU_ITEMS: MenuItem[] = [
@@ -50,36 +50,41 @@ const DEFAULT_MENU_ITEMS: MenuItem[] = [
     link: "/zeromind",
   },
   {
+    label: "THREADS",
+    ariaLabel: "Threads - The ultimate cloning",
+    link: "https://threads.zerochirou.com",
+  },
+  {
     label: "TAROT",
     ariaLabel: "Tarot - Interactive Reflection & Prediction Engine",
     link: "/tarot",
   },
   { label: "HUMAN", ariaLabel: "90% Human Hands, 10% AI.", link: "/human" },
-];
+]
 
 interface MenuDrawerProps {
-  items?: MenuItem[];
+  items?: MenuItem[]
 }
 
 export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const handleLinkClick = (link: string) => {
-    setOpen(false);
+    setOpen(false)
     if (link.startsWith("#")) {
       setTimeout(() => {
-        const targetId = link.slice(1);
-        const targetElement = document.getElementById(targetId);
+        const targetId = link.slice(1)
+        const targetElement = document.getElementById(targetId)
         if (targetElement) {
-          targetElement.scrollIntoView({ behavior: "smooth" });
+          targetElement.scrollIntoView({ behavior: "smooth" })
         }
-      }, 150);
+      }, 150)
     } else if (link === "/") {
       setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 150);
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      }, 150)
     }
-  };
+  }
 
   return (
     <Drawer swipeDirection="right" open={open} onOpenChange={setOpen}>
@@ -94,10 +99,10 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
       >
         <PanelLeft className="size-5" />
       </DrawerTrigger>
-      <DrawerContent className="bg-background w-[85vw] max-w-xs sm:max-w-sm flex flex-col justify-between">
+      <DrawerContent className="flex w-[85vw] max-w-xs flex-col justify-between bg-background sm:max-w-sm">
         <div>
-          <div className="flex items-center justify-between p-4 border-b border-border/15">
-            <DrawerTitle className="font-semibold text-sm text-muted-foreground uppercase tracking-wider">
+          <div className="flex items-center justify-between border-b border-border/15 p-4">
+            <DrawerTitle className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
               Navigation
             </DrawerTitle>
             <DrawerDescription className="sr-only">
@@ -115,16 +120,16 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
               <X className="size-4" />
             </DrawerClose>
           </div>
-          <ul className="mt-6 px-4 grid grid-cols-1 gap-2">
+          <ul className="mt-6 grid grid-cols-1 gap-2 px-4">
             {items.map((item, index) => (
               <Link
                 href={item.link}
-                className="flex items-center justify-between py-3 px-3 rounded-lg hover:bg-muted/40 transition-colors group"
+                className="group flex items-center justify-between rounded-lg px-3 py-3 transition-colors hover:bg-muted/40"
                 key={item.label}
                 aria-label={item.ariaLabel}
                 onClick={() => handleLinkClick(item.link)}
               >
-                <span className="text-xl sm:text-2xl font-medium capitalize tracking-tight group-hover:text-primary transition-colors">
+                <span className="text-xl font-medium tracking-tight capitalize transition-colors group-hover:text-primary sm:text-2xl">
                   {item.label}
                 </span>
                 <span className="font-mono text-xs text-muted-foreground">
@@ -134,11 +139,11 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
             ))}
           </ul>
         </div>
-        <DrawerFooter className="p-4 border-t border-border/15">
+        <DrawerFooter className="border-t border-border/15 p-4">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link
               href="https://github.com/zerochirou"
-              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-8"
+              className="flex min-h-8 items-center gap-1.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
@@ -153,7 +158,7 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
             </Link>
             <Link
               href="https://www.reddit.com/user/zerochirou/"
-              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-8"
+              className="flex min-h-8 items-center gap-1.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
@@ -168,7 +173,7 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
             </Link>
             <Link
               href="https://www.threads.net/zerochirou"
-              className="text-xs sm:text-sm font-medium flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors py-1 min-h-8"
+              className="flex min-h-8 items-center gap-1.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
@@ -185,5 +190,5 @@ export function MenuDrawer({ items = DEFAULT_MENU_ITEMS }: MenuDrawerProps) {
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  );
+  )
 }

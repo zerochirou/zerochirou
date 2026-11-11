@@ -1,0 +1,128 @@
+---
+title: "Threads Clone"
+description: "A modern, high-performance social web application inspired by Instagram Threads, built with Next.js 16, React 19, Better Auth, and Drizzle ORM on Cloudflare Workers."
+date: "2024-03-01"
+logoUrl: "/assets/icons/threads.svg"
+height: 100
+width: 100
+techStack:
+  [
+    "Next.js 16",
+    "React 19",
+    "Tailwind CSS v4",
+    "Better Auth",
+    "Drizzle ORM",
+    "Cloudflare D1",
+    "OpenNext",
+  ]
+---
+
+## Overview
+
+[Threads Clone](https://threads.zerochirou.com) adalah aplikasi web media sosial modern berkinerja tinggi yang terinspirasi oleh Instagram Threads. Proyek ini dibangun menggunakan Next.js 16 (App Router), React 19, Better Auth, dan Drizzle ORM, yang dioptimalkan untuk berjalan di edge infrastructure Cloudflare Workers via OpenNext.
+
+Repositori resmi: [github.com/zerochirou/threads](https://github.com/zerochirou/threads)  
+Live Demo: [threads.zerochirou.com](https://threads.zerochirou.com)
+
+---
+
+## Fitur Utama
+
+- **Threads & Feed:** Membuat utas diskusi bertingkat (_nested threads_), menyukai (_like_), membalas balasan (_reply_), dan menyimpan konten (_bookmark_).
+- **Post & Comment Management:** Menghapus utas dan balasan pribadi dengan pembersihan otomatis berjenjang (_cascading delete_) dan sinkronisasi hitungan interaksi (_counter synchronization_).
+- **Edge Protected Routing:** Proxy edge untuk memvalidasi sesi dan mengarahkan pengguna tanpa autentikasi ke `/signin` untuk halaman serta interaksi terproteksi.
+- **Social & Profile:** Kustomisasi profil lengkap, bio, interest tags, sistem _follow/unfollow_, dan daftar pengikut (_followers/following_).
+- **Search & Discovery:** Pencarian pengguna dengan _debounced search_ dan rekomendasi akun untuk diikuti (_follow suggestions_).
+- **Theme Support:** Dukungan tema gelap (_dark mode_) dan terang (_light mode_) yang mulus menggunakan `next-themes`.
+
+---
+
+## Arsitektur & Tech Stack
+
+Platform ini mengadopsi arsitektur edge serverless untuk performa kilat dan latensi rendah:
+
+| Komponen           | Teknologi                     | Peran / Deskripsi                                                                 |
+| :----------------- | :---------------------------- | :-------------------------------------------------------------------------------- |
+| **Framework**      | Next.js 16 (App Router)       | Rendering dinamis via React Server Components (RSC) dan Server Actions.           |
+| **UI Library**     | React 19 & Base UI            | Komponen antarmuka modern, interaktif, dan aksesibel.                             |
+| **Styling**        | Tailwind CSS v4               | Utilitas styling terkini untuk antarmuka responsif dan konsisten.                 |
+| **Authentication** | Better Auth                   | Autentikasi berbasis credentials & OAuth (GitHub, Google) dengan adapter Drizzle. |
+| **Database & ORM** | Cloudflare D1 + Drizzle ORM   | Database SQLite serverless di edge dengan skema type-safe.                        |
+| **Data Fetching**  | SWR                           | Cache optimistik (_optimistic updates_) dan sinkronisasi data real-time.          |
+| **Deployment**     | Cloudflare Workers & OpenNext | Build dan runtime serverless edge via `@opennextjs/cloudflare`.                   |
+
+---
+
+## Cara Menjalankan Proyek (Local Setup)
+
+### 1. Kloning Repositori
+
+```bash
+git clone https://github.com/zerochirou/threads.git
+cd threads
+```
+
+### 2. Pasang Dependensi
+
+```bash
+pnpm install
+```
+
+### 3. Konfigurasi Environment Variables
+
+Salin berkas contoh environment:
+
+```bash
+cp .env.example .env.local
+cp .dev.vars.example .dev.vars
+```
+
+Konfigurasikan variabel rahasia pada `.env.local` / `.dev.vars`:
+
+```env
+BETTER_AUTH_SECRET=your_random_32_characters_secret
+BETTER_AUTH_URL=http://localhost:3000
+
+# Opsional: Penyedia OAuth
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+```
+
+### 4. Setup Database D1 Migrations
+
+Generate dan terapkan migrasi skema lokal:
+
+```bash
+# Generate migrasi skema
+pnpm db:generate
+
+# Terapkan migrasi ke database D1 lokal
+pnpm db:migrate:local
+```
+
+### 5. Jalankan Development Server
+
+```bash
+pnpm dev
+```
+
+Buka [http://localhost:3000](http://localhost:3000) di peramban untuk melihat aplikasi.
+
+---
+
+## Deployment ke Cloudflare Workers
+
+Aplikasi siap dideploy ke edge Cloudflare Workers:
+
+```bash
+# Preview build secara lokal dengan OpenNext
+pnpm preview
+
+# Terapkan migrasi ke Cloudflare D1 Remote
+pnpm db:migrate:remote
+
+# Build dan deploy ke Cloudflare Workers
+pnpm deploy
+```
