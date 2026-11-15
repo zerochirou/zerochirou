@@ -1,0 +1,251 @@
+---
+title: "Codegen"
+description: "Local AI agent memory, 17 engineering workflow skills, and MemoryTUI built in 100% Go with embedded ChromaDB."
+date: "2026-11-15"
+logoUrl: "/favicon.ico"
+height: 80
+width: 80
+techStack: ["Go", "ChromaDB", "ONNX", "MCP", "Bubble Tea", "Cobra"]
+---
+
+## Overview
+
+`codegen` memberi AI coding agent **ingatan jangka panjang berbasis ChromaDB lokal** (embedded `chroma-go` + ONNX `all-MiniLM-L6-v2`) dan **17 workflow skills** agar agent tidak lupa aturan repo, keputusan arsitektur, atau progres tugas antar sesi.
+
+---
+
+## Kenapa Pakai `codegen`?
+
+Tanpa memory & workflow, setiap kali sesi chat baru dimulai:
+- Agent lupa stack, gaya kode, dan keputusan teknis project kamu.
+- Agent langsung edit kode sebelum cek dampak ke file lain.
+- Tidak ada tempat visual untuk melihat apa saja yang "diingat" agent.
+
+---
+
+## Quick Start
+
+### 1. Install CLI
+
+Pastikan **Go (>= 1.24)** sudah terpasang, lalu jalankan:
+
+```bash
+curl -LsSf https://zerochirou.com/codegen | sh
+```
+
+Atau langsung lewat `go install`:
+
+```bash
+go install github.com/zerochirou/codegen/cmd/codegen@latest
+```
+
+> Untuk build dari repo lokal: `./scripts/setup.sh`
+
+### 2. Inisialisasi (`codegen init`)
+
+Masuk ke folder project kamu, lalu jalankan:
+
+```bash
+codegen init
+```
+
+Wizard interaktif akan menanyakan:
+- **Install scope**: `Per-project` atau `Global`
+- **Project name** & **ChromaDB storage path**
+- **Install agent skills?**: `Yes` / `No`
+
+### 3. Mulai Pakai di Agent & Cek di TUI
+
+Saat prompting ke agent:
+```text
+/remember Project ini pakai Go 1.26, Cobra untuk CLI, dan semua handler wajib ada unit test
+/codegen Tambahkan flag --json pada subcommand version
+```
+
+Lalu cek isi memory di terminal:
+```bash
+codegen tui
+```
+
+---
+
+## Jenis-Jenis Penggunaan Skills
+
+Saat `codegen init` selesai (atau saat skill di-install), ada **17 skills** yang bisa kamu panggil dengan `/<nama-skill>`. Berikut pembagiannya dari yang paling sering dipakai sampai yang spesifik:
+
+### 1. Mode Otomatis Penuh (Dari Nol Sampai Selesai)
+
+Cocok kalau kamu ingin menyerahkan satu task utuh ke agent tanpa memandu langkah per langkah.
+
+| Skill | Kapan Dipakai | Cara Kerja |
+| --- | --- | --- |
+| `/codegen` | Fitur baru, refactor, atau bugfix menengah–besar | Menjalankan 6 fase berurutan: `recall → architect → impact → build → review → ship` |
+| `/codegen-auto-pilot` | Task kompleks yang juga butuh skill/MCP lain di environment | Sama seperti `/codegen`, tapi otomatis mendeteksi & memakai skill domain atau MCP tool lain yang relevan |
+
+Contoh:
+```text
+/codegen Buatkan rate limiter untuk endpoint login pakai token bucket
+/codegen-auto-pilot Migrasi form checkout ke komponen UI baru lalu verifikasi di browser
+```
+
+---
+
+### 2. Per Fase Engineering (Dipakai Satuan Sesuai Kebutuhan)
+
+Cocok kalau kamu hanya butuh **satu tahap tertentu**—misalnya cuma mau merancang arsitektur dulu atau cuma mau audit kode yang sudah jadi.
+
+| Skill | Kapan Dipakai | Fokus Utama |
+| --- | --- | --- |
+| `/recall` | Awal sesi / sebelum mengubah modul lama | Mencari keputusan, preferensi, dan konteks project dari `codegen-memory` |
+| `/architect` | Tugas masih ambigu atau butuh blueprint sebelum ngoding | Klarifikasi edge case, tentukan file target, interface, trade-off, dan rencana verifikasi |
+| `/impact` | Setelah rencana jadi, sebelum mulai mengedit file | Analisis dampak ke file dependen, caller, test yang terpengaruh, dan runtime |
+| `/build` | Rencana sudah jelas dan siap ngoding | Tulis kode modular, tanpa duplikasi, sesuai konvensi repo |
+| `/review` | Setelah selesai edit / sebelum commit | Audit diff ala Staff Engineer + wajib jalankan test/linter/build nyata |
+| `/ship` | Pekerjaan sudah terverifikasi dan siap ditutup | Simpan keputusan penting ke `codegen-memory` dan beri ringkasan hasil yang jujur & singkat |
+
+Contoh pemakaian satuan:
+```text
+/recall Aturan penamaan API dan error handling di repo ini apa?
+/architect Rancang skema webhook retry dengan exponential backoff
+/impact Cek modul apa saja yang terdampak kalau signature Store.Save diubah
+/review Audit semua perubahan uncommitted dan jalankan go test
+```
+
+---
+
+### 3. Manajemen Memory (Simpan, Ubah, Hapus, Rapikan)
+
+Cocok untuk mengatur apa saja yang boleh diingat atau harus dilupakan oleh agent di ChromaDB.
+
+| Skill | Kapan Dipakai | Apa yang Dilakukan |
+| --- | --- | --- |
+| `/remember` | Ada aturan tim, preferensi pribadi, atau fakta repo yang harus awet | Cek dulu supaya tidak duplikat, lalu simpan via `save_memory` |
+| `/update-memory` | Aturan lama berubah dan perlu direvisi | Cari `memory_id` lama lalu perbarui isinya secara in-place |
+| `/forget` | Ada memory yang salah, usang, atau bikin agent bingung | Cari node terkait dan hapus dengan `delete_memory` |
+| `/codegen-memory` | Ingin menata ulang tag, `node_type`, dan ukuran memory | Best practice tagging (`preference`, `architecture`, `bugfix`, `checkpoint`) agar retrieval & TUI efisien |
+
+Contoh:
+```text
+/remember Jangan pernah pakai npm atau yarn, repo ini wajib pnpm
+/update-memory Update aturan database dari SQLite ke PostgreSQL 16
+/forget Hapus aturan lama soal setup Python uv
+```
+
+---
+
+### 4. Pindah Agen / Lanjut Sesi (`Checkpoint`)
+
+| Skill | Kapan Dipakai | Cara Kerja |
+| --- | --- | --- |
+| `/handoff` | Mau ganti model/agen, context window hampir penuh, atau lanjut besok | Menyimpan checkpoint progres (fase terakhir, file disentuh, langkah berikutnya) ke memory agar agen berikutnya bisa langsung lanjut |
+
+Contoh:
+```text
+/handoff Simpan checkpoint refactor auth sebelum pindah sesi
+/handoff Lanjutkan checkpoint tugas terakhir
+```
+
+---
+
+### 5. Bantuan, Setup, & Red-Team Stress Test
+
+| Skill | Kapan Dipakai | Fungsi |
+| --- | --- | --- |
+| `/codegen-help` | Lupa nama skill atau fungsinya | Menampilkan contekan cepat seluruh `/codegen` skills |
+| `/codegen-setup` | Baru install di mesin/project baru atau cek konfigurasi | Verifikasi Go CLI, MCP config, ChromaDB storage, skills, dan TUI |
+| `/setup-codegen-memory` | MCP `codegen-memory` tidak nyambung atau TUI kosong | Troubleshooting path ChromaDB, env var, dan koneksi MCP server |
+| `/the-opposite` | Ingin menguji ketangguhan test suite & skill `/review` | Mode adversarial/red-team yang menantang asumsi atau menyuntikkan simulasi bug realistis untuk menguji deteksi defect |
+
+---
+
+## Per-Project vs Global Scoping
+
+Kamu bisa memilih isolasi memory per project atau global saat menjalankan `codegen init`:
+
+| Mode | Lokasi Database ChromaDB | File Config yang Ditulis | Cara Buka TUI |
+| --- | --- | --- | --- |
+| **Per-project** (default) | `<project>/chroma_data` | `.codegen/config.json`, `.gemini/mcp_config.json`, `.agents/skills/`, *(dan `.agents/plugins/codegen-memory/` jika MCP global dinamis belum aktif)* | `codegen tui` |
+| **Global** | `~/.codegen/chroma_data` | `~/.codegen/config.json`, `~/.gemini/config/mcp_config.json`, `~/.gemini/config/skills/` | `codegen tui --global` |
+
+**Bagaimana `codegen run` (MCP server) memilih database?**
+- Saat dijalankan di dalam project yang sudah `codegen init`, MCP otomatis memakai `<project>/chroma_data` milik project tersebut.
+- Saat dijalankan di folder yang belum di-init, MCP otomatis fallback ke database global (`~/.codegen/chroma_data`).
+
+---
+
+## MemoryTUI (`codegen tui`)
+
+Buka antarmuka terminal untuk menginspeksi isi ChromaDB:
+
+```bash
+codegen tui           # Buka database per-project saat ini
+codegen tui --global  # Buka database global (~/.codegen/chroma_data)
+```
+
+Kontrol di dalam TUI:
+- **Mouse**: Klik tab `1 Inspector` / `2 Session Context`, klik baris memory, klik kotak search, klik **`↻ Reload`**, dan scroll wheel pada daftar atau panel detail.
+- **Keyboard**:
+  - `/` — Fokus search semantik (`Enter` cari, `Esc` batal)
+  - `↑` / `↓` atau `j` / `k` — Pilih memory
+  - `Tab`, `1`, `2` — Pindah antara **Inspector** dan **Session Context** (peta distribusi token per kategori)
+  - `r` — Reload data dari ChromaDB
+  - `c` — Copy isi memory ke clipboard
+  - `d` — Hapus memory terpilih
+  - `q` / `Ctrl+C` — Keluar
+
+---
+
+## Referensi Perintah CLI
+
+```bash
+codegen                     # Menampilkan logo, deskripsi, dan daftar perintah
+codegen --version           # Menampilkan versi (`-v`, `codegen version`)
+
+codegen init                # Setup interaktif (Clack-style wizard)
+codegen init --project -y   # Setup per-project non-interaktif dengan default
+codegen init --global -y    # Setup global non-interaktif dengan default
+# Flag tambahan `init`: --name <nama>, --path <dir>, --no-skills
+
+codegen tui                 # Buka MemoryTUI per-project
+codegen tui --global        # Buka MemoryTUI global (`-g`)
+codegen tui -c <nama>       # Pilih nama collection ChromaDB (default: 'default')
+
+codegen run                 # Jalankan MCP server (stdio JSON-RPC 2.0)
+codegen update              # Update binary codegen dari GitHub via `go install`
+codegen uninstall           # Hapus binary global codegen (alias: `remove`)
+```
+
+---
+
+## MCP Tools (`codegen run`)
+
+Server MCP mengekspos 3 tool standar untuk agen AI:
+
+- `save_memory(content, memory_id?, tags?, node_type?, links?, collection_name?, workspace_path?)`
+- `search_memory(query, n_results?, collection_name?, workspace_path?)`
+- `delete_memory(memory_id, collection_name?, workspace_path?)`
+
+---
+
+## Struktur Project & Testing
+
+```text
+.
+├── assets.go           # Embed .agents/skills ke dalam binary CLI (go:embed)
+├── cmd/codegen/        # Entrypoint utama binary `codegen`
+├── internal/
+│   ├── brand/          # Logo ANSI Shadow `CODEGEN` & terminal color detection
+│   ├── chroma/         # Path scoping + embedded ChromaDB PersistentClient (ONNX)
+│   ├── cli/            # Cobra CLI commands & flags
+│   ├── initwizard/     # Interactive Clack-style setup wizard
+│   ├── mcp/            # Stdio MCP server + deteksi workspace via roots/list
+│   └── tui/            # Bubble Tea + Lipgloss MemoryTUI (mouse + keyboard)
+├── .agents/skills/     # 17 bundled agent skills
+└── scripts/            # Installer & local setup scripts (`install.sh`, `setup.sh`)
+```
+
+Menjalankan seluruh unit test:
+
+```bash
+go test ./...
+```

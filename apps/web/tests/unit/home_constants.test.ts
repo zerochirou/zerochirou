@@ -42,4 +42,10 @@ describe("Home Domain Constants", () => {
       expect(project.height).toBeGreaterThan(0);
     }
   });
+
+  it("includes codegen in featured projects list", () => {
+    const codegenEntry = FEATURED_PROJECTS.find((p) => p.id === "codegen");
+    expect(codegenEntry).toBeDefined();
+    expect(codegenEntry?.githubRepo).toBe("zerochirou/codegen");
+  });
 });

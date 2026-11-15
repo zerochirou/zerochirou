@@ -13,6 +13,19 @@ export interface ProjectSummary {
 
 export const FEATURED_PROJECTS: ProjectSummary[] = [
   {
+    id: "codegen",
+    title: "Codegen",
+    description:
+      "Local AI agent memory, 17 engineering workflow skills, and MemoryTUI built in 100% Go with embedded ChromaDB.",
+    githubRepo: "zerochirou/codegen",
+    stars: 142648,
+    logoUrl: "/favicon.ico",
+    isOngoing: true,
+    height: 80,
+    width: 80,
+    badge: "CLI / MCP",
+  },
+  {
     id: "rayna",
     title: "Rayna",
     description: "Mathematical Love (for research)",
